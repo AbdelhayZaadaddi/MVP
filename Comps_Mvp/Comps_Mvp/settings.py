@@ -45,7 +45,9 @@ INSTALLED_APPS = [
 
     # Third party apps
     'accounts',
-    'products'
+    'products',
+    'bonus',
+    
 ]
 
 MIDDLEWARE = [
