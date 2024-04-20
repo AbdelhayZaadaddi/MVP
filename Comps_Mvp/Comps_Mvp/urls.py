@@ -17,10 +17,14 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+# to get the token
+from rest_framework_simplejwt.views import TokenObtainPairView
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('accounts.urls')),
-    path('', include('products.urls')),
-    path('', include('bonus.urls')),
+    path('api/', include('accounts.urls')),
+    path('api/', include('products.urls')),
+    path('api/', include('bonus.urls')),
+    path('api/token', TokenObtainPairView.as_view()),
 ]

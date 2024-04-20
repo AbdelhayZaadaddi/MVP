@@ -99,6 +99,7 @@ def create_product(request):
 
 
 @api_view(['PUT', 'GET', 'DELETE'])
+@permission_classes([IsAuthenticated])
 def update_product(request, pk):
     try:
         product = Product.objects.get(pk=pk)
