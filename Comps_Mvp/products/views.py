@@ -105,6 +105,8 @@ def update_product(request, pk):
         product = Product.objects.get(pk=pk)
     except Product.DoesNotExist:
         return JsonResponse({'message': 'Product not found'}, status=status.HTTP_404_NOT_FOUND)
+    if product != request.user:
+        return Response({'message': 'You are not authorized to perform this action'}, status=status.HTTP_401_UNAUTHORIZED)
     if request.method == 'PUT':
         serializer = ProductSerializer(product, data=request.data)
         if serializer.is_valid():
