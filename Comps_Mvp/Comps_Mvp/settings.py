@@ -136,3 +136,11 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 # here i add the rest_framework configuration for premition and authentication
+
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.BasicAuthentication',
+    ]
+}
