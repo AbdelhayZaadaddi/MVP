@@ -32,13 +32,14 @@ def new_order(request):
         return Response({'message': 'No Order Items'}, status=status.HTTP_400_BAD_REQUEST)
     else:
         # 1. Create Order
+        total = sum([i['quantity'] * Product.objects.get(id=i['product']).price for i in orderitems])
         order = Order.objects.create(
             user=request.user,
             city=data['city'],
             street=data['street'],
             address=data['address'],
             phone=data['phone'],
-            total=data['total']
+            total=total
         )
         # 2. Create Order Items
         for i in orderitems:
@@ -47,7 +48,7 @@ def new_order(request):
                 order=order,
                 product=product,
                 quantity=i['quantity'],
-                price=i['price']
+                price=product.price * i['quantity']
             )
         return Response({'message': 'Order created successfully'}, status=status.HTTP_201_CREATED)
     

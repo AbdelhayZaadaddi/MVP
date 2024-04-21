@@ -14,17 +14,15 @@ class OrderSerializer(serializers.ModelSerializer):
     """
     Serializer for the Order model.
     """
-    orderitems = serializers.SerializerMethodField(many=True, read_only=True, method_name='get_orderitems')
+    orderitems = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = Order
         fields = '__all__'
-
 
     def get_orderitems(self, obj):
         """
         Method to get the orderitems for the Order.
         """
         orderitems = obj.orderitems.all()
-        serializer = OrderItmeSerializer(orderitems, many=True)
-        return serializer.data
+        return OrderItmeSerializer(orderitems, many=True).data  # Fix the typo in the class name
