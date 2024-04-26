@@ -50,9 +50,11 @@ INSTALLED_APPS = [
     # Third party apps
     'accounts',
     'products',
-    'cart',
     'bonus',
     'order',
+
+
+    'Testviews'
     
 ]
 
@@ -158,3 +160,6 @@ SIMPLE_JWT = {
     'AUTH_HEADER_TYPES': ('Bearer',),
     'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
 }
+
+# here i add the user model for the project
+AUTH_USER_MODEL = 'accounts.NewUser'

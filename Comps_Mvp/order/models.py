@@ -20,7 +20,7 @@ class PaymentMethod(models.TextChoices):
     PAYPAL = 'Paypal'
 
 class Order(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    # user = models.ForeignKey(User, on_delete=models.CASCADE)
     city = models.CharField(max_length=100, default='', blank=False)
     street = models.CharField(max_length=100, default='', blank=False)
     address = models.CharField(max_length=100, default='', blank=False)
