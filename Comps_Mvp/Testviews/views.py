@@ -16,8 +16,7 @@ def test(request):
     return Response({'message': 'You are an admin'})
 
 @api_view(['GET'])
-@permission_classes([IsAuthenticated])
-@permission_classes([IsEmployee])
+@permission_classes([IsAuthenticated, IsEmployee])
 @user_role_required(roles=["Employee"])
 def test2(request):
     return Response({'message': 'You are an employee'})
