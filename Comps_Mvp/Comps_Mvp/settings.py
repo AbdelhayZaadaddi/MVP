@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     # django jwt rest freamwork
     'rest_framework_simplejwt',
 
+    "corsheaders",
 
     # Third party apps
     'accounts',
@@ -66,6 +67,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+
+     "corsheaders.middleware.CorsMiddleware",
 ]
 
 ROOT_URLCONF = 'Comps_Mvp.urls'
@@ -163,3 +167,11 @@ SIMPLE_JWT = {
 
 # here i add the user model for the project
 AUTH_USER_MODEL = 'accounts.NewUser'
+
+
+
+# cors headers configuration
+CORS_ALLOWED_ORIGINS = [
+    "http://192.168.56.1:3000",
+    "http://localhost:3000",
+]
