@@ -9,4 +9,3 @@
 5. run `python manage.py migrate`
 6. run `python manage.py runserver`
 
-##Note:
