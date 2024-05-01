@@ -8,3 +8,5 @@
 4. run `python manage.py makemigrations`
 5. run `python manage.py migrate`
 6. run `python manage.py runserver`
+
+##Note:
