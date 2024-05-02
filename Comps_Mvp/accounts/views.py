@@ -15,12 +15,16 @@ def register_user(request):
 
 @api_view(['POST'])
 def login_user(request):
-    username = request.data.get("username")
+    email = request.data.get("username")
     password = request.data.get("password")
-    user = authenticate(username=username, password=password)
+    print(f"Password: {password}")
+    user = authenticate(email=email, password=password)
+    
     if user:
+        print(f"Hashed password when authenticating user: {user.password}")  # Print the hashed password
         login(request, user)
         return Response({"detail": "Login successful"}, status=status.HTTP_200_OK)
+    print("No user found with the provided email and password")  # Print a message if no user is found
     return Response({"detail": "Invalid credentials"}, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['POST'])
