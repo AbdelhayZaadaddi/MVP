@@ -4,12 +4,12 @@ import { SiLinkedin } from "react-icons/si";
 import { BsYoutube } from "react-icons/bs";
 import { FaFacebookF } from "react-icons/fa";
 
-const Footer = () => {
-    return (
-    <div className="footer-wrapper">
-        <div className="footer-section-one">
+export const Footer = () => {
+	return (
+	<div className="footer-wrapper">
+		<div className="footer-section-one">
             <div className="footer-logo-container">
-                <img src="" alt="" />
+                <p> © COMPASS </p>
             </div>
             <div className="footer-icons">
                 <BsTwitter />
@@ -21,18 +21,16 @@ const Footer = () => {
         
         <div className="footer-section-two">
             <div className="footer-section-columns">
-                <span>Qualtiy</span>
+                <span>Home</span>
+                <span>About us</span>
+                <span>Partner with us </span>
+                <span>Contact</span>
                 <span>Help</span>
-                <span>Share</span>
-                <span>Carrers</span>
-                <span>Testimonials</span>
-                <span>Work</span>
+                
             </div>
             <div className="footer-section-columns">
                 <span>000-0000-0000</span>
-                <span>hello@food.com</span>
-                <span>press@food.com</span>
-                <span>contact@food.com</span>
+                <span>hello@gmail.com</span>
             </div>
             <div className="footer-section-columns">
                 <span>Terms & Conditions</span>
