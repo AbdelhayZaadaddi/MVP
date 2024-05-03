@@ -1,4 +1,4 @@
-from django.contrib.auth.models import User
+from .models import NewUser
 from rest_framework import serializers
 
 class UserSerializer(serializers.ModelSerializer):
@@ -21,8 +21,8 @@ class UserSerializer(serializers.ModelSerializer):
     """
 
     class Meta:
-        model = User
-        fields = ['username', 'email', 'password']
+        model = NewUser
+        fields = ['user_name', 'email', 'password']
 
     def create(self, validated_data):
         """
@@ -38,5 +38,7 @@ class UserSerializer(serializers.ModelSerializer):
         instance = self.Meta.model(**validated_data)
         if password is not None:
             instance.set_password(password)
+        instance.is_active = True # Set the user to active
         instance.save()
+        print(f"Hashed password when creating user: {instance.password}")  # Print the hashed password
         return instance
