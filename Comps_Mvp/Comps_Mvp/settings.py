@@ -70,6 +70,7 @@ MIDDLEWARE = [
 
 
      "corsheaders.middleware.CorsMiddleware",
+     
 ]
 
 ROOT_URLCONF = 'Comps_Mvp.urls'
@@ -175,3 +176,6 @@ CORS_ALLOWED_ORIGINS = [
     "http://192.168.56.1:3000",
     "http://localhost:3000",
 ]
+
+
+CORS_ALLOW_ALL_ORIGINS = True

@@ -7,7 +7,8 @@ const ProductPage = ({ match }) => {
     useEffect(() => {
         if (match && match.params && match.params.id) { // Check if match and params exist before accessing id
             const productId = match.params.id;
-            fetch(`http://127.0.0.1:8000/api/products/${productId}`)
+            console.log('productId: ', productId);
+            fetch(`http://127.0.0.1:8000/api/product/${productId}`)
                 .then(response => {
                     if (!response.ok) {
                         throw new Error(`HTTP error! status: ${response.status}`);
