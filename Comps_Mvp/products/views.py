@@ -87,7 +87,7 @@ def product(request, pk):
         return Response(serializer.data)
 
 @api_view(['GET', 'POST'])
-@permission_classes([IsAuthenticated])
+#@permission_classes([IsAuthenticated])
 def create_product(request):
     if request.method == 'POST':
         serializer = ProductSerializer(data=request.data)
