@@ -1,10 +1,13 @@
-import './App.css'
+{/*import './App.css';
 import { BrowserRouter as Router, Routes, Route} from "react-router-dom";
 import { Home } from './assets/components/Home';
 import { About } from './assets/components/About';
 import { Partner } from './assets/components/Partner';
 import { Contact } from './assets/components/Contact';
-import { Footer } from './assets/components/Footer';
+import { Footer } from './assets/components/Footer';*/}
+
+import MainDash from './assets/components/Dashboard/Account/Admin/MainDash';
+import Sidebar from './assets/components/Dashboard/Sidebar';
 
 import Aos from "aos";
 import 'aos/dist/aos.css'
@@ -17,9 +20,9 @@ function App(){
 [])
   return( 
     <div className='App'>
-      <Router>
+	{/*<Router>
         <Routes>
-          <Route path='/' element={<> 
+          <Route exact path='/' element={<> 
           <Home /> 
           <About/>
           <Partner/>
@@ -27,8 +30,12 @@ function App(){
           <Footer/> 
           </>
           }/>
+        <Route path='/about' element={<About/>}/>
         </Routes>
-      </Router>
+</Router>*/}
+		<Sidebar/>
+		<MainDash/>
+
     </div>
   );
 }
