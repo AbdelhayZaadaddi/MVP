@@ -1,5 +1,8 @@
 
 import { useState } from "react";
+import { Link } from "react-router-dom";
+
+
 import { UilSignOutAlt } from "@iconscout/react-unicons";
 import { SidebarData } from "./Account/Admin/Data";
 import { UilBars } from "@iconscout/react-unicons";
@@ -29,13 +32,14 @@ const Sidebar = () => {
       <div className="menu">
         {SidebarData.map((item, index) => {
           return (
+            
             <div
               className={selected === index ? "menuItem active" : "menuItem"}
               key={index}
               onClick={() => setSelected(index)}
             >
               <item.icon />
-              <span>{item.heading}</span>
+              <a href={item.heading}><span>{item.heading}</span></a>
             </div>
           );
         })}

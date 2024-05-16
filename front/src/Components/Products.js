@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-
+import axiosInstance from '../axios';
 import defaultImage from '../assets/default.png';
 
 const Products = () => {
@@ -9,23 +9,16 @@ const Products = () => {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        fetch('http://127.0.0.1:8000/api/products')
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            return response.json();
-        })
-        .then(data => {
-            setProducts(data);
-            console.log("working!")
-            setIsLoading(false);
-        })
-        .catch(error => {
-            console.error('Error fetching products: ', error);
-            setError(error.toString());
-            setIsLoading(false);
-        });
+        axiosInstance.get('products')
+            .then(response => {
+                setProducts(response.data);
+                setIsLoading(false);
+            })
+            .catch(error => {
+                console.error('Error fetching products: ', error);
+                setError(error.toString());
+                setIsLoading(false);
+            });
     }, []);
 
     return (

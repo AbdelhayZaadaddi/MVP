@@ -10,7 +10,7 @@ const ProductPage = () => {
     const [product, setProduct] = useState({posts: []});
 
     useEffect(() => {
-        axiosInstance.get(`product/${id}`)
+        axiosInstance.get(`product/1`)
             .then((res) => {
                 setProduct(res.data);
                 console.log(res.data);

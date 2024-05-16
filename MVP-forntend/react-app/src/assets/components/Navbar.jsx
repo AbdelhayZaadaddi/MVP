@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 import { HiOutlineBars3 } from "react-icons/hi2";   
 import Box from "@mui/material/Box";
@@ -42,12 +43,13 @@ const Navbar = () => {
                 <p>COMPASS</p>
             </div>
             <div className="navbar-links-container">
-                <a href="">Home</a>
-                <a href="">About</a>
+                <a href="/home">Home</a>
+                <a href="/about">About</a>
                 <a href="">Partner with us</a>
                 <a href="">Contact</a>
+
                 
-                <button className="primary-button1"> Sing-in </button>
+                <Link to={'/signin'}><button className="primary-button1"> Sing-in </button></Link>
                 
                 <button className="primary-button"> Log-in </button>
             </div>

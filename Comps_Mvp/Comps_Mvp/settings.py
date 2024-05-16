@@ -175,6 +175,7 @@ AUTH_USER_MODEL = 'accounts.NewUser'
 CORS_ALLOWED_ORIGINS = [
     "http://192.168.56.1:3000",
     "http://localhost:3000",
+    "http://localhost:5173",
 ]
 
 

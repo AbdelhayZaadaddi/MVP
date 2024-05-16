@@ -10,6 +10,8 @@ from rest_framework.views import APIView
 # fro authentication
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 
+from accounts.permission import IsCompany, IsTrader, IsEmployee, IsAdmin, IsAdminOrCompany
+
 # Create your views here.
 
 
@@ -65,6 +67,7 @@ class ProductDetailView(APIView):
 
 
 @api_view(['GET'])
+#@permission_classes([IsAuthenticated])
 def list_products(request):
     if request.method == 'GET':
         try:
@@ -87,7 +90,7 @@ def product(request, pk):
         return Response(serializer.data)
 
 @api_view(['GET', 'POST'])
-#@permission_classes([IsAuthenticated])
+@permission_classes([IsAuthenticated])
 def create_product(request):
     if request.method == 'POST':
         serializer = ProductSerializer(data=request.data)

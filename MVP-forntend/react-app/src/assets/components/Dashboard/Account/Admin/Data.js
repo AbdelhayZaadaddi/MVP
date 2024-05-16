@@ -18,7 +18,7 @@ export const SidebarData = [
     },
     {
         icon: UilTagAlt,
-        heading: "Discounts",
+        heading: "discount",
     },
     {
         icon: UilPackage,
