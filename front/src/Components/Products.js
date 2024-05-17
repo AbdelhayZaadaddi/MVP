@@ -1,7 +1,21 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+
+
+// material ui
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import Typography from '@mui/material/Typography';
+import { CardActionArea } from '@mui/material';
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+
+
 import axiosInstance from '../axios';
 import defaultImage from '../assets/default.png';
+import DefauIm from '../assets/def.jpg';
 
 const Products = () => {
     const [products, setProducts] = useState([]);
@@ -21,22 +35,54 @@ const Products = () => {
             });
     }, []);
 
+    useEffect(() => {
+        const timer = setTimeout(() => {
+          setIsLoading(false);
+        }, 5000); // 5000ms = 5s
+    
+        // Cleanup function to clear the timer if the component unmounts
+        return () => clearTimeout(timer);
+    }, []); 
+
     return (
         <div>
             <h1 className='m-5 text-2xl'>Product List</h1>
-            <div className='grid grid-cols-4 gap-4 m-5'>
+            {
+                isLoading &&  
+                <Box sx={{ display: 'flex' }}>
+                    <CircularProgress />
+                </Box>
+            }
+            <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 m-5'>
                 {products.map(product => (
-                    <Link key={product.id} to={`/product/${product.id}`} className=''>
-                        <div className='rounded-md shadow-md text-center p-5 bg-slate-50 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-105 hover:bg-white duration-300 '>
-                            <img src={defaultImage} alt={product.name} className='w-40 h-40 mx-auto'/>
-                            <h2 className='text-left'>{product.name}</h2>
-                            <p className='text-left italic '>Description: {product.description.substring(0, 100)}...</p>
-                            <p className='text-left mt-2'>Price: ${product.price}</p>
-                        </div>
-                    </Link>
+                    <Card key={product.id} sx={{ maxWidth: 450,}}>
+                        <CardActionArea className='h-[600px] max-h-[500px]'>
+                            <CardMedia
+                            component="img"
+                            height="140"
+                            image={DefauIm}
+                            alt="green iguana"
+                            />
+                            <CardContent>
+                                <Typography gutterBottom variant="h5" component="div">
+                                    {product.name}
+                                </Typography>
+                                <Typography variant="body2" color="text.secondary">
+                                    Description: {product.description.substring(0, 50)}...
+                                </Typography>
+                            </CardContent>
+                            
+                        </CardActionArea>
+                        <Button variant="contained"  size="small" className='mx-2 my-3 transition duration-700 ease-in-out'>Add to Card</Button>
+                        
+                    </Card>
                 ))}
             </div>
         </div>
+
+        
+
+
     );
 }
 

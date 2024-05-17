@@ -1,3 +1,13 @@
 body {
   background-color: rgb(241 245 249);
 }
+
+a {
+  text-decoration: none; /* Removes underline */
+  color: inherit; /* Inherits the color from the parent element */
+}
+
+Link {
+  text-decoration: none; /* Removes underline */
+  color: inherit; /* Inherits the color from the parent element */
+}
