@@ -11,23 +11,31 @@ import Register from './Components/Register';
 import Login from './Components/Login';
 import Logout from './Components/Logout';
 import CreateProduct from './Components/CreateProduct';
+import Tables from '../src/Components/Tables';
 
 
 function App() {
   return (
-    <Router>
-      <Navbar />
-      <Routes>
-        <Route exact path='/' element={<Products />} />
-        <Route  path="/product/1" element={<ProductPage />} />
-        <Route  path="/register" element={<Register />} />
-        <Route  path="/login" element={<Login />} />
-        <Route path="/logout" element={<Logout />} />
-        <Route path="/product/create" element={<CreateProduct />} />
-
-
-      </Routes>
-    </Router>
+    <div className="App">
+      <div className="AppGlass">
+        <Navbar/>
+        <div className="AppGlass2">
+          <div className='MainDash'>
+            <Router>
+              <Routes>
+                <Route exact path='/home' element={<Products />} />
+                <Route exact path='/offers' element={<Tables/>} />
+                <Route  path="/product/1" element={< ProductPage />} />
+                <Route  path="/register" element={<Register />} />
+                <Route  path="/login" element={<Login />} />
+                <Route path="/logout" element={<Logout />} />
+                <Route path="/product/create" element={<CreateProduct />} />
+              </Routes>
+            </Router>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
 

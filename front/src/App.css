@@ -1,3 +1,251 @@
-body {
-  background-color: rgb(241 245 249);
+* {
+  font-family:'Times New Roman', Times, serif;
+  box-sizing: border-box;
 }
+
+.text {
+  font-size: 28px;
+  font-weight: bold;
+  margin-left: 0.5rem;
+  margin-top: -6rem;
+  margin-bottom: 5rem;
+}
+
+.MainDash{
+  padding-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+@media screen and (max-width: 1200px) {
+  .MainDash{
+      justify-content:flex-start;
+      margin-top: 2rem;
+  }
+}
+
+@media screen and (max-width: 768px)
+{
+  .MainDash{
+      align-items: left;
+  }
+}
+
+.App {
+  padding: 0.5rem 0rem -1rem; 
+  background: linear-gradient(
+    106.37deg,
+    #b7caff 29.63%,
+    #cfd6ff 51.55%,
+    #c6e1f3 90.85%
+  );
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.AppGlass
+{
+  padding-right: 45rem;
+  display: grid;
+  height: 100%;
+  width: 100%;
+  background: #5d9fc563; /*****this *******/
+  border-radius: 2rem;
+  gap: 16px;
+  grid-template-columns: 11rem auto 20rem;
+  overflow: hidden;
+}
+
+@media screen and (max-width: 1200px) {
+  .AppGlass
+  {
+    grid-template-columns: 10% 50% auto;
+    overflow-y: scroll;
+  } 
+}
+
+@media screen and (max-width: 768px) {
+  .AppGlass
+  {
+    grid-template-columns: 1fr;
+  } 
+}
+
+.AppGlass2 {
+  display: grid;
+  height: 80%;
+  width: 380%;
+  margin-left: -12rem;
+  margin-top: 7rem;
+  background: #5d9fc563; /*****this *******/
+  border-radius: 2rem;
+  gap: 16px;
+  grid-template-columns: 11rem auto 20rem;
+  overflow: hidden;
+}
+
+@media screen and (max-width: 780px) {
+  .AppGlass2{
+    grid-template-columns: 10% 50% auto;
+    overflow-y: scroll;
+  } 
+}
+
+@media screen and (max-width: 2000px) {
+  .AppGlass2{
+    grid-template-columns: 1fr;
+  } 
+}
+
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  padding-top: 4rem;
+  transition: all 300ms ease;
+}
+
+.menu {
+  margin-top: 5rem;
+  margin-left: -12rem; /*********/
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.menuItem {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  height: 1.5rem;
+  margin-left: 0.5rem;
+  position: relative;
+  transition: all 300ms ease;
+  border-radius: 0.7rem;
+  font-size: 15px;
+}
+
+.menuItem:hover {
+  cursor: pointer;
+}
+
+.menu .menuItem:last-child {
+  position: absolute;
+  bottom: 2.3rem;
+  width: 80%;
+}
+
+.active {
+  /*background: #5351ff54;*/
+  margin-left: 0;
+}
+.active::before {
+  content: "";
+  width: 8px;
+  height: 100%;
+  background: rgb(43, 43, 44);
+  margin-right: calc(1rem - 8px);
+}
+
+.Product-List {
+  margin-top: -12rem;
+}
+
+.Table {
+  margin-left: -0.5rem;
+}
+
+/* Tablets */
+.MuiTableRow-root > * {
+  padding: 10px;
+}
+
+.MuiTableRow-root.MuiTableRow-head > * {
+  font-weight: bold !important;
+}
+
+.Table td,
+th {
+  border:#00b5ff; /***********/
+}
+
+.Table:first-child {
+  border-radius: 0.7rem !important;
+}
+.status {
+  padding: 8px;
+  border-radius: 9px;
+}
+
+.Details {
+  color: #00b5ff !important;
+}
+
+@media screen and (max-width: 1200px) {
+  .Table {
+    width: 170%;
+    margin-top: 0.5rem;
+  }
+}
+
+
+@media screen and (max-width: 768px) {
+  .Table{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 23rem;
+  }
+}
+
+
+@media screen and (max-width: 120px) {
+  .menuItem>span{
+    display: block;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .sidebar{
+    position: fixed;
+    z-index: 9;
+    background: #cfd6ff;
+    width: 55%;
+    padding-right: 1rem;
+    height: 100%;
+  }
+  .menuItem>span{
+    display: block;
+  }
+
+  .menu .menuItem:last-child {
+    position: relative;
+    margin-top: 6rem;
+
+  }
+
+.bars{
+  display: flex;
+  position: fixed;
+  align-items: center;
+  top: 2rem;
+  left:60%;
+  background: #cfd6ff;
+  padding:10px;
+  border-radius: 10px;
+  z-index: 9;
+  font-size: 1px;
+}
+  .close{
+    left: -60%;
+  }
+}
+
+
+
+
