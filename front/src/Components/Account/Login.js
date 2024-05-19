@@ -1,7 +1,8 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import axiosInstance from '../axios';
+import axiosInstance from '../../axios';
+
 
 const Login = () => {
   const navigate = useNavigate();
@@ -22,26 +23,21 @@ const Login = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
+  
     axiosInstance
-      .post(`token/`, {
+      .post('token/', {
         email: formData.email,
         password: formData.password,
       })
       .then((res) => {
-        // Save the access token to local storage
+        console.log('Login response:', res.data);
         localStorage.setItem('access_token', res.data.access);
         localStorage.setItem('refresh_token', res.data.refresh);
-
-        // Redirect to the desired page (e.g., Home)
+        axiosInstance.defaults.headers['Authorization'] = 'Bearer ' + res.data.access; // Update default headers
         navigate('/');
-
-        console.log(res);
-        console.log(res.data);
       })
       .catch((error) => {
         console.error('Login error:', error);
-        // Handle login errors here
       });
   };
 
@@ -69,6 +65,10 @@ const Login = () => {
         />
         <div className="flex justify-center"> 
           <button type="submit" className='btn btn-outline-primary w-40'>Submit</button>
+        </div>
+        <div className='m-auto text-center mt-2'>
+          <span>You don't Have an account ?</span>
+          <Link to={'/register'} className='text-nowrap'>Create One</Link>
         </div>
       </form>
     </div>

@@ -1,7 +1,7 @@
 import React from 'react'
 import { useState } from 'react'
-import axiosInstance from '../axios'
-import { useNavigate } from 'react-router-dom'
+import axiosInstance from '../../axios'
+import { useNavigate, Link } from 'react-router-dom'
 
 const Register = () => {
 
@@ -9,7 +9,7 @@ const Register = () => {
 
     const initialFormData = Object.freeze({
         email: '',
-        username: '',
+        user_name: '',
         password: '',
     });
 
@@ -24,14 +24,19 @@ const Register = () => {
     };
 
     const handleSubmit = (e) => {
+        if (formData.password !== formData.password_confirm) {
+            alert('Passwords do not match');
+            return;
+        }
         e.preventDefault();
         console.log(formData);
 
         axiosInstance
             .post(`create/`, {
                 email: formData.email,
-                user_name: formData.username,
+                user_name: formData.user_name,
                 password: formData.password,
+                password_confirm: formData.password_confirm,
             })
             .then((res) => {
                 navigate('/login');
@@ -79,7 +84,7 @@ return (
                     <label className='block text-base mb-2'>Username</label>
                     <input
                     type="text"
-                    name="username"
+                    name="user_name"
                     placeholder="Username"
                     onChange={handleChange}
                     className='border w-full text-base px-2 py-1 focus:outline-none focus:ring-0 focus:border-gray-500 rounded-md mb-4'
@@ -94,9 +99,23 @@ return (
                     className='border w-full text-base px-2 py-1 focus:outline-none focus:ring-0 focus:border-gray-500 rounded-md mb-4'
                     />
 
+                    <label className='block text-base mb-2'>Confirm Password</label>
+                    <input
+                    type="password"
+                    name="password_confirm"
+                    placeholder="Password"
+                    onChange={handleChange}
+                    className='border w-full text-base px-2 py-1 focus:outline-none focus:ring-0 focus:border-gray-500 rounded-md mb-4'
+                    />
+
 
                     <div className="flex justify-center"> 
                         <button type="submit" className='outline p-1 outline-cyan-600 w-40 rounded hover:bg-cyan-600 duration-100'>Submit</button>
+                    </div>
+
+                    <div className='m-auto text-center mt-3'>
+                        <span>You Have an account ?</span>
+                        <Link to={'/login'} className='text-nowrap'>Login</Link>
                     </div>
                     
             </form>
