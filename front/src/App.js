@@ -19,6 +19,7 @@ import Cart from './Components/Cart/Cart';
 import Checkout from './Components/Cart/Checkout';
 import Orders from './Components/Orders/Orders';
 import OrderDetail from './Components/Orders/OrderDetail';
+import Bonus from './Components/Bonus/Bonus';
 
 const MainNavbar = withAuth(Navbar);
 
@@ -38,6 +39,7 @@ function App() {
                 <Route path="/checkout" element={<ProtectedRoute><Checkout /></ProtectedRoute>} />
                 <Route path="/orders" element={<ProtectedRoute><Orders /></ProtectedRoute>} />
                 <Route path="/order/:id" element={<ProtectedRoute><OrderDetail /></ProtectedRoute>} />
+                <Route path="/bonus" element={<ProtectedRoute><Bonus /></ProtectedRoute>} />
             </Routes>
         </Router>
     );

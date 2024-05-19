@@ -1,18 +1,17 @@
-from django.shortcuts import render
-
-
-
 from .models import Bonus
 from .serializers import BonusSerializer
 from rest_framework.response import Response
-from rest_framework.decorators import api_view, permission_classes
+from rest_framework.decorators import api_view, permission_classes, parser_classes
+from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
+from django.shortcuts import get_object_or_404
 # Create your views here.
 
 
-@api_view(['GET'])
-def list_bonus(request):
+@api_view(['GET', 'POST'])
+@permission_classes([IsAuthenticated])
+def bonus_list_create(request):
     if request.method == 'GET':
         try:
             bonus = Bonus.objects.all()
@@ -22,44 +21,25 @@ def list_bonus(request):
             return Response(serailizer.data, status=status.HTTP_200_OK)
         except Bonus.DoesNotExist:
             return Response({'message': 'Bonus not found'}, status=status.HTTP_404_NOT_FOUND)
-
-
-
-
-@api_view(['POST'])
-def create_bonus(request):
-    if request.method == 'POST':
-        serializer = BonusSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response({'messgae': 'Bonus created successfully'}, status=status.HTTP_201_CREATED)
         
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
-    return Response({'messgae': 'Method not allowed'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
+    elif request.method == 'POST':
+        serailizer = BonusSerializer(data=request.data, context={'request': request})
+        if serailizer.is_valid():
+            serailizer.save()
+            return Response(serailizer.data, status=status.HTTP_201_CREATED)
+        return Response(serailizer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(['GET'])
-def bonus(request, pk):
+@api_view(['GET', 'PUT', 'DELETE'])
+def bonus_detail_update_delete(request, pk):
+    bonus = get_object_or_404(Bonus, pk=pk)
+
     if request.method == 'GET':
-        try:
-            bonus = Bonus.objects.get(pk=pk)
-        except Bonus.DoesNotExist:
-            return Response({'message': 'Bonus not found'}, status=status.HTTP_404_NOT_FOUND)
-        serializer = BonusSerializer(bonus)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        serializer = BonusSerializer(bonus, context={'request': request})
+        return Response(serializer.data)
     
-
-
-@api_view(['PUT', 'DELETE', 'GET'])
-def update_bonus(request, pk):
-    try:
-        bonus = Bonus.objects.get(pk=pk)
-    except Bonus.DoesNotExist:
-        return Response({'message': 'Bonus not found'}, status=status.HTTP_404_NOT_FOUND)
-    
-    if request.method == 'PUT':
-        serializer = BonusSerializer(bonus, data=request.data)
+    elif request.method == 'PUT':
+        serializer = BonusSerializer(bonus, data=request.data, context={'request': request})
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
@@ -67,5 +47,4 @@ def update_bonus(request, pk):
     
     elif request.method == 'DELETE':
         bonus.delete()
-        return Response({'message': 'Bonus deleted successfully'}, status=status.HTTP_202_ACCEPTED)
-    return Response({'message': 'Method not allowed'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
+        return Response({'message': 'Bonus deleted successfully'}, status=status.HTTP_204_NO_CONTENT)

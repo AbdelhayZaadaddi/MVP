@@ -75,6 +75,11 @@ const Navbar = () => {
             <h6 className='hidden md:flex'>Products</h6>
           </Link>
 
+          <Link to='/bonus' className='flex  justify-center md:justify-start hover:bg-slate-200 mb-2 p-2' style={{ textDecoration: 'none', color: 'inherit' }}>
+            <FeaturedVideoIcon className='mx-2'/>
+            <h6 className='hidden md:flex'>Bonus</h6>
+          </Link>
+
           <Link to='product/create/' className='flex  justify-center md:justify-start hover:bg-slate-200 mb-2 p-2' style={{ textDecoration: 'none', color: 'inherit' }}>  
             <AddCircleIcon className='mx-2'/>
             <h6 className='hidden md:flex'>Create Product</h6>
