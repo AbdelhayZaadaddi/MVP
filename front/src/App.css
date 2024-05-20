@@ -1,5 +1,7 @@
+
 body {
   background-color: rgb(226 232 240);
+  font-family: "Reem Kufi", sans-serif;
 }
 
 a {
@@ -10,4 +12,61 @@ a {
 Link {
   text-decoration: none; /* Removes underline */
   color: inherit; /* Inherits the color from the parent element */
+}
+
+.m-5-text-2xl {
+  text-align: center;
+  margin-top: 2.5rem;
+  margin-bottom: 3.5rem;
+}
+
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px; 
+}
+
+.card {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 16px;
+  width: 200px;
+  text-align: center; 
+  transition: transform 0.2s;
+}
+
+.card:hover {
+  transform: scale(1.05); 
+}
+
+.card h2 {
+  font-size: 1rem;
+  color: black;
+  margin-bottom: 8px;
+}
+
+.card a {
+  text-decoration: none; 
+}
+
+.card p {
+  font-size: 0.7rem;
+  color: #666;
+}
+
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.backdrop-content {
+  background-color: white;
+  padding: 16px;
+  border-radius: 8px;
+  color: black;
+  width: 500px;
+  height: 300px;
 }

@@ -6,6 +6,8 @@ import Box from '@mui/material/Box';
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
 import Button from '@mui/material/Button';
+import '../../App.css';
+
 
 const Bonus = () => {
     const [bonuss, setBonuss] = useState([]);
@@ -46,13 +48,13 @@ const Bonus = () => {
 
     return (
         <div>
-            <h1 className='m-5 text-2xl'>Bonus</h1>
-            {isLoading && <Box className='flex justify-center'><CircularProgress /></Box>}
-            <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 m-5'>
-                <div className='no-underline hover:bg-slate-300'>
+            <h1 className='m-5-text-2xl'>Bonus</h1>
+            {isLoading && <Box className='flex-center'><CircularProgress /></Box>}
+            <div className='div'>
+                <div className='card-container'>
                     {bonuss.map(bonus => (
-                        <div key={bonus.id}>
-                            <Link to={`bonus/${bonus.id}`}>
+                        <div key={bonus.id} className='card'>
+                            <Link className='div2' to={`bonus/${bonus.id}`}>
                                 <h2>{bonus.name}</h2>
                                 <p>{bonus.value}</p>
                             </Link>
@@ -65,7 +67,9 @@ const Bonus = () => {
                     open={open}
                     onClick={handleClose}
                 >
-                    {selectedBonusId && <BonusDetailsCart id={selectedBonusId} />}
+                    <div className='backdrop-content'>
+                        {selectedBonusId && <BonusDetailsCart id={selectedBonusId} />}
+                    </div>
                 </Backdrop>
                 </div>
         </div>
