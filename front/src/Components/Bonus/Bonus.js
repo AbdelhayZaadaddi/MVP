@@ -48,7 +48,7 @@ const Bonus = () => {
 
     return (
         <div>
-            <h1 className='m-5-text-2xl'>Bonus</h1>
+            <h1 className='m-5-text-2xl'></h1>
             {isLoading && <Box className='flex-center'><CircularProgress /></Box>}
             <div className='div'>
                 <div className='card-container'>

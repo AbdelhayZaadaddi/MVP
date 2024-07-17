@@ -1,10 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axiosInstance from '../../axios';
-
-// material ui
-import Alert from '@mui/material/Alert';
-import Stack from '@mui/material/Stack';
+import { Alert, Stack, Box, TextField, Button, Typography, MenuItem } from '@mui/material';
 
 const CreateProduct = () => {
     const navigate = useNavigate();
@@ -13,8 +10,37 @@ const CreateProduct = () => {
         name: '',
         description: '',
         price: '',
-        image: null,  // Add image field
+        category: '',
+        city: '',
+        company: '',
+        image: null,
     });
+
+    const [categories, setCategories] = useState([]);
+    const [cities, setCities] = useState([]);
+    const [companies, setCompanies] = useState([]);
+    const [error, setError] = useState(null);
+    const [showSuccess, setShowSuccess] = useState(false);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const [categoriesResponse, citiesResponse, companiesResponse] = await Promise.all([
+                    axiosInstance.get('/available_categories/'),
+                    axiosInstance.get('/available_cities/'),
+                    axiosInstance.get('/available_companies/')
+                ]);
+                setCategories(categoriesResponse.data);
+                setCities(citiesResponse.data);
+                setCompanies(companiesResponse.data);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                setError('Failed to load categories, cities, or companies');
+            }
+        };
+
+        fetchData();
+    }, []);
 
     const handleChange = (e) => {
         if (e.target.name === 'image') {
@@ -30,15 +56,16 @@ const CreateProduct = () => {
         }
     };
 
-    const [showSuccess, setShowSuccess] = useState(false);
-
     const handleSubmit = (e) => {
         e.preventDefault();
-        
+
         const data = new FormData();
         data.append('name', formData.name);
         data.append('description', formData.description);
         data.append('price', formData.price);
+        data.append('category', formData.category);
+        data.append('city', formData.city);  // Use city_name
+        data.append('company', formData.company);  // Use company_name
         if (formData.image) {
             data.append('image', formData.image);
         }
@@ -48,54 +75,117 @@ const CreateProduct = () => {
                 'Content-Type': 'multipart/form-data',
             },
         })
-          .then((response) => {
-            console.log(response.data);
-            setShowSuccess(true); // Show the success alert
+        .then((response) => {
+            console.log('Product created:', response.data);
+            setShowSuccess(true);
             setTimeout(() => {
-              setShowSuccess(false); // Hide the success alert after 10 seconds
-              navigate('/'); // Redirect to the products list page or wherever appropriate
+                setShowSuccess(false);
+                navigate('/');
             }, 5000);
-          })
-          .catch((error) => {
-            console.error('There was an error creating the product!', error);
-          });
+        })
+        .catch((error) => {
+            console.error('Error creating the product:', error);
+            setError('Failed to create product: ' + error.message);
+            console.log('Error response data:', error.response.data);
+        });
     };
 
-  return (
-    <div className='flex justify-center items-center'>
-        
-        {showSuccess && (
-            <Stack sx={{ width: '100%', position: 'fixed', top: '10px', left: '50%', transform: 'translateX(-50%)', display:'block'}} spacing={2} className='mt-5'>
-                <Alert severity="success">Product created successfully!</Alert>
-            </Stack>
-        )}
+    return (
+        <Box className='flex flex-col items-center' sx={{ gap: 2, p: 2 }}>
+            {error && (
+                <Stack sx={{ width: '100%', position: 'fixed', top: '10px', left: '50%', transform: 'translateX(-50%)', display:'block'}} spacing={2} className='mt-5'>
+                    <Alert severity="error">{error}</Alert>
+                </Stack>
+            )}
 
-        <form className='w-96 p-6 shadow-lg bg-white rounded-md ' onSubmit={handleSubmit}>
-            <h1>Create Product</h1>
+            {showSuccess && (
+                <Stack sx={{ width: '100%', position: 'fixed', top: '10px', left: '50%', transform: 'translateX(-50%)', display:'block'}} spacing={2} className='mt-5'>
+                    <Alert severity="success">Product created successfully!</Alert>
+                </Stack>
+            )}
 
-            <label htmlFor='name' className='block text-base mb-2'>Name:</label>
-            <input type='text' name='name' id='name' onChange={handleChange} 
-            className='border w-full text-base px-2 py-1 focus:outline-none focus:ring-0 focus:border-gray-500 rounded-md mb-4'
-            />
+            <Box component="form" sx={{ width: 400, p: 2, boxShadow: 3, backgroundColor: 'white', borderRadius: 1 }} onSubmit={handleSubmit}>
+                <Typography variant="h5" gutterBottom>
+                    Create Product
+                </Typography>
 
-            <label htmlFor='description' className='block text-base mb-2'>Description:</label>
-            <textarea name='description' id='description' onChange={handleChange} 
-            className='border w-full text-base px-2 py-1 focus:outline-none focus:ring-0 focus:border-gray-500 rounded-md mb-4'/>
+                <TextField
+                    fullWidth
+                    label="Name"
+                    name="name"
+                    margin="normal"
+                    variant="outlined"
+                    onChange={handleChange}
+                />
 
-            <label htmlFor='price' className='block text-base mb-2'>Price:</label>
-            <input type='text' name='price' id='price' onChange={handleChange} 
-            className='border w-full text-base px-2 py-1 focus:outline-none focus:ring-0 focus:border-gray-500 rounded-md mb-4'
-            />
+                <TextField
+                    fullWidth
+                    label="Description"
+                    name="description"
+                    margin="normal"
+                    variant="outlined"
+                    onChange={handleChange}
+                />
 
-            <label htmlFor='image' className='block text-base mb-2'>Image:</label>
-            <input type='file' name='image' id='image' onChange={handleChange} 
-            className='border w-full text-base px-2 py-1 focus:outline-none focus:ring-0 focus:border-gray-500 rounded-md mb-4'
-            />
+                <TextField
+                    fullWidth
+                    label="Price"
+                    name="price"
+                    margin="normal"
+                    variant="outlined"
+                    onChange={handleChange}
+                />
 
-            <button type='submit' className='outline p-1 outline-cyan-600 w-40 rounded hover:bg-cyan-600 duration-100'>Create Product</button>
-        </form>
-    </div>
-  );
+                <TextField
+                    fullWidth
+                    select
+                    label="Category"
+                    name="category"
+                    margin="normal"
+                    variant="outlined"
+                    onChange={handleChange}
+                >
+                    <MenuItem value="">
+                        <em>Select Category</em>
+                    </MenuItem>
+                    {categories.map((category, index) => (
+                        <MenuItem key={index} value={category}>{category}</MenuItem>
+                    ))}
+                </TextField>
+
+                <TextField
+                    fullWidth
+                    label="City"
+                    name="city"
+                    margin="normal"
+                    variant="outlined"
+                    onChange={handleChange}
+                />
+
+                <TextField
+                    fullWidth
+                    label="Company"
+                    name="company"
+                    margin="normal"
+                    variant="outlined"
+                    onChange={handleChange}
+                />
+
+                <TextField
+                    fullWidth
+                    type="file"
+                    name="image"
+                    margin="normal"
+                    variant="outlined"
+                    onChange={handleChange}
+                />
+
+                <Button type="submit" variant="contained" color="primary" fullWidth>
+                    Create Product
+                </Button>
+            </Box>
+        </Box>
+    );
 };
 
 export default CreateProduct;

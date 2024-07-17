@@ -1,10 +1,11 @@
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework_simplejwt.views import TokenObtainPairView
 from .models import NewUser
-from .serializers import CustomUserSerializer
+from .serializers import CustomUserSerializer, MyTokenObtainPairSerializer
 import logging
 
 class UserCreate(APIView):
@@ -49,3 +50,7 @@ class BlacklistTokenUpdateView(APIView):
         except Exception as e:
             logger.exception('Exception while blacklisting token')
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+class MyTokenObtainPairView(TokenObtainPairView):
+    permission_classes = (AllowAny,)
+    serializer_class = MyTokenObtainPairSerializer

@@ -1,8 +1,8 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
-
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import React from 'react';
+import { Route, Routes, useLocation } from 'react-router-dom';
 
 import Navbar from './Components/Navbar';
 import Products from './Components/Products/Products';
@@ -20,28 +20,52 @@ import Checkout from './Components/Cart/Checkout';
 import Orders from './Components/Orders/Orders';
 import OrderDetail from './Components/Orders/OrderDetail';
 import Bonus from './Components/Bonus/Bonus';
+import Ads from './Components/Ads/ads'; // Import Ads component working on it.
+import Setting from './Components/Settings/Settings';
+import { AuthProvider } from './utils/AuthContext';
+
+import LandingPage from './Components/LandingPage/LandingPage';
 
 const MainNavbar = withAuth(Navbar);
 
 function App() {
+    const location = useLocation();
+
     return (
-        <Router>
-            <MainNavbar />
-            <Routes>
-                <Route path="/register" element={<PublicRoute><Register /></PublicRoute>} />
-                <Route path="/login" element={<PublicRoute><Login /></PublicRoute>} />
-                <Route exact path='/' element={<ProtectedRoute><Products /></ProtectedRoute>} />
-                <Route path="/product/:id" element={<ProtectedRoute><ProductDetail /></ProtectedRoute>} />
-                <Route path="/profile" element={<ProtectedRoute><UserProfile /></ProtectedRoute>} />
-                <Route path="/logout" element={<ProtectedRoute><Logout /></ProtectedRoute>} />
-                <Route exact path="/product/create/" element={<ProtectedRoute><CreateProduct /></ProtectedRoute>} />
-                <Route path="/cart" element={<ProtectedRoute><Cart /></ProtectedRoute>} />
-                <Route path="/checkout" element={<ProtectedRoute><Checkout /></ProtectedRoute>} />
-                <Route path="/orders" element={<ProtectedRoute><Orders /></ProtectedRoute>} />
-                <Route path="/order/:id" element={<ProtectedRoute><OrderDetail /></ProtectedRoute>} />
-                <Route path="/bonus" element={<ProtectedRoute><Bonus /></ProtectedRoute>} />
-            </Routes>
-        </Router>
+        <AuthProvider>
+            <div className='app-container'>
+                <MainNavbar />
+				
+                <div className='main-content'>
+                    {/* Render UserProfile only when not on register, login, or logout routes */}
+                    {location.pathname !== '/register' && location.pathname !== '/page' && location.pathname !== '/login' && location.pathname !== '/logout' && (
+                        <div className='user-profile-container'>
+                            <UserProfile />
+                        </div>
+                    )}
+                    <div className='content-section'>
+                        {/* Conditionally render Ads component */}
+                        {location.pathname === '/' && <Ads />}
+                        <Routes>
+                            <Route path='/page' element={<ProtectedRoute><LandingPage /></ProtectedRoute>} />						
+                            <Route path="/register" element={<PublicRoute><Register /></PublicRoute>} />
+                            <Route path="/login" element={<PublicRoute><Login /></PublicRoute>} />
+                            <Route exact path='/' element={<ProtectedRoute><Products /></ProtectedRoute>} />
+                            <Route path="/product/:id" element={<ProtectedRoute><ProductDetail /></ProtectedRoute>} />
+                            <Route path="/profile" element={<ProtectedRoute><UserProfile /></ProtectedRoute>} />
+                            <Route path="/logout" element={<ProtectedRoute><Logout /></ProtectedRoute>} />
+                            <Route exact path="/product/create/" element={<ProtectedRoute><CreateProduct /></ProtectedRoute>} />
+                            <Route path="/cart" element={<ProtectedRoute><Cart /></ProtectedRoute>} />
+                            <Route path="/checkout" element={<ProtectedRoute><Checkout /></ProtectedRoute>} />
+                            <Route path="/orders" element={<ProtectedRoute><Orders /></ProtectedRoute>} />
+                            <Route path="/order/:id" element={<ProtectedRoute><OrderDetail /></ProtectedRoute>} />
+                            <Route path="/bonus" element={<ProtectedRoute><Bonus /></ProtectedRoute>} />
+                            <Route path="/setting" element={<ProtectedRoute><Setting /></ProtectedRoute>} />
+                        </Routes>
+                    </div>
+                </div>
+            </div>
+        </AuthProvider>
     );
 }
 

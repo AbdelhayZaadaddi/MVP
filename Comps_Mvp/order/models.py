@@ -33,7 +33,7 @@ class Order(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"Order {self.id} by {self.user.username}"
+        return f"Order {self.id} by {self.user.user_name}"  # user.user_name NOT user.username
 
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='orderitems')
