@@ -57,6 +57,8 @@ INSTALLED_APPS = [
 
 
     'Testviews'
+
+    # This extention is for just see all the path that we have 
     
 ]
 

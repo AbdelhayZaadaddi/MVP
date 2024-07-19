@@ -215,7 +215,7 @@ const Products = () => {
       </Modal>
 
       {isLoading && <Box className='flex justify-center'><CircularProgress /></Box>}
-      <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 m-3'>
+      <div className='grid grid-cols-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 m-3'>
         {products.map(product => (
           <div key={product.id} onClick={() => handleOpenModal(product.id)} className='cursor-pointer'>
             <Card sx={{ maxWidth: 450 }}>

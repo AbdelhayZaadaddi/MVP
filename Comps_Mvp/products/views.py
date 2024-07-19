@@ -8,11 +8,13 @@ from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import get_object_or_404
 from django.db.models import Q
 
+
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def available_categories(request):
     categories = [category[0] for category in Product.CATEGORY_CHOICES]
     return Response(categories)
+
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
@@ -20,11 +22,13 @@ def available_cities(request):
     cities = City.objects.all().values_list('name', flat=True)
     return Response(cities)
 
+
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def available_companies(request):
     companies = Company.objects.all().values_list('name', flat=True)
     return Response(companies)
+
 
 @api_view(['GET', 'POST'])
 @permission_classes([IsAuthenticated])
@@ -53,6 +57,8 @@ def product_list_create(request):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
 
 @api_view(['GET', 'PUT', 'DELETE'])
 @permission_classes([IsAuthenticated])

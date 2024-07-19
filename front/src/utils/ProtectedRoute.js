@@ -12,7 +12,7 @@ const ProtectedRoute = ({ children }) => {
             console.log('ProtectedRoute: isAuthenticated =', authStatus); // Debug log
             setAuth(authStatus);
             if (!authStatus) {
-                navigate('/login');
+                navigate('/register');
             }
         };
         checkAuth();

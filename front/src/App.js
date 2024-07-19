@@ -48,8 +48,8 @@ function App() {
                         {location.pathname === '/' && <Ads />}
                         <Routes>
                             <Route path='/page' element={<ProtectedRoute><LandingPage /></ProtectedRoute>} />						
-                            <Route path="/register" element={<PublicRoute><Register /></PublicRoute>} />
-                            <Route path="/login" element={<PublicRoute><Login /></PublicRoute>} />
+                            <Route path="/register" element={<Register />} />
+                            <Route path="/login" element={<Login />} />
                             <Route exact path='/' element={<ProtectedRoute><Products /></ProtectedRoute>} />
                             <Route path="/product/:id" element={<ProtectedRoute><ProductDetail /></ProtectedRoute>} />
                             <Route path="/profile" element={<ProtectedRoute><UserProfile /></ProtectedRoute>} />

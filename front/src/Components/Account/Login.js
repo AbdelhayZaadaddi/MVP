@@ -98,6 +98,10 @@ const Login = () => {
           />
           <button type="submit" className='login-button'>Sign in</button>
           <div className='login-options'>
+            <div>
+              <p>U don't have an account <Link to='/register'>register</Link></p>
+              
+            </div>
             <div className='login-remember'>
               <input type='checkbox' id='remember' name='remember' />
               <label htmlFor='remember'>Remember me</label>
