@@ -89,21 +89,3 @@ def delete_order(request, pk):
     except Order.DoesNotExist:
         return Response({'message': 'Order not found'}, status=status.HTTP_404_NOT_FOUND)
 
-
-@api_view(['PUT'])
-@permission_classes([IsAuthenticated])
-def update_order_payment_status(request, pk):
-    try:
-        order = Order.objects.get(pk=pk)
-    except Order.DoesNotExist:
-        return Response({'message': 'Order not found'}, status=status.HTTP_404_NOT_FOUND)
-
-    payment_status = request.data.get('payment_status')
-    if payment_status not in [status.value for status in Order.PaymentStatus]:
-        return Response({'message': 'Invalid payment status'}, status=status.HTTP_400_BAD_REQUEST)
-
-    order.payment_status = payment_status
-    order.save()
-
-    serializer = OrderSerializer(order)
-    return Response(serializer.data, status=status.HTTP_202_ACCEPTED)

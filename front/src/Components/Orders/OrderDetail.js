@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import axiosInstance from '../../axios';
 import CircularProgress from '@mui/material/CircularProgress';
 import Paper from '@mui/material/Paper';
@@ -9,6 +9,7 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
+import Button from '@mui/material/Button';
 
 const OrderDetail = () => {
     const { id } = useParams();
@@ -60,6 +61,15 @@ const OrderDetail = () => {
                 <p><strong>Payment Status:</strong> {order.payment_status}</p>
                 <p><strong>Payment Method:</strong> {order.payment_method}</p>
                 <p><strong>Created At:</strong> {new Date(order.created_at).toLocaleString()}</p>
+                <Button
+                    component={Link}
+                    to={`/orders/edit/${order.id}`}
+                    variant="contained"
+                    color="primary"
+                    className="mt-4"
+                >
+                    Edit Order
+                </Button>
             </Paper>
             <TableContainer component={Paper} className="shadow-lg">
                 <Table sx={{ minWidth: 650 }} aria-label="order items table">
