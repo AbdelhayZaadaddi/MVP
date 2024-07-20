@@ -9,6 +9,7 @@ from rest_framework.permissions import IsAuthenticated
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import transaction
 from accounts.permission import IsAdmin
+from rest_framework.pagination import PageNumberPagination
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
@@ -46,9 +47,13 @@ def new_order(request):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def get_orders(request):
+    paginator = PageNumberPagination()
+    paginator.page_size = 10  # You can also set this value dynamically
+
     orders = Order.objects.filter(user=request.user).prefetch_related('orderitems')
-    serializer = OrderSerializer(orders, many=True)
-    return Response(serializer.data, status=status.HTTP_200_OK)
+    result_page = paginator.paginate_queryset(orders, request)
+    serializer = OrderSerializer(result_page, many=True)
+    return paginator.get_paginated_response(serializer.data)
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
@@ -84,3 +89,21 @@ def delete_order(request, pk):
     except Order.DoesNotExist:
         return Response({'message': 'Order not found'}, status=status.HTTP_404_NOT_FOUND)
 
+
+@api_view(['PUT'])
+@permission_classes([IsAuthenticated])
+def update_order_payment_status(request, pk):
+    try:
+        order = Order.objects.get(pk=pk)
+    except Order.DoesNotExist:
+        return Response({'message': 'Order not found'}, status=status.HTTP_404_NOT_FOUND)
+
+    payment_status = request.data.get('payment_status')
+    if payment_status not in [status.value for status in Order.PaymentStatus]:
+        return Response({'message': 'Invalid payment status'}, status=status.HTTP_400_BAD_REQUEST)
+
+    order.payment_status = payment_status
+    order.save()
+
+    serializer = OrderSerializer(order)
+    return Response(serializer.data, status=status.HTTP_202_ACCEPTED)

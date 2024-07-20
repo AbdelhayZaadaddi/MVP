@@ -47,7 +47,7 @@ function App() {
                         {/* Conditionally render Ads component */}
                         {location.pathname === '/' && <Ads />}
                         <Routes>
-                            <Route path='/page' element={<ProtectedRoute><LandingPage /></ProtectedRoute>} />						
+                            <Route path='/page' element={<LandingPage />} />
                             <Route path="/register" element={<Register />} />
                             <Route path="/login" element={<Login />} />
                             <Route exact path='/' element={<ProtectedRoute><Products /></ProtectedRoute>} />

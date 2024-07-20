@@ -7,18 +7,30 @@ import Paper from '@mui/material/Paper';
 const Orders = () => {
     const [orders, setOrders] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
 
     useEffect(() => {
-        axiosInstance.get('orders/')
+        fetchOrders(currentPage);
+    }, [currentPage]);
+
+    const fetchOrders = (page) => {
+        setIsLoading(true);
+        axiosInstance.get(`orders/?page=${page}`)
             .then(response => {
-                setOrders(response.data);
+                setOrders(response.data.results);
+                setTotalPages(Math.ceil(response.data.count / 10));  // Adjust based on your page size
                 setIsLoading(false);
             })
             .catch(error => {
                 console.error('Error fetching orders: ', error);
                 setIsLoading(false);
             });
-    }, []);
+    };
+
+    const handlePageChange = (page) => {
+        setCurrentPage(page);
+    };
 
     return (
         <div className="mainContent">
@@ -72,8 +84,20 @@ const Orders = () => {
                     </div>
                 </Paper>
             )}
+            <div className="paginationContainer">
+                {Array.from({ length: totalPages }, (_, index) => (
+                    <button
+                        key={index + 1}
+                        className={`paginationButton ${currentPage === index + 1 ? 'active' : ''}`}
+                        onClick={() => handlePageChange(index + 1)}
+                    >
+                        {index + 1}
+                    </button>
+                ))}
+            </div>
         </div>
     );
 };
 
 export default Orders;
+

@@ -6,17 +6,17 @@ const Register = () => {
   const navigate = useNavigate();
 
   const initialFormData = {
-    full_name: '',
+    email: '',
+    user_name: '',
+    first_name: '',
     company_name: '',
-    company_email: '',
-    company_phone: '',
-    account_type: 'customer',
-    company_size: '',
+    phone: '',
     password: '',
     password_confirm: '',
   };
 
   const [formData, updateFormData] = useState(initialFormData);
+  const [message, setMessage] = useState('');
 
   const handleChange = (e) => {
     updateFormData({
@@ -28,35 +28,34 @@ const Register = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (formData.password !== formData.password_confirm) {
-      alert('Passwords do not match');
+      setMessage('Passwords do not match');
       return;
     }
     axiosInstance
-      .post('register/', {  // Update to match your backend path if necessary
-        full_name: formData.full_name,
+      .post('register/', {
+        email: formData.email,
+        user_name: formData.user_name,
+        first_name: formData.first_name,
         company_name: formData.company_name,
-        company_email: formData.company_email,
-        company_phone: formData.company_phone,
-        account_type: formData.account_type,
-        company_size: formData.company_size,
+        phone: formData.phone,
         password: formData.password,
         password_confirm: formData.password_confirm,
+        role: 'company',
       })
       .then((res) => {
-        console.log('Registration successful:', res.data);
-        // Optionally show a success message or log the user in
+        setMessage('Registration successful. Redirecting to login page...');
+        setTimeout(() => {
+          navigate('/login'); // Redirect to login page after a short delay
+        }, 2000); // 2 seconds delay
       })
       .catch((error) => {
         if (error.response) {
-          console.log(error.response.data);
-          console.log(error.response.status);
-          console.log(error.response.headers);
+          setMessage(`Error: ${error.response.data}`);
         } else if (error.request) {
-          console.log(error.request);
+          setMessage('Error: No response received from server');
         } else {
-          console.log('Error', error.message);
+          setMessage(`Error: ${error.message}`);
         }
-        console.log(error.config);
       });
   };
 
@@ -66,16 +65,18 @@ const Register = () => {
         <form onSubmit={handleSubmit} className="w-3/4 p-6 shadow-lg bg-white rounded-md">
           <h1 className="text-center text-2xl mb-4">Create an Account</h1>
 
-          <label className="block text-base mb-2">Full name</label>
+          {message && <div className="text-center text-red-500 mb-4">{message}</div>}
+
+          <label className="block text-base mb-2">Full Name</label>
           <input
             type="text"
-            name="full_name"
+            name="first_name"
             placeholder="Enter your full name"
             onChange={handleChange}
             className="border w-full text-base px-2 py-1 focus:outline-none focus:ring-0 focus:border-gray-500 rounded-md mb-4"
           />
 
-          <label className="block text-base mb-2">Company name</label>
+          <label className="block text-base mb-2">Company Name</label>
           <input
             type="text"
             name="company_name"
@@ -84,44 +85,32 @@ const Register = () => {
             className="border w-full text-base px-2 py-1 focus:outline-none focus:ring-0 focus:border-gray-500 rounded-md mb-4"
           />
 
-          <label className="block text-base mb-2">Company email</label>
+          <label className="block text-base mb-2">Email</label>
           <input
             type="email"
-            name="company_email"
-            placeholder="Enter your company email address"
+            name="email"
+            placeholder="Enter your email address"
             onChange={handleChange}
             className="border w-full text-base px-2 py-1 focus:outline-none focus:ring-0 focus:border-gray-500 rounded-md mb-4"
           />
 
-          <label className="block text-base mb-2">Company phone</label>
+          <label className="block text-base mb-2">Phone</label>
           <input
             type="tel"
-            name="company_phone"
-            placeholder="Enter your company phone number"
+            name="phone"
+            placeholder="Enter your phone number"
             onChange={handleChange}
             className="border w-full text-base px-2 py-1 focus:outline-none focus:ring-0 focus:border-gray-500 rounded-md mb-4"
           />
 
-          <label className="block text-base mb-2">Create Account</label>
-          <select
-            name="account_type"
+          <label className="block text-base mb-2">Username</label>
+          <input
+            type="text"
+            name="user_name"
+            placeholder="Enter your username"
             onChange={handleChange}
             className="border w-full text-base px-2 py-1 focus:outline-none focus:ring-0 focus:border-gray-500 rounded-md mb-4"
-          >
-            <option value="customer">Customer</option>
-            <option value="partner">Partner</option>
-          </select>
-
-          <label className="block text-base mb-2">Company size</label>
-          <select
-            name="company_size"
-            onChange={handleChange}
-            className="border w-full text-base px-2 py-1 focus:outline-none focus:ring-0 focus:border-gray-500 rounded-md mb-4"
-          >
-            <option value="small">Small</option>
-            <option value="medium">Medium</option>
-            <option value="large">Large</option>
-          </select>
+          />
 
           <label className="block text-base mb-2">Password</label>
           <input
