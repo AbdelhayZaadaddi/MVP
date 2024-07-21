@@ -45,9 +45,9 @@ function App() {
                     <div className='content-section'>
                         {/* Conditionally render Ads component */}
                         <Routes>
-                            <Route path='/page' element={<LandingPage />} />
-                            <Route path="/register" element={<Register />} />
-                            <Route path="/login" element={<Login />} />
+                            <Route path='/page' element={<PublicRoute><LandingPage /></PublicRoute>} />
+                            <Route path="/register" element={<PublicRoute><Register /></PublicRoute>} />
+                            <Route path="/login" element={<PublicRoute><Login /></PublicRoute>} />
                             <Route exact path='/' element={<ProtectedRoute><HomePage /></ProtectedRoute>} />
                             <Route path="/product/:id" element={<ProtectedRoute><ProductDetail /></ProtectedRoute>} />
                             <Route path="/profile" element={<ProtectedRoute><UserProfile /></ProtectedRoute>} />

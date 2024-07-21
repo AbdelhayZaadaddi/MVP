@@ -5,16 +5,28 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import TokenObtainPairView
 from .models import NewUser
-from .serializers import CustomUserSerializer, MyTokenObtainPairSerializer
+from .serializers import CustomUserSerializer, MyTokenObtainPairSerializer, CompanySerializer, EmployeeSerializer, TraderSerializer
 import logging
 
 class UserCreate(APIView):
     def post(self, request, *args, **kwargs):
-        serializer = CustomUserSerializer(data=request.data)
+        role = request.data.get('role')
+
+        if role == NewUser.Role.COMPANY:
+            serializer_class = CompanySerializer
+        elif role == NewUser.Role.EMPLOYEE:
+            serializer_class = EmployeeSerializer
+        elif role == NewUser.Role.TRADER:
+            serializer_class = TraderSerializer
+        else:
+            serializer_class = CustomUserSerializer  # Default to regular user
+
+        serializer = serializer_class(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 class UserUpdate(APIView):
     def put(self, request, *args, **kwargs):
@@ -28,8 +40,18 @@ class UserUpdate(APIView):
 class UserProfile(APIView):
     def get(self, request, *args, **kwargs):
         user = request.user
-        serializer = CustomUserSerializer(user)
+        if user.role == NewUser.Role.COMPANY:
+            serializer_class = CompanySerializer
+        elif user.role == NewUser.Role.EMPLOYEE:
+            serializer_class = EmployeeSerializer
+        elif user.role == NewUser.Role.TRADER:
+            serializer_class = TraderSerializer
+        else:
+            serializer_class = CustomUserSerializer
+
+        serializer = serializer_class(user)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
 
 logger = logging.getLogger(__name__)
 
