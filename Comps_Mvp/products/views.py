@@ -7,6 +7,7 @@ from .serializers import ProductSerializer
 from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import get_object_or_404
 from django.db.models import Q
+from rest_framework.pagination import PageNumberPagination
 
 
 @api_view(['GET'])
@@ -34,6 +35,8 @@ def available_companies(request):
 @permission_classes([IsAuthenticated])
 @parser_classes([MultiPartParser, FormParser])
 def product_list_create(request):
+    paginator = PageNumberPagination()
+    paginator.page_size = 1
     if request.method == 'GET':
         category = request.GET.get('category')
         city_name = request.GET.get('city_name')
@@ -48,8 +51,9 @@ def product_list_create(request):
             filters &= Q(company__name=company_name)
 
         products = Product.objects.filter(filters).order_by('-created_at')
-        serializer = ProductSerializer(products, many=True, context={'request': request})
-        return Response(serializer.data)
+        result_page = paginator.paginate_queryset(products, request)
+        serializer = ProductSerializer(result_page, many=True, context={'request': request})
+        return paginator.get_paginated_response(serializer.data)
 
     elif request.method == 'POST':
         serializer = ProductSerializer(data=request.data, context={'request': request})

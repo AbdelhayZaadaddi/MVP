@@ -31,3 +31,7 @@ class IsAdminOrCompany(BasePermission):
     def has_permission(self, request, view):
         # Check if the user is an admin or a company
         return request.user.role in [NewUser.Role.ADMIN, NewUser.Role.COMPANY]
+    
+class IsAdminOrTrader(BasePermission):
+    def has_permission(self, request, view):
+        return request.user.role in [NewUser.Role.ADMIN, NewUser.Role.TRADER]
