@@ -36,7 +36,7 @@ def available_companies(request):
 @parser_classes([MultiPartParser, FormParser])
 def product_list_create(request):
     paginator = PageNumberPagination()
-    paginator.page_size = 1
+    paginator.page_size = 10
     if request.method == 'GET':
         category = request.GET.get('category')
         city_name = request.GET.get('city_name')
@@ -53,7 +53,7 @@ def product_list_create(request):
         products = Product.objects.filter(filters).order_by('-created_at')
         result_page = paginator.paginate_queryset(products, request)
         serializer = ProductSerializer(result_page, many=True, context={'request': request})
-        return paginator.get_paginated_response(serializer.data)
+        return Response(serializer.data)
 
     elif request.method == 'POST':
         serializer = ProductSerializer(data=request.data, context={'request': request})
