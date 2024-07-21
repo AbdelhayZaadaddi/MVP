@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import axiosInstance from '../../axios';
 import CircularProgress from '@mui/material/CircularProgress';
 import Paper from '@mui/material/Paper';
+import Pagination from '@mui/material/Pagination';
 
 const Orders = () => {
     const [orders, setOrders] = useState([]);
@@ -28,7 +29,7 @@ const Orders = () => {
             });
     };
 
-    const handlePageChange = (page) => {
+    const handlePageChange = (event, page) => {
         setCurrentPage(page);
     };
 
@@ -84,20 +85,16 @@ const Orders = () => {
                     </div>
                 </Paper>
             )}
-            <div className="paginationContainer">
-                {Array.from({ length: totalPages }, (_, index) => (
-                    <button
-                        key={index + 1}
-                        className={`paginationButton ${currentPage === index + 1 ? 'active' : ''}`}
-                        onClick={() => handlePageChange(index + 1)}
-                    >
-                        {index + 1}
-                    </button>
-                ))}
+            <div className="">
+                <Pagination
+                    count={totalPages}
+                    page={currentPage}
+                    onChange={handlePageChange}
+                    color="primary"
+                />
             </div>
         </div>
     );
 };
 
 export default Orders;
-

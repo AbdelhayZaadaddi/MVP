@@ -8,7 +8,7 @@ from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import transaction
-from accounts.permission import IsAdmin
+from accounts.permission import IsAdmin, IsAdminOrTrader, IsAdminOrCompany
 from rest_framework.pagination import PageNumberPagination
 
 @api_view(['POST'])
@@ -45,7 +45,7 @@ def new_order(request):
         return Response({'message': 'An error occurred while creating the order'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 @api_view(['GET'])
-@permission_classes([IsAuthenticated])
+@permission_classes([IsAdminOrTrader])
 def get_orders(request):
     paginator = PageNumberPagination()
     paginator.page_size = 10  # You can also set this value dynamically
@@ -56,7 +56,7 @@ def get_orders(request):
     return paginator.get_paginated_response(serializer.data)
 
 @api_view(['GET'])
-@permission_classes([IsAuthenticated])
+@permission_classes([IsAdminOrTrader])
 def get_order(request, pk):
     try:
         order = Order.objects.prefetch_related('orderitems').get(pk=pk, user=request.user)
@@ -66,7 +66,7 @@ def get_order(request, pk):
         return Response({'message': 'Order not found'}, status=status.HTTP_404_NOT_FOUND)
 
 @api_view(['PUT'])
-@permission_classes([IsAuthenticated])
+@permission_classes([IsAdminOrTrader])
 def update_order(request, pk):
     try:
         order = Order.objects.get(pk=pk, user=request.user)
@@ -80,7 +80,7 @@ def update_order(request, pk):
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['DELETE'])
-@permission_classes([IsAuthenticated])
+@permission_classes([IsAdminOrTrader])
 def delete_order(request, pk):
     try:
         order = Order.objects.get(pk=pk, user=request.user)
@@ -89,21 +89,3 @@ def delete_order(request, pk):
     except Order.DoesNotExist:
         return Response({'message': 'Order not found'}, status=status.HTTP_404_NOT_FOUND)
 
-
-@api_view(['PUT'])
-@permission_classes([IsAuthenticated])
-def update_order_payment_status(request, pk):
-    try:
-        order = Order.objects.get(pk=pk)
-    except Order.DoesNotExist:
-        return Response({'message': 'Order not found'}, status=status.HTTP_404_NOT_FOUND)
-
-    payment_status = request.data.get('payment_status')
-    if payment_status not in [status.value for status in Order.PaymentStatus]:
-        return Response({'message': 'Invalid payment status'}, status=status.HTTP_400_BAD_REQUEST)
-
-    order.payment_status = payment_status
-    order.save()
-
-    serializer = OrderSerializer(order)
-    return Response(serializer.data, status=status.HTTP_202_ACCEPTED)

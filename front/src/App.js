@@ -25,6 +25,7 @@ import Setting from './Components/Settings/Settings';
 import { AuthProvider } from './utils/AuthContext';
 
 import LandingPage from './Components/LandingPage/LandingPage';
+import EditOrder from './Components/Orders/EditOrder';
 
 const MainNavbar = withAuth(Navbar);
 
@@ -59,6 +60,7 @@ function App() {
                             <Route path="/checkout" element={<ProtectedRoute><Checkout /></ProtectedRoute>} />
                             <Route path="/orders" element={<ProtectedRoute><Orders /></ProtectedRoute>} />
                             <Route path="/order/:id" element={<ProtectedRoute><OrderDetail /></ProtectedRoute>} />
+                            <Route path="/orders/edit/:id" element={<ProtectedRoute><EditOrder /></ProtectedRoute>} />
                             <Route path="/bonus" element={<ProtectedRoute><Bonus /></ProtectedRoute>} />
                             <Route path="/setting" element={<ProtectedRoute><Setting /></ProtectedRoute>} />
                         </Routes>
