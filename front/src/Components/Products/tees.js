@@ -22,11 +22,6 @@ import FilterListIcon from '@mui/icons-material/FilterList';
 import CloseIcon from '@mui/icons-material/Close';
 import DefauIm from '../../assets/def.jpg';
 import ProductModal from './ProductModal';
-import { Link } from 'react-router-dom';
-
-import '../../App.css';
-
-
 
 const Products = () => {
   const [products, setProducts] = useState([]);
@@ -281,12 +276,6 @@ const Products = () => {
       />
 
       <ProductModal open={modalOpen} handleClose={handleCloseModal} productId={selectedProductId} />
-
-      <div className='flex justify-center my-3'>
-      <Button variant="outlined" size="medium">
-          <Link to="all/products " className="no-text-decoration">Show all Products</Link>
-        </Button>
-        </div>
     </div>
   );
 }

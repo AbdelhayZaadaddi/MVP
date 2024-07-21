@@ -22,11 +22,7 @@ import FilterListIcon from '@mui/icons-material/FilterList';
 import CloseIcon from '@mui/icons-material/Close';
 import DefauIm from '../../assets/def.jpg';
 import ProductModal from './ProductModal';
-import { Link } from 'react-router-dom';
-
-import '../../App.css';
-
-
+import Pagination from '@mui/material/Pagination';
 
 const Products = () => {
   const [products, setProducts] = useState([]);
@@ -41,6 +37,8 @@ const Products = () => {
   const [selectedProductId, setSelectedProductId] = useState(null);
   const [filterModalOpen, setFilterModalOpen] = useState(false);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [totalPages, setTotalPages] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1); // Add this line
 
   useEffect(() => {
     fetchProducts();
@@ -122,9 +120,30 @@ const Products = () => {
     }, 4000); // Snackbar will be hidden after 4 seconds
   };
 
+  useEffect(() => {
+    fetchProductsPage(currentPage);
+  }, [currentPage]);
+
+  const fetchProductsPage = (page) => {
+    setIsLoading(true);
+    axiosInstance.get(`products/?page=${page}`)
+      .then(response => {
+        setProducts(response.data.results);
+        setTotalPages(Math.ceil(response.data.count / 10)); // Adjust based on your page size
+        setIsLoading(false);
+      })
+      .catch(error => {
+        console.error('Error fetching orders: ', error);
+        setIsLoading(false);
+      });
+  };
+
+  const handlePageChange = (event, page) => {
+    setCurrentPage(page);
+  };
+
   return (
     <div className='mt-5'>
-      
       <div className='filter-bar'>
         <Button
           startIcon={<FilterListIcon />}
@@ -221,7 +240,7 @@ const Products = () => {
 
       {isLoading && <Box className='flex justify-center'><CircularProgress /></Box>}
       <div className='grid grid-cols-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 m-2'>
-        {products.map(product => (
+        {products.map((product) => (
           <div key={product.id} onClick={() => handleOpenModal(product.id)} className='cursor-pointer'>
             <Card sx={{ maxWidth: 450 }}>
               <div className='h-[180px]'>
@@ -240,55 +259,66 @@ const Products = () => {
                   <Typography style={{ fontSize: '14px' }} color="text.secondary">
                     Company: {product.company_name}
                   </Typography>
-
+                  <Typography style={{ fontSize: '14px' }} color="text.secondary">
+                    Category: {product.category}
+                  </Typography>
                   <Typography style={{ fontSize: '14px' }} color="text.secondary">
                     City: {product.city_name}
                   </Typography>
-
                   <Typography style={{ fontSize: '14px' }} color="text.secondary">
-                    Price: {product.price} $
+                    Profile Date: {new Date(product.date).toLocaleDateString()}
                   </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    {product.description.substring(0, 150)}
+                  </Typography>
+                  <Button
+                    className='w-full p-2 text-white'
+                    style={{ backgroundColor: '#154c79', color: 'white', fontSize: '14px' }}
+                    onClick={(event) => {
+                      event.stopPropagation();
+                      addToCart(product.id);
+                    }}
+                  >
+                    Add to cart
+                  </Button>
                 </CardContent>
               </CardActionArea>
-
-              <Button onClick={() => addToCart(product.id)} variant="contained" size="small" className='mx-3 my-3 mt-5' sx={{
-                backgroundColor: '#154c79',
-                color: 'white'
-              }}>Add to Cart</Button>
             </Card>
           </div>
         ))}
       </div>
 
+      <Box display="flex" justifyContent="center" my={4}>
+        <Pagination
+          count={totalPages}
+          page={currentPage}
+          onChange={handlePageChange}
+          variant="outlined"
+          color="primary"
+          size="large"
+        />
+      </Box>
+
+      <ProductModal
+        open={modalOpen}
+        onClose={handleCloseModal}
+        productId={selectedProductId}
+      />
+
       <Snackbar
-        anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
         open={snackbarOpen}
         autoHideDuration={4000}
         onClose={() => setSnackbarOpen(false)}
-        message={
-          <Typography variant="body2" sx={{ color: 'white' }}>
-            Product added to cart
-          </Typography>
-        }
+        message="Product added to cart"
         action={
           <IconButton size="small" aria-label="close" color="inherit" onClick={() => setSnackbarOpen(false)}>
             <CloseIcon fontSize="small" />
           </IconButton>
         }
-        sx={{
-          backgroundColor: '#154c79',
-        }}
       />
-
-      <ProductModal open={modalOpen} handleClose={handleCloseModal} productId={selectedProductId} />
-
-      <div className='flex justify-center my-3'>
-      <Button variant="outlined" size="medium">
-          <Link to="all/products " className="no-text-decoration">Show all Products</Link>
-        </Button>
-        </div>
     </div>
   );
-}
+};
 
 export default Products;
+

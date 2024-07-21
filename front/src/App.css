@@ -1008,3 +1008,7 @@
 
 
 
+.no-text-decoration {
+  text-decoration: none;
+  color: inherit; /* Ensures the link inherits the color of its parent */
+}

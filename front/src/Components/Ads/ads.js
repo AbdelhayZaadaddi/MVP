@@ -36,7 +36,7 @@ const Ads = () => {
     }, [currentIndex]);
 
     return (
-        <div className="carousel-container">
+        <div className="carousel-container mt-5">
             <button className="prev-arrow" onClick={prevSlide}>&#8592;</button>
             <img src={ads[currentIndex]} alt="Ad" className="carousel-image" />
             <button className="next-arrow" onClick={nextSlide}>&#8594;</button>

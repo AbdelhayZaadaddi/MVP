@@ -9,6 +9,8 @@ urlpatterns = [
     path('available_companies/', views.available_companies, name='available_companies'),
     path('products/', views.product_list_create, name='product_list_create'),
     path('products/<int:pk>/', views.product_detail_update_delete, name='product_detail_update_delete'),
+    path('products/all/', views.products_list, name='products_lis'),
+
 ]
 
 if settings.DEBUG:

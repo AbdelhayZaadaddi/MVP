@@ -36,7 +36,7 @@ def available_companies(request):
 @parser_classes([MultiPartParser, FormParser])
 def product_list_create(request):
     paginator = PageNumberPagination()
-    paginator.page_size = 10
+    paginator.page_size = 12
     if request.method == 'GET':
         category = request.GET.get('category')
         city_name = request.GET.get('city_name')
@@ -54,6 +54,7 @@ def product_list_create(request):
         result_page = paginator.paginate_queryset(products, request)
         serializer = ProductSerializer(result_page, many=True, context={'request': request})
         return Response(serializer.data)
+    
 
     elif request.method == 'POST':
         serializer = ProductSerializer(data=request.data, context={'request': request})
@@ -62,6 +63,29 @@ def product_list_create(request):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+@parser_classes([MultiPartParser, FormParser])
+def products_list(request):
+    paginator = PageNumberPagination()
+    paginator.page_size = 12
+    category = request.GET.get('category')
+    city_name = request.GET.get('city_name')
+    company_name = request.GET.get('company_name')
+
+    filters = Q()
+    if category:
+        filters &= Q(category=category)
+    if city_name:
+        filters &= Q(city__name=city_name)
+    if company_name:
+        filters &= Q(company__name=company_name)
+
+    products = Product.objects.filter(filters).order_by('-created_at')
+    result_page = paginator.paginate_queryset(products, request)
+    serializer = ProductSerializer(result_page, many=True, context={'request': request})
+    return paginator.get_paginated_response(serializer.data)
+    
 
 
 @api_view(['GET', 'PUT', 'DELETE'])
