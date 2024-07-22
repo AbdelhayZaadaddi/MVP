@@ -11,7 +11,6 @@ const Login = () => {
   const initialFormData = {
     email: '',
     password: '',
-    role: 'company',  // Default rolesi
   };
 
   const [formData, updateFormData] = useState(initialFormData);
@@ -33,7 +32,7 @@ const Login = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
+  
     axiosInstance
       .post('token/', {
         email: formData.email,
@@ -44,6 +43,7 @@ const Login = () => {
         console.log('Login response:', res.data);
         localStorage.setItem('access_token', res.data.access);
         localStorage.setItem('refresh_token', res.data.refresh);
+        localStorage.setItem('user_role', res.data.role); // Save the user role
         axiosInstance.defaults.headers['Authorization'] = 'Bearer ' + res.data.access;
         navigate('/');
       })

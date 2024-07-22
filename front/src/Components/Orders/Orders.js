@@ -4,6 +4,7 @@ import axiosInstance from '../../axios';
 import CircularProgress from '@mui/material/CircularProgress';
 import Paper from '@mui/material/Paper';
 import Pagination from '@mui/material/Pagination';
+import Box from '@mui/material/Box';
 
 const Orders = () => {
     const [orders, setOrders] = useState([]);
@@ -85,14 +86,16 @@ const Orders = () => {
                     </div>
                 </Paper>
             )}
-            <div className="">
-                <Pagination
-                    count={totalPages}
-                    page={currentPage}
-                    onChange={handlePageChange}
-                    color="primary"
-                />
-            </div>
+             <Box display="flex" justifyContent="center" my={4}>
+        <Pagination
+          count={totalPages}
+          page={currentPage}
+          onChange={handlePageChange}
+          variant="outlined"
+          color="primary"
+          size="large"
+        />
+      </Box>
         </div>
     );
 };

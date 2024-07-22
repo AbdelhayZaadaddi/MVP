@@ -28,6 +28,7 @@ import LandingPage from './Components/LandingPage/LandingPage';
 import EditOrder from './Components/Orders/EditOrder';
 import HomePage from './Components/HomePage/HomePage';
 import ProductsPage from './Components/Products/ProductsPage';
+import RoleBasedComponent from './utils/RoleBasedComponent';
 
 const MainNavbar = withAuth(Navbar);
 
