@@ -22,11 +22,7 @@ import FilterListIcon from '@mui/icons-material/FilterList';
 import CloseIcon from '@mui/icons-material/Close';
 import DefauIm from '../../assets/def.jpg';
 import ProductModal from './ProductModal';
-import { Link } from 'react-router-dom';
-
-import '../../App.css';
-
-
+import Pagination from '@mui/material/Pagination';
 
 const Products = () => {
   const [products, setProducts] = useState([]);
@@ -41,23 +37,28 @@ const Products = () => {
   const [selectedProductId, setSelectedProductId] = useState(null);
   const [filterModalOpen, setFilterModalOpen] = useState(false);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [totalPages, setTotalPages] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
-    fetchProducts();
-  }, [category, city, company, date, sortBy]);
+    fetchProductsPage(currentPage);
+  }, [currentPage, category, city, company, date, sortBy]);
 
-  const fetchProducts = () => {
+  const fetchProductsPage = (page) => {
     setIsLoading(true);
-    const params = {};
-    if (category) params.category = category;
-    if (city) params.city_name = city;
-    if (company) params.company_name = company;
-    if (date) params.date = date;
-    params.sort_by = sortBy;
+    const params = {
+      category,
+      city_name: city,
+      company_name: company,
+      date,
+      sort_by: sortBy,
+      page,
+    };
 
-    axiosInstance.get('products/', { params })
+    axiosInstance.get('products/all/', { params })
       .then(response => {
-        setProducts(response.data);
+        setProducts(Array.isArray(response.data.results) ? response.data.results : []);
+        setTotalPages(Math.ceil(response.data.count / 10)); // Adjust based on your page size
         setIsLoading(false);
       })
       .catch(error => {
@@ -102,7 +103,7 @@ const Products = () => {
     const companies = new Set(products.map(product => product.company_name));
     return Array.from(companies);
   };
-  
+
   const addToCart = (productId) => {
     const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
     const existingItem = cartItems.find(item => item.id === productId);
@@ -122,9 +123,12 @@ const Products = () => {
     }, 4000); // Snackbar will be hidden after 4 seconds
   };
 
+  const handlePageChange = (event, page) => {
+    setCurrentPage(page);
+  };
+
   return (
     <div className='mt-5'>
-      
       <div className='filter-bar'>
         <Button
           startIcon={<FilterListIcon />}
@@ -208,10 +212,16 @@ const Products = () => {
               </FormControl>
             </div>
             <div className='filter-modal-footer'>
-              <Button onClick={resetFilters} sx={{ backgroundColor: '#154c79', color: 'white' }}>
+              <Button
+                onClick={resetFilters}
+                sx={{ backgroundColor: '#154c79', color: 'white' }}
+              >
                 Reset all filters
               </Button>
-              <Button onClick={handleCloseFilterModal} sx={{ backgroundColor: '#154c79', color: 'white' }}>
+              <Button
+                onClick={handleCloseFilterModal}
+                sx={{ backgroundColor: '#154c79', color: 'white' }}
+              >
                 Apply Filters
               </Button>
             </div>
@@ -219,76 +229,91 @@ const Products = () => {
         </Fade>
       </Modal>
 
-      {isLoading && <Box className='flex justify-center'><CircularProgress /></Box>}
-      <div className='grid grid-cols-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 m-2'>
-        {products.map(product => (
-          <div key={product.id} onClick={() => handleOpenModal(product.id)} className='cursor-pointer'>
-            <Card sx={{ maxWidth: 450 }}>
-              <div className='h-[180px]'>
+      {isLoading ? (
+        <Box className='flex justify-center'>
+          <CircularProgress />
+        </Box>
+      ) : error ? (
+        <Box className='flex justify-center'>
+          <Typography variant="h6" color="error">
+            {error}
+          </Typography>
+        </Box>
+      ) : (
+        <div className='card-grid'>
+          {products.map(product => (
+            <Card key={product.id} sx={{ maxWidth: 350 }} className='cursor-pointer card-item' onClick={() => handleOpenModal(product.id)}>
+              <div className='image-container'>
                 <img
-                  className='w-full h-full object-cover object-center'
+                  className='product-image'
                   src={product.image || DefauIm}
                   alt="product image"
                 />
               </div>
-              <CardActionArea className='h-[600px] max-h-[100px] bg-[#d6d1ca]'>
+              <CardActionArea className='max-h-[100px] bg-[#d6d1ca]'>
                 <CardContent className='h-[100px]'>
                   <Typography gutterBottom component="div" style={{ fontSize: '15px' }}>
                     {product.name.substring(0, 45)}
                   </Typography>
-
                   <Typography style={{ fontSize: '14px' }} color="text.secondary">
                     Company: {product.company_name}
                   </Typography>
-
                   <Typography style={{ fontSize: '14px' }} color="text.secondary">
                     City: {product.city_name}
                   </Typography>
-
-                  <Typography style={{ fontSize: '14px' }} color="text.secondary">
-                    Price: {product.price} $
-                  </Typography>
                 </CardContent>
               </CardActionArea>
-
-              <Button onClick={() => addToCart(product.id)} variant="contained" size="small" className='mx-3 my-3 mt-5' sx={{
+              <Button onClick={(e) => {
+                e.stopPropagation(); // Prevent the card click event
+                addToCart(product.id);
+              }} variant="contained" size="small" className='mx-3 my-3' style={{
                 backgroundColor: '#154c79',
                 color: 'white'
               }}>Add to Cart</Button>
             </Card>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
+
+      <Modal
+        open={modalOpen}
+        onClose={handleCloseModal}
+        closeAfterTransition
+        BackdropComponent={Backdrop}
+        BackdropProps={{
+          timeout: 500,
+        }}
+      >
+        <Fade in={modalOpen}>
+          <Box>
+            {selectedProductId && (
+              <ProductModal
+                open={modalOpen}
+                handleClose={handleCloseModal}
+                productId={selectedProductId}
+              />
+            )}
+          </Box>
+        </Fade>
+      </Modal>
+
+      <Box className='pagination-container'>
+        <Pagination
+          count={totalPages}
+          page={currentPage}
+          onChange={handlePageChange}
+          color="primary"
+        />
+      </Box>
 
       <Snackbar
-        anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
         open={snackbarOpen}
+        message="Product added to cart"
         autoHideDuration={4000}
         onClose={() => setSnackbarOpen(false)}
-        message={
-          <Typography variant="body2" sx={{ color: 'white' }}>
-            Product added to cart
-          </Typography>
-        }
-        action={
-          <IconButton size="small" aria-label="close" color="inherit" onClick={() => setSnackbarOpen(false)}>
-            <CloseIcon fontSize="small" />
-          </IconButton>
-        }
-        sx={{
-          backgroundColor: '#154c79',
-        }}
       />
-
-      <ProductModal open={modalOpen} handleClose={handleCloseModal} productId={selectedProductId} />
-
-      <div className='flex justify-center my-3'>
-      <Button variant="outlined" size="medium">
-          <Link to="all/products " className="no-text-decoration">Show all Products</Link>
-        </Button>
-        </div>
     </div>
   );
-}
+};
 
 export default Products;
