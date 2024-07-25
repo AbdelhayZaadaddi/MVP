@@ -38,27 +38,24 @@ const Products = () => {
   const [filterModalOpen, setFilterModalOpen] = useState(false);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [totalPages, setTotalPages] = useState(1);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1); // Add this line
 
   useEffect(() => {
-    fetchProductsPage(currentPage);
-  }, [currentPage, category, city, company, date, sortBy]);
+    fetchProducts();
+  }, [category, city, company, date, sortBy]);
 
-  const fetchProductsPage = (page) => {
+  const fetchProducts = () => {
     setIsLoading(true);
-    const params = {
-      category,
-      city_name: city,
-      company_name: company,
-      date,
-      sort_by: sortBy,
-      page,
-    };
+    const params = {};
+    if (category) params.category = category;
+    if (city) params.city_name = city;
+    if (company) params.company_name = company;
+    if (date) params.date = date;
+    params.sort_by = sortBy;
 
-    axiosInstance.get('products/all/', { params })
+    axiosInstance.get('products/', { params })
       .then(response => {
-        setProducts(Array.isArray(response.data.results) ? response.data.results : []);
-        setTotalPages(Math.ceil(response.data.count / 10)); // Adjust based on your page size
+        setProducts(response.data);
         setIsLoading(false);
       })
       .catch(error => {
@@ -103,7 +100,7 @@ const Products = () => {
     const companies = new Set(products.map(product => product.company_name));
     return Array.from(companies);
   };
-
+  
   const addToCart = (productId) => {
     const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
     const existingItem = cartItems.find(item => item.id === productId);
@@ -121,6 +118,24 @@ const Products = () => {
     setTimeout(() => {
       setSnackbarOpen(false);
     }, 4000); // Snackbar will be hidden after 4 seconds
+  };
+
+  useEffect(() => {
+    fetchProductsPage(currentPage);
+  }, [currentPage]);
+
+  const fetchProductsPage = (page) => {
+    setIsLoading(true);
+    axiosInstance.get(`products/?page=${page}`)
+      .then(response => {
+        setProducts(response.data.results);
+        setTotalPages(Math.ceil(response.data.count / 10)); // Adjust based on your page size
+        setIsLoading(false);
+      })
+      .catch(error => {
+        console.error('Error fetching orders: ', error);
+        setIsLoading(false);
+      });
   };
 
   const handlePageChange = (event, page) => {
@@ -212,16 +227,10 @@ const Products = () => {
               </FormControl>
             </div>
             <div className='filter-modal-footer'>
-              <Button
-                onClick={resetFilters}
-                sx={{ backgroundColor: '#154c79', color: 'white' }}
-              >
+              <Button onClick={resetFilters} sx={{ backgroundColor: '#154c79', color: 'white' }}>
                 Reset all filters
               </Button>
-              <Button
-                onClick={handleCloseFilterModal}
-                sx={{ backgroundColor: '#154c79', color: 'white' }}
-              >
+              <Button onClick={handleCloseFilterModal} sx={{ backgroundColor: '#154c79', color: 'white' }}>
                 Apply Filters
               </Button>
             </div>
@@ -229,91 +238,87 @@ const Products = () => {
         </Fade>
       </Modal>
 
-      {isLoading ? (
-        <Box className='flex justify-center'>
-          <CircularProgress />
-        </Box>
-      ) : error ? (
-        <Box className='flex justify-center'>
-          <Typography variant="h6" color="error">
-            {error}
-          </Typography>
-        </Box>
-      ) : (
-        <div className='card-grid'>
-          {products.map(product => (
-            <Card key={product.id} sx={{ maxWidth: 350 }} className='cursor-pointer card-item' onClick={() => handleOpenModal(product.id)}>
-              <div className='image-container'>
+      {isLoading && <Box className='flex justify-center'><CircularProgress /></Box>}
+      <div className='grid grid-cols-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 m-2'>
+        {products.map((product) => (
+          <div key={product.id} onClick={() => handleOpenModal(product.id)} className='cursor-pointer'>
+            <Card sx={{ maxWidth: 450 }}>
+              <div className='h-[180px]'>
                 <img
-                  className='product-image'
+                  className='w-full h-full object-cover object-center'
                   src={product.image || DefauIm}
                   alt="product image"
                 />
               </div>
-              <CardActionArea className='max-h-[100px] bg-[#d6d1ca]'>
+              <CardActionArea className='h-[600px] max-h-[100px] bg-[#d6d1ca]'>
                 <CardContent className='h-[100px]'>
                   <Typography gutterBottom component="div" style={{ fontSize: '15px' }}>
                     {product.name.substring(0, 45)}
                   </Typography>
+
                   <Typography style={{ fontSize: '14px' }} color="text.secondary">
                     Company: {product.company_name}
                   </Typography>
                   <Typography style={{ fontSize: '14px' }} color="text.secondary">
+                    Category: {product.category}
+                  </Typography>
+                  <Typography style={{ fontSize: '14px' }} color="text.secondary">
                     City: {product.city_name}
                   </Typography>
+                  <Typography style={{ fontSize: '14px' }} color="text.secondary">
+                    Profile Date: {new Date(product.date).toLocaleDateString()}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    {product.description.substring(0, 150)}
+                  </Typography>
+                  <Button
+                    className='w-full p-2 text-white'
+                    style={{ backgroundColor: '#154c79', color: 'white', fontSize: '14px' }}
+                    onClick={(event) => {
+                      event.stopPropagation();
+                      addToCart(product.id);
+                    }}
+                  >
+                    Add to cart
+                  </Button>
                 </CardContent>
               </CardActionArea>
-              <Button onClick={(e) => {
-                e.stopPropagation(); // Prevent the card click event
-                addToCart(product.id);
-              }} variant="contained" size="small" className='mx-3 my-3' style={{
-                backgroundColor: '#154c79',
-                color: 'white'
-              }}>Add to Cart</Button>
             </Card>
-          ))}
-        </div>
-      )}
+          </div>
+        ))}
+      </div>
 
-      <Modal
-        open={modalOpen}
-        onClose={handleCloseModal}
-        closeAfterTransition
-        BackdropComponent={Backdrop}
-        BackdropProps={{
-          timeout: 500,
-        }}
-      >
-        <Fade in={modalOpen}>
-          <Box>
-            {selectedProductId && (
-              <ProductModal
-                open={modalOpen}
-                handleClose={handleCloseModal}
-                productId={selectedProductId}
-              />
-            )}
-          </Box>
-        </Fade>
-      </Modal>
-
-      <Box className='pagination-container'>
+      <Box display="flex" justifyContent="center" my={4}>
         <Pagination
           count={totalPages}
           page={currentPage}
           onChange={handlePageChange}
+          variant="outlined"
           color="primary"
+          size="large"
         />
       </Box>
 
+      <ProductModal
+        open={modalOpen}
+        onClose={handleCloseModal}
+        productId={selectedProductId}
+      />
+
       <Snackbar
         open={snackbarOpen}
-        message="Product added to cart"
         autoHideDuration={4000}
         onClose={() => setSnackbarOpen(false)}
+        message="Product added to cart"
+        action={
+          <IconButton size="small" aria-label="close" color="inherit" onClick={() => setSnackbarOpen(false)}>
+            <CloseIcon fontSize="small" />
+          </IconButton>
+        }
       />
     </div>
   );
 };
 
 export default Products;
+

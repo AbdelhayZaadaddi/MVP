@@ -1,6 +1,7 @@
 from rest_framework import serializers
-from .models import NewUser
+from .models import NewUser, Company, Employee, Trader
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+
 
 class CustomUserSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(required=True)
@@ -10,7 +11,7 @@ class CustomUserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = NewUser
-        fields = ('email', 'user_name', 'password', 'password_confirm', 'role')
+        fields = ('email', 'user_name', 'first_name', 'start_date', 'role', 'is_staff', 'is_active', 'password', 'password_confirm')
         extra_kwargs = {
             'password': {'write_only': True},
             'password_confirm': {'write_only': True}
@@ -40,6 +41,43 @@ class CustomUserSerializer(serializers.ModelSerializer):
         instance.save()
         return instance
 
+
+class CompanySerializer(CustomUserSerializer):
+    company_name = serializers.CharField(required=False, allow_blank=True)
+    address = serializers.CharField(required=False, allow_blank=True)
+    phone = serializers.CharField(required=False, allow_blank=True)
+
+    class Meta(CustomUserSerializer.Meta):
+        model = Company
+        fields = CustomUserSerializer.Meta.fields + ('company_name', 'address', 'phone')
+
+
+
+class EmployeeSerializer(CustomUserSerializer):
+    company_e = serializers.PrimaryKeyRelatedField(queryset=Company.objects.all())
+    employee_name = serializers.CharField(required=False, allow_blank=True)
+    last_name = serializers.CharField(required=False, allow_blank=True)
+    address = serializers.CharField(required=False, allow_blank=True)
+    phone = serializers.CharField(required=False, allow_blank=True)
+
+    class Meta(CustomUserSerializer.Meta):
+        model = Employee
+        fields = CustomUserSerializer.Meta.fields + ('company_e', 'employee_name', 'last_name', 'address', 'phone')
+
+
+class TraderSerializer(CustomUserSerializer):
+    company_name = serializers.CharField(required=False, allow_blank=True)
+    address = serializers.CharField(required=False, allow_blank=True)
+    phone = serializers.CharField(required=False, allow_blank=True)
+
+    class Meta(CustomUserSerializer.Meta):
+        model = Trader
+        fields = CustomUserSerializer.Meta.fields + ('company_name', 'address', 'phone')
+
+
+
+
+
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
     def get_token(cls, user):
@@ -52,3 +90,4 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         data = super().validate(attrs)
         data['role'] = self.user.role
         return data
+

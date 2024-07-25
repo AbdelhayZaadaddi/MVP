@@ -21,7 +21,7 @@ const UserProfile = () => {
     }, []);
 
     return (
-        <div className='user-profile'>
+        <div className='block user-profile'>
             {isLoading && <div>Loading...</div>}
             {error && <div>Error: {error}</div>}
             {user && (

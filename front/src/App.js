@@ -26,6 +26,9 @@ import { AuthProvider } from './utils/AuthContext';
 
 import LandingPage from './Components/LandingPage/LandingPage';
 import EditOrder from './Components/Orders/EditOrder';
+import HomePage from './Components/HomePage/HomePage';
+import ProductsPage from './Components/Products/ProductsPage';
+import RoleBasedComponent from './utils/RoleBasedComponent';
 
 const MainNavbar = withAuth(Navbar);
 
@@ -39,19 +42,14 @@ function App() {
 				
                 <div className='main-content'>
                     {/* Render UserProfile only when not on register, login, or logout routes */}
-                    {location.pathname !== '/register' && location.pathname !== '/page' && location.pathname !== '/login' && location.pathname !== '/logout' && (
-                        <div className='user-profile-container'>
-                            <UserProfile />
-                        </div>
-                    )}
+                    
                     <div className='content-section'>
                         {/* Conditionally render Ads component */}
-                        {location.pathname === '/' && <Ads />}
                         <Routes>
-                            <Route path='/page' element={<LandingPage />} />
-                            <Route path="/register" element={<Register />} />
-                            <Route path="/login" element={<Login />} />
-                            <Route exact path='/' element={<ProtectedRoute><Products /></ProtectedRoute>} />
+                            <Route path='/page' element={<PublicRoute><LandingPage /></PublicRoute>} />
+                            <Route path="/register" element={<PublicRoute><Register /></PublicRoute>} />
+                            <Route path="/login" element={<PublicRoute><Login /></PublicRoute>} />
+                            <Route exact path='/' element={<ProtectedRoute><HomePage /></ProtectedRoute>} />
                             <Route path="/product/:id" element={<ProtectedRoute><ProductDetail /></ProtectedRoute>} />
                             <Route path="/profile" element={<ProtectedRoute><UserProfile /></ProtectedRoute>} />
                             <Route path="/logout" element={<ProtectedRoute><Logout /></ProtectedRoute>} />
@@ -63,6 +61,7 @@ function App() {
                             <Route path="/orders/edit/:id" element={<ProtectedRoute><EditOrder /></ProtectedRoute>} />
                             <Route path="/bonus" element={<ProtectedRoute><Bonus /></ProtectedRoute>} />
                             <Route path="/setting" element={<ProtectedRoute><Setting /></ProtectedRoute>} />
+                            <Route path="/all/products" element={<ProtectedRoute><ProductsPage /></ProtectedRoute>} />
                         </Routes>
                     </div>
                 </div>
