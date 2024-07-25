@@ -185,8 +185,6 @@ CORS_ALLOWED_ORIGINS = [
 ]
 
 
-ALLOWED_HOSTS = ['10.0.2.2', 'localhost', '127.0.0.1']
-
 CORS_ALLOW_ALL_ORIGINS = True
 
 
