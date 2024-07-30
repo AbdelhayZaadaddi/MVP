@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from products.models import Product
-from .models import Order, OrderItem, OrderStatus, OrdersStatistics
+from .models import Order, OrderItem, OrderStatus
 from rest_framework.response import Response
-from .serializers import OrderItemSerializer, OrderSerializer, OrdersStatisticsSerializer
+from .serializers import OrderItemSerializer, OrderSerializer
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
@@ -88,18 +88,3 @@ def delete_order(request, pk):
         return Response({'message': 'Order deleted successfully'}, status=status.HTTP_202_ACCEPTED)
     except Order.DoesNotExist:
         return Response({'message': 'Order not found'}, status=status.HTTP_404_NOT_FOUND)
-
-
-
-#  The Orders Statistics
-@api_view(['GET'])
-@permission_classes([IsAuthenticated])
-def get_orders_statistics(request):
-    try:
-        statistics = OrdersStatistics.objects.all()
-        if not statistics.exists():
-            return Response({'message': 'No statistics available'}, status=status.HTTP_404_NOT_FOUND)
-        serializer = OrdersStatisticsSerializer(statistics, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-    except Exception as e:
-        return Response({'message': 'An error occurred while fetching the statistics'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
