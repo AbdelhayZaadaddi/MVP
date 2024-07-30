@@ -2,6 +2,11 @@ from django.db import models
 from django.conf import settings
 from products.models import Product
 from accounts.models import NewUser
+from django.utils import timezone
+from datetime import timedelta
+from django.db.models import Sum, Count
+import logging
+
 
 class OrderStatus(models.TextChoices):
     PROCESSING = 'Processing'
@@ -43,3 +48,39 @@ class OrderItem(models.Model):
 
     def __str__(self):
         return self.product.name
+    
+
+
+class OrdersStatistics(models.Model):
+    data = models.DateField()
+    num_orders = models.IntegerField(default=0)
+    total_sales = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+
+    @classmethod
+    def update_daily_statistics(cls):
+        today = timezone.now().date()
+        orders_today = Order.objects.filter(created_at__date=today)
+        num_orders = orders_today.count()
+        total_price = orders_today.aggregate(Sum('total'))['total__sum'] or 0.00
+
+        cls.objects.update_or_create(
+            date=today,
+            defaults={'num_orders': num_orders, 'total_price': total_price}
+        )
+    
+    @classmethod
+    def update_weekly_statistics(cls):
+        today = timezone.now().date()
+        start_of_week = today - timedelta(days=today.weekday())
+        end_of_week = start_of_week + timedelta(days=6)
+        orders_this_week = Order.objects.filter(created_at__date__range=[start_of_week, end_of_week])
+        num_orders = orders_this_week.count()
+        total_price = orders_this_week.aggregate(Sum('total'))['total__sum'] or 0.00
+
+        cls.objects.update_or_create(
+            date=start_of_week,
+            defaults={'num_orders': num_orders, 'total_price': total_price}
+        )
+
+    def __str__(self):
+        return f"Statistics for {self.date}: {self.num_orders} orders, Total Price: {self.total_price}"
