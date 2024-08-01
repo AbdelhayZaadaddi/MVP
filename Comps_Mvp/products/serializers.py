@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Product, Company, City
+from .models import Product, Company, City, ProductReview
 
 class ProductSerializer(serializers.ModelSerializer):
     image = serializers.ImageField(required=False)
@@ -57,3 +57,9 @@ class ProductSerializer(serializers.ModelSerializer):
         instance.save()
 
         return instance
+
+
+class ProductReviewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProductReview
+        fields = '__all__'

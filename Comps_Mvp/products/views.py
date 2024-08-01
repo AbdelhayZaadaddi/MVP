@@ -2,8 +2,8 @@ from rest_framework.decorators import api_view, permission_classes, parser_class
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.response import Response
 from rest_framework import status
-from .models import Product, City, Company
-from .serializers import ProductSerializer 
+from .models import Product, City, Company, ProductReview
+from .serializers import ProductSerializer, ProductReviewSerializer
 from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import get_object_or_404
 from django.db.models import Q
@@ -108,3 +108,42 @@ def product_detail_update_delete(request, pk):
     elif request.method == 'DELETE':
         product.delete()
         return Response({'message': 'Product deleted successfully'}, status=status.HTTP_204_NO_CONTENT)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_product_review(request, pk):
+    product = get_object_or_404(Product, pk=pk)
+    reviews = product.reviews.all()
+    serializer = ProductReviewSerializer(reviews, many=True)
+    return Response(serializer.data)
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def add_product_review(request, pk):
+    product = get_object_or_404(Product, pk=pk)
+    serializer = ProductReviewSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save(product=product)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET', 'PUT', 'DELETE'])
+@permission_classes([IsAuthenticated])
+def product_review_detail_update_delete(request, pk):
+    review = get_object_or_404(ProductReview, pk=pk)
+
+    if request.method == 'GET':
+        serializer = ProductReviewSerializer(review)
+        return Response(serializer.data)
+
+    elif request.method == 'PUT':
+        serializer = ProductReviewSerializer(review, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    elif request.method == 'DELETE':
+        review.delete()
+        return Response({'message': 'Review deleted successfully'}, status=status.HTTP_204_NO_CONTENT)
