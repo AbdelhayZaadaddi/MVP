@@ -10,7 +10,9 @@ urlpatterns = [
     path('products/', views.product_list_create, name='product_list_create'),
     path('products/<int:pk>/', views.product_detail_update_delete, name='product_detail_update_delete'),
     path('products/all/', views.products_list, name='products_lis'),
-
+    path('products/<int:pk>/reviews/', views.get_product_reviews, name='product_reviews'),
+    path('products/<int:pk>/reviews/create/', views.add_product_review, name='create_product_review'),
+    path('products/<int:pk>/reviews/up', views.product_detail_update_delete, name='product_review_detail_update_delete'),
 ]
 
 if settings.DEBUG:

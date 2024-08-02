@@ -4,6 +4,7 @@ import DefImg from '../../assets/def.jpg';
 import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
 import CloseIcon from '@mui/icons-material/Close';
+import Reviews from '../Reviews/Reviews.js';
 
 const ProductDetail = ({ id, onClose }) => {
   const [product, setProduct] = useState(null);
@@ -95,7 +96,10 @@ const ProductDetail = ({ id, onClose }) => {
             </div>
           </div>
         </div>
+        <Reviews id={id} />
       </div>
+
+
     </div>
   );
 };

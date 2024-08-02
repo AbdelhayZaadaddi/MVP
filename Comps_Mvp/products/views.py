@@ -112,7 +112,7 @@ def product_detail_update_delete(request, pk):
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
-def get_product_review(request, pk):
+def get_product_reviews(request, pk):
     product = get_object_or_404(Product, pk=pk)
     reviews = product.reviews.all()
     serializer = ProductReviewSerializer(reviews, many=True)
