@@ -125,6 +125,8 @@ const CreateProduct = () => {
                     margin="normal"
                     variant="outlined"
                     onChange={handleChange}
+                    multiline
+                    rows={4}
                 />
 
                 <TextField

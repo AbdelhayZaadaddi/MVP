@@ -30,6 +30,7 @@ import HomePage from './Components/HomePage/HomePage';
 import ProductsPage from './Components/Products/ProductsPage';
 import RoleBasedComponent from './utils/RoleBasedComponent';
 
+
 const MainNavbar = withAuth(Navbar);
 
 function App() {

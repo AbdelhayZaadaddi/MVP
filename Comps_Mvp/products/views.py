@@ -8,6 +8,8 @@ from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import get_object_or_404
 from django.db.models import Q
 from rest_framework.pagination import PageNumberPagination
+from order.models import OrderItem
+from django.db.models import Count
 
 
 @api_view(['GET'])
@@ -147,3 +149,13 @@ def product_review_detail_update_delete(request, pk):
     elif request.method == 'DELETE':
         review.delete()
         return Response({'message': 'Review deleted successfully'}, status=status.HTTP_204_NO_CONTENT)
+    
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def trending_products(request):
+    trending_products = Product.objects.annotate(order_count=Count('orderitem')).order_by('-order_count')[:10]
+
+    serializer = ProductSerializer(trending_products, many=True, context={'request': request})
+
+    return Response(serializer.data)

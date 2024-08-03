@@ -128,7 +128,7 @@ const Products = () => {
   };
 
   return (
-    <div className='mt-5'>
+    <div className='mt-5 animate-fadeIn'>
       <div className='filter-bar'>
         <Button
           startIcon={<FilterListIcon />}
