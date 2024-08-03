@@ -23,6 +23,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import DefauIm from '../../assets/def.jpg';
 import ProductModal from './ProductModal';
 import Pagination from '@mui/material/Pagination';
+import { Link } from 'react-router-dom';
 
 const Products = () => {
   const [products, setProducts] = useState([]);
@@ -243,6 +244,7 @@ const Products = () => {
         <div className='card-grid'>
           {products.map(product => (
             <Card key={product.id} sx={{ maxWidth: 350 }} className='cursor-pointer card-item' onClick={() => handleOpenModal(product.id)}>
+              <Link  to={`/product/${product.id}`} className='no-underline '>
               <div className='image-container'>
                 <img
                   className='product-image'
@@ -252,7 +254,7 @@ const Products = () => {
               </div>
               <CardActionArea className='max-h-[100px] bg-[#d6d1ca]'>
                 <CardContent className='h-[100px]'>
-                  <Typography gutterBottom component="div" style={{ fontSize: '15px' }}>
+                  <Typography gutterBottom component="div" style={{ fontSize: '15px' }} className='text-slate-950'>
                     {product.name.substring(0, 45)}
                   </Typography>
                   <Typography style={{ fontSize: '14px' }} color="text.secondary">
@@ -263,6 +265,7 @@ const Products = () => {
                   </Typography>
                 </CardContent>
               </CardActionArea>
+              </Link>
               <Button onClick={(e) => {
                 e.stopPropagation(); // Prevent the card click event
                 addToCart(product.id);
