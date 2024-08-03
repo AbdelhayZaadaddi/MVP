@@ -32,7 +32,7 @@ const Register = () => {
       return;
     }
     axiosInstance
-      .post('register/', {
+      .post('create/', {
         email: formData.email,
         user_name: formData.user_name,
         first_name: formData.first_name,
