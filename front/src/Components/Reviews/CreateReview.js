@@ -1,19 +1,24 @@
-import { Box, Button, TextField, Alert } from "@mui/material";
-import axiosInstance from "../../axios";
-import { useState } from "react";
+import React, { useState } from 'react';
+import { Box, TextField, Alert } from '@mui/material';
+import Rating from '@mui/material/Rating';
+import axiosInstance from '../../axios';
 
 const CreateReview = ({ productId }) => {
-    const [formData, setFormData] = useState({
-        rating: '',
-        review: ''
-    });
+    const [formData, setFormData] = useState({ rating: 0, review: '' });
     const [alertVisible, setAlertVisible] = useState(false);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({
             ...formData,
-            [name]: value
+            [name]: value,
+        });
+    };
+
+    const handleRatingChange = (event, newValue) => {
+        setFormData({
+            ...formData,
+            rating: newValue,
         });
     };
 
@@ -35,17 +40,14 @@ const CreateReview = ({ productId }) => {
     };
 
     return (
-        <Box>
-            <h1>Create Review</h1>
+        <div className='mt-5'>
+            <h4 className='text-center'>Create Review</h4>
             {alertVisible && <Alert severity="success">Review created successfully!.</Alert>}
             <form onSubmit={handleSubmit}>
-                <TextField
-                    label="Rating"
+                <Rating
                     name="rating"
                     value={formData.rating}
-                    onChange={handleChange}
-                    fullWidth
-                    margin="normal"
+                    onChange={handleRatingChange}
                 />
                 <TextField
                     label="Review"
@@ -54,14 +56,10 @@ const CreateReview = ({ productId }) => {
                     onChange={handleChange}
                     fullWidth
                     margin="normal"
-                    multiline
-                    rows={4}
                 />
-                <Button type="submit" variant="contained" color="primary">
-                    Submit
-                </Button>
+                <button type="submit" className='inline-flex w-full mt-1 items-center justify-center rounded-md border-2 border-transparent bg-gray-900 bg-none px-12 py-3 text-center text-base font-bold text-white transition-all duration-200 ease-in-out focus:shadow hover:bg-gray-800'>Submit</button>
             </form>
-        </Box>
+        </div>
     );
 };
 
