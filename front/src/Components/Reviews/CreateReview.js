@@ -1,4 +1,4 @@
-import { Box, Button, TextField } from "@mui/material";
+import { Box, Button, TextField, Alert } from "@mui/material";
 import axiosInstance from "../../axios";
 import { useState } from "react";
 
@@ -7,6 +7,7 @@ const CreateReview = ({ productId }) => {
         rating: '',
         review: ''
     });
+    const [alertVisible, setAlertVisible] = useState(false);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -22,7 +23,10 @@ const CreateReview = ({ productId }) => {
         axiosInstance.post(`products/${productId}/reviews/create/`, dataToSend)
             .then(response => {
                 console.log('Review created successfully:', response.data);
-                // Handle successful response
+                setAlertVisible(true);
+                setTimeout(() => {
+                    setAlertVisible(false);
+                }, 5000);
             })
             .catch(error => {
                 console.error('There was an error creating the review!', error);
@@ -33,6 +37,7 @@ const CreateReview = ({ productId }) => {
     return (
         <Box>
             <h1>Create Review</h1>
+            {alertVisible && <Alert severity="success">Review created successfully!.</Alert>}
             <form onSubmit={handleSubmit}>
                 <TextField
                     label="Rating"

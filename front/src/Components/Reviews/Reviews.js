@@ -24,6 +24,14 @@ const Reviews = ({ id }) => {
     return (
         <div>
             <h1>Reviews</h1>
+            {isLoading && <p>Loading...</p>}
+            {error && <p>{error}</p>}
+            {reviews.map(review => (
+                <div key={review.id}>
+                    <h3>{review.rating}</h3>
+                    <p>{review.review}</p>
+                </div>
+            ))}
         </div>
     )
 }
