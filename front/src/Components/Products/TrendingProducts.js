@@ -25,7 +25,7 @@ const TrendingProducts = () => {
             <div className="grid grid-cols-1 md:grid-cols-5 gap-4 justify-end">
                 
                 {Products.map((product) => (
-                    <Link key={product.id} to={`/product/${product.id}`} className="border border-gray-300 rounded p-4 no-underline text-black animate-fadeIn animate-bounce"> 
+                    <Link key={product.id} to={`/product/${product.id}`} className="border border-gray-300 rounded p-4 no-underline text-black animate-fadeIn"> 
                         <img src={product.image} alt={product.name} className="w-full h-24 object-cover" />
                         <h2 className="text-sm font-bold mt-2">{product.name}</h2>
                     </Link>
