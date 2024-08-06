@@ -6,6 +6,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import TokenObtainPairView
 from .models import NewUser
 from .serializers import CustomUserSerializer, MyTokenObtainPairSerializer, CompanySerializer, EmployeeSerializer, TraderSerializer
+from .permission import IsCompany
 import logging
 
 class UserCreate(APIView):
@@ -76,3 +77,23 @@ class BlacklistTokenUpdateView(APIView):
 class MyTokenObtainPairView(TokenObtainPairView):
     permission_classes = (AllowAny,)
     serializer_class = MyTokenObtainPairSerializer
+
+
+class AddEmployeeView(APIView):
+    permission_classes = [IsCompany]
+
+    def post(self, request, *args, **kwargs):
+        company = request.user
+        if company.role != NewUser.Role.COMPANY:
+            return Response({"detail": "Only companies can add employees."}, status=status.HTTP_403_FORBIDDEN)
+
+        data = request.data.copy()
+        data['company_e'] = company.pk
+        serializer = EmployeeSerializer(data=data)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            logger.error("Serializer errors: %s", serializer.errors)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import axiosInstance from '../../axios';
 
 const Statistics = () => {
@@ -30,28 +31,51 @@ const Statistics = () => {
     }
 
     return (
-        <div>
-            <h1>Statistics</h1>
-            <h2>Today</h2>
-            <p>Total Income: {statistics.today.total_income}</p>
-            <p>Total Items: {statistics.today.total_items}</p>
-            <p>Total Orders: {statistics.today.total_orders}</p>
-
-            <h2>This Week</h2>
-            <p>Total Income: {statistics.this_week.total_income}</p>
-            <p>Total Items: {statistics.this_week.total_items}</p>
-            <p>Total Orders: {statistics.this_week.total_orders}</p>
-
-            <h2>This Month</h2>
-            <p>Total Income: {statistics.this_month.total_income}</p>
-            <p>Total Items: {statistics.this_month.total_items}</p>
-            <p>Total Orders: {statistics.this_month.total_orders}</p>
-
-            <h2>Overall</h2>
-            <p>Total Income: {statistics.total_income}</p>
-            <p>Total Items: {statistics.total_items}</p>
-            <p>Total Orders: {statistics.total_orders}</p>
+      <div className='bg-gray-100 p-8 m-2'>
+      <h1 className='text-3xl font-bold mb-8 text-center text-gray-500'>Statistics</h1>
+    
+      <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5'>
+        <div className='bg-white rounded-lg shadow-md p-6'>
+          <div className='flex justify-between'>
+            <h2 className='text-2xl font-semibold mb-4 text-gray-500'>Today</h2>
+            <CalendarTodayIcon className='text-gray-500' />
+          </div>
+          
+          <p className='mb-2 text-gray-500'>Total Income: <span className='text-blue-800 text-lg mx-3'>{statistics.today.total_income}</span></p>
+          <p className='mb-2 text-gray-500'>Total Income: <span className='text-blue-800 text-lg mx-3'>{statistics.today.total_income}</span></p>
+          <p className='mb-2 text-gray-500'>Total Items:  <span className='text-blue-800 text-lg mx-3'> {statistics.today.total_items}</span></p>
+          <p className='mb-2 text-gray-500'>Total Orders: <span className='text-blue-800 text-lg mx-3'>{statistics.today.total_orders}</span></p>
         </div>
+        <div className='bg-white rounded-lg shadow-md p-6'>
+        <div className='flex justify-between'>
+            <h2 className='text-2xl font-semibold mb-4 text-gray-500'>This Week</h2>
+            <CalendarTodayIcon className='text-gray-500' />
+          </div>
+          <p className='mb- text-gray-500'>Total Income: <span className='text-blue-800 text-lg mx-3'>{statistics.this_week.total_income}</span></p>
+          <p className='mb-2 text-gray-500'>Total Items: <span className='text-blue-800 text-lg mx-3'>{statistics.this_week.total_items}</span></p>
+          <p className='text-gray-500'>Total Orders: <span className='text-blue-800 text-lg mx-3'>{statistics.this_week.total_orders}</span></p>
+        </div>
+        <div className='bg-white rounded-lg shadow-md p-6'>
+        <div className='flex justify-between'>
+            <h2 className='text-2xl font-semibold mb-4 text-gray-500'>This Month</h2>
+            <CalendarTodayIcon className='text-gray-500' />
+          </div>
+          <p className='mb-2 text-gray-500'>Total Income: <span className='text-blue-800 text-lg mx-3'>{statistics.this_month.total_income}</span></p>
+          <p className='mb-2 text-gray-500'>Total Items: <span className='text-blue-800 text-lg mx-3'>{statistics.this_month.total_items}</span></p>
+          <p className='text-gray-500'>Total Orders: <span className='text-blue-800 text-lg mx-3'>{statistics.this_month.total_orders}</span></p>
+        </div>
+        <div className='bg-white rounded-lg shadow-md p-6'>
+        <div className='flex justify-between'>
+            <h2 className='text-2xl font-semibold mb-4 text-gray-500'>Overall</h2>
+            <CalendarTodayIcon className='text-gray-500' />
+          </div>
+          <p className='mb-2 text-gray-500'>Total Income: <span className='text-blue-800 text-lg mx-3'>{statistics.total_income}</span></p>
+          <p className='mb-2 text-gray-500'>Total Items: <span className='text-blue-800 text-lg mx-3'>{statistics.total_items}</span></p>
+          <p className='text-gray-500'>Total Orders: <span className='text-blue-800 text-lg mx-3'>{statistics.total_orders}</span></p>
+        </div>
+      </div>
+    </div>
+    
     );
 };
 

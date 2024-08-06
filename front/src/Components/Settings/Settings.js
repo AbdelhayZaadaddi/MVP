@@ -6,13 +6,14 @@ import CompanySettings from './Company/CompanySettings';
 import RoleBasedComponent from '../../utils/RoleBasedComponent';
 import CompenentTEST from './test';
 import Statistcs from '../Statistics/Statistics';
+import AddEmployees from '../Account/AddEmploye';
 
 
 const Setting = () => {
   const { role } = useAuth();
 
   return (
-    <Box sx={{ padding: '20px', textAlign: 'center' }}>
+    <Box>
       <Grid container spacing={3}>
           <>
             <RoleBasedComponent roles={['admin']}>
@@ -23,16 +24,18 @@ const Setting = () => {
               <CompanySettings />
             </RoleBasedComponent>
 
-            <RoleBasedComponent roles={['trader']}>
-              <Statistcs />
-            </RoleBasedComponent>
+            
 
             
           </>
       </Grid>
 
-
-      
+      <RoleBasedComponent roles={['trader']}>
+              <Statistcs />
+            </RoleBasedComponent>
+      <RoleBasedComponent roles={['company', 'trader']}>
+        <AddEmployees />
+      </RoleBasedComponent>
       
     </Box>
   );

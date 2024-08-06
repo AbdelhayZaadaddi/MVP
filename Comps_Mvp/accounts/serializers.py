@@ -51,9 +51,6 @@ class CompanySerializer(CustomUserSerializer):
         model = Company
         fields = CustomUserSerializer.Meta.fields + ('company_name', 'address', 'phone')
 
-
-
-class EmployeeSerializer(CustomUserSerializer):
     company_e = serializers.PrimaryKeyRelatedField(queryset=Company.objects.all())
     employee_name = serializers.CharField(required=False, allow_blank=True)
     last_name = serializers.CharField(required=False, allow_blank=True)
@@ -91,3 +88,22 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         data['role'] = self.user.role
         return data
 
+
+
+class EmployeeSerializer(CustomUserSerializer):
+    company_e = serializers.PrimaryKeyRelatedField(queryset=Company.objects.all())
+    employee_name = serializers.CharField(required=False, allow_blank=True)
+    last_name = serializers.CharField(required=False, allow_blank=True)
+    address = serializers.CharField(required=False, allow_blank=True)
+    phone = serializers.CharField(required=False, allow_blank=True)
+
+    class Meta(CustomUserSerializer.Meta):
+        model = Employee
+        fields = CustomUserSerializer.Meta.fields + ('company_e', 'employee_name', 'last_name', 'address', 'phone')
+
+    def create(self, validated_data):
+        company = validated_data.pop('company_e')
+        employee = Employee.objects.create(company_e=company, **validated_data)
+        employee.set_password(validated_data['password'])
+        employee.save()
+        return employee
