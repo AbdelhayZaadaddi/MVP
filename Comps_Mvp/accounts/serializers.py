@@ -41,7 +41,6 @@ class CustomUserSerializer(serializers.ModelSerializer):
         instance.save()
         return instance
 
-
 class CompanySerializer(CustomUserSerializer):
     company_name = serializers.CharField(required=False, allow_blank=True)
     address = serializers.CharField(required=False, allow_blank=True)
@@ -50,16 +49,6 @@ class CompanySerializer(CustomUserSerializer):
     class Meta(CustomUserSerializer.Meta):
         model = Company
         fields = CustomUserSerializer.Meta.fields + ('company_name', 'address', 'phone')
-
-    company_e = serializers.PrimaryKeyRelatedField(queryset=Company.objects.all())
-    employee_name = serializers.CharField(required=False, allow_blank=True)
-    last_name = serializers.CharField(required=False, allow_blank=True)
-    address = serializers.CharField(required=False, allow_blank=True)
-    phone = serializers.CharField(required=False, allow_blank=True)
-
-    class Meta(CustomUserSerializer.Meta):
-        model = Employee
-        fields = CustomUserSerializer.Meta.fields + ('company_e', 'employee_name', 'last_name', 'address', 'phone')
 
 
 class TraderSerializer(CustomUserSerializer):
@@ -90,20 +79,27 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 
 
 
-class EmployeeSerializer(CustomUserSerializer):
-    company_e = serializers.PrimaryKeyRelatedField(queryset=Company.objects.all())
-    employee_name = serializers.CharField(required=False, allow_blank=True)
-    last_name = serializers.CharField(required=False, allow_blank=True)
-    address = serializers.CharField(required=False, allow_blank=True)
-    phone = serializers.CharField(required=False, allow_blank=True)
 
-    class Meta(CustomUserSerializer.Meta):
+class EmployeeSerializer(serializers.ModelSerializer):
+    password_confirm = serializers.CharField(write_only=True)
+
+    class Meta:
         model = Employee
-        fields = CustomUserSerializer.Meta.fields + ('company_e', 'employee_name', 'last_name', 'address', 'phone')
+        fields = ('email', 'user_name', 'first_name', 'start_date', 'role', 'is_staff', 'is_active', 'password', 'password_confirm', 'company_e', 'employee_name', 'last_name', 'address', 'phone')
+        extra_kwargs = {
+            'password': {'write_only': True},
+            'password_confirm': {'write_only': True}
+        }
+
+    def validate(self, data):
+        if data['password'] != data['password_confirm']:
+            raise serializers.ValidationError("Passwords do not match.")
+        return data
 
     def create(self, validated_data):
-        company = validated_data.pop('company_e')
-        employee = Employee.objects.create(company_e=company, **validated_data)
-        employee.set_password(validated_data['password'])
+        validated_data.pop('password_confirm')  # Remove password_confirm from validated_data
+        password = validated_data.pop('password')
+        employee = Employee(**validated_data)
+        employee.set_password(password)
         employee.save()
         return employee

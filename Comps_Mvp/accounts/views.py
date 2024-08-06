@@ -79,18 +79,23 @@ class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
 
 
+
 class AddEmployeeView(APIView):
     permission_classes = [IsCompany]
 
     def post(self, request, *args, **kwargs):
-        company = request.user
+        company = request.user  # Get the currently authenticated user
         if company.role != NewUser.Role.COMPANY:
             return Response({"detail": "Only companies can add employees."}, status=status.HTTP_403_FORBIDDEN)
 
         data = request.data.copy()
         data['company_e'] = company.pk
-        serializer = EmployeeSerializer(data=data)
+        
+        # Debug prints
+        print(f"Authenticated user: {company}")
+        print(f"Authenticated company ID: {company.pk}")
 
+        serializer = EmployeeSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
