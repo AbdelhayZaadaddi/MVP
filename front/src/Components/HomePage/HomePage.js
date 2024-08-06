@@ -7,8 +7,8 @@ import TrendingProducts from '../Products/TrendingProducts'
 const HomePage = () => {
   return (
     <div className='flex  flex-col'>
-        
         <Ads />
+        <UserProfile />
         <TrendingProducts />
         <Products />
     </div>

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axiosInstance from "../../axios"
 import { redirect } from "react-router-dom";
+import { Alert } from "@mui/material";
 
 const AddEmployees = () => {
 
@@ -8,14 +9,17 @@ const AddEmployees = () => {
         email: '',
         user_name: '',
         first_name: '',
+        password: '',
+        password_confirm: '',
         last_name: '',
         address: '',
         phone: '',
-        password: '',
-        password_confirm: '',
+        role: 'employee',
     });
 
     const [error, setError] = useState('');
+    const [message, setMessage] = useState('');
+    const [showMessage, setShowMessage] = useState(false);
 
     const handleChange = (e) => {
         setFormData({
@@ -24,24 +28,42 @@ const AddEmployees = () => {
         });
     };
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
-
-        try {
-            const response = await axiosInstance.post('/add-employee/', formData);
-            console.log('Employee added:', response.data);
-            redirect('/')// Redirect to employees list or other appropriate page
-        } catch (error) {
-            if (error.response) {
-                setError(error.response.data.detail || 'Something went wrong.');
-            } else {
-                setError('Something went wrong.');
-            }
+        if (formData.password !== formData.password_confirm) {
+            setError('Passwords do not match');
+            return;
         }
-    };
+        axiosInstance
+            .post('add-employee/',{
+                email: formData.email,
+                user_name: formData.user_name,
+                first_name: formData.first_name,
+                last_name: formData.last_name,
+                address: formData.address,
+                phone: formData.phone,
+                role: formData.role,
+                password: formData.password,
+                password_confirm: formData.password_confirm,
+
+            })
+            .then((res) => {
+                setMessage('Employee added successfully');
+                setShowMessage(true);
+                setTimeout(() => {
+                    setShowMessage(false)
+                }, 5000);
+            })
+            .catch((er) => {
+                if (er.response) {
+                    setError(`Error: ${er.response.data}`);
+                }
+            });
+    }
 
     return (
         <div className="max-w-lg mx-auto mt-10">
+            {showMessage && <Alert severity="success">{message}</Alert>}
             <h2 className="text-2xl font-bold mb-5">Add Employee</h2>
             {error && <p className="text-red-500 mb-4">{error}</p>}
             <form onSubmit={handleSubmit} className="space-y-4">
@@ -107,6 +129,16 @@ const AddEmployees = () => {
                         value={formData.phone}
                         onChange={handleChange}
                         className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    />
+                </div>
+                <div>
+                    <label className="block text-sm font-medium text-gray-700">Role:</label>
+                    <input
+                    type="text"
+                    name="role"
+                    value="employee"
+                    readOnly
+                    className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                     />
                 </div>
                 <div>
