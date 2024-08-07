@@ -13,6 +13,7 @@ const Register = () => {
     phone: '',
     password: '',
     password_confirm: '',
+    role: 'company', // Default role can be 'company'
   };
 
   const [formData, updateFormData] = useState(initialFormData);
@@ -40,7 +41,7 @@ const Register = () => {
         phone: formData.phone,
         password: formData.password,
         password_confirm: formData.password_confirm,
-        role: 'company',
+        role: formData.role, // Use the selected role
       })
       .then((res) => {
         setMessage('Registration successful. Redirecting to login page...');
@@ -129,6 +130,17 @@ const Register = () => {
             onChange={handleChange}
             className="border w-full text-base px-2 py-1 focus:outline-none focus:ring-0 focus:border-gray-500 rounded-md mb-4"
           />
+
+          <label className="block text-base mb-2">Role</label>
+          <select
+            name="role"
+            value={formData.role}
+            onChange={handleChange}
+            className="border w-full text-base px-2 py-1 focus:outline-none focus:ring-0 focus:border-gray-500 rounded-md mb-4"
+          >
+            <option value="company">Company</option>
+            <option value="trader">Trader</option>
+          </select>
 
           <div className="my-4">
             <input type="checkbox" id="terms" className="mr-2" />

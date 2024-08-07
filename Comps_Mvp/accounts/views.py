@@ -4,7 +4,7 @@ from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import TokenObtainPairView
-from .models import NewUser
+from .models import NewUser, Employee
 from .serializers import CustomUserSerializer, MyTokenObtainPairSerializer, CompanySerializer, EmployeeSerializer, TraderSerializer
 from .permission import IsCompany
 import logging
@@ -44,6 +44,8 @@ class UserProfile(APIView):
         if user.role == NewUser.Role.COMPANY:
             serializer_class = CompanySerializer
         elif user.role == NewUser.Role.EMPLOYEE:
+            # Fetch the Employee instance
+            user = Employee.objects.get(pk=user.pk)
             serializer_class = EmployeeSerializer
         elif user.role == NewUser.Role.TRADER:
             serializer_class = TraderSerializer

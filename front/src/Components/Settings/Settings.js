@@ -16,7 +16,7 @@ const Setting = () => {
     <Box>
       <Grid container spacing={3}>
           <>
-            <RoleBasedComponent roles={['admin']}>
+            <RoleBasedComponent roles={['admin', 'trader']}>
               <ProductSettings />
             </RoleBasedComponent>
 
@@ -30,9 +30,9 @@ const Setting = () => {
           </>
       </Grid>
 
-      <RoleBasedComponent roles={['trader']}>
+      <RoleBasedComponent roles={['admin', 'trader']}>
               <Statistcs />
-            </RoleBasedComponent>
+      </RoleBasedComponent>
       <RoleBasedComponent roles={['company', 'trader']}>
         <AddEmployees />
       </RoleBasedComponent>
