@@ -62,14 +62,21 @@ const OrderDetail = () => {
                 <p><strong>Payment Method:</strong> {order.payment_method}</p>
                 <p><strong>Created At:</strong> {new Date(order.created_at).toLocaleString()}</p>
                 <Button
-                    component={Link}
-                    to={`/orders/edit/${order.id}`}
-                    variant="contained"
-                    color="primary"
-                    className="mt-4"
-                >
-                    Edit Order
-                </Button>
+				  component={Link}
+				  to={`/orders/edit/${order.id}`}
+				  variant="contained"
+				  sx={{
+					backgroundColor: 'black', // Set background color to black
+					color: 'white', // Set text color to white
+					'&:hover': {
+					  backgroundColor: 'black', // Keep background color the same on hover
+					  color: 'white', // Keep text color the same on hover
+					},
+				  }}
+				  className="mt-4"
+				>
+				  Edit Order
+				</Button>
             </Paper>
             <TableContainer component={Paper} className="shadow-lg">
                 <Table sx={{ minWidth: 650 }} aria-label="order items table">

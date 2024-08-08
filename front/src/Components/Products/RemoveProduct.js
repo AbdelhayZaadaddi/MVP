@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axiosInstance from '../../axios';
-import { Box, TextField, Button, Typography, MenuItem, Alert, Stack } from '@mui/material';
+import { Box, TextField, Button, Typography, MenuItem, Alert, Stack, Grid } from '@mui/material';
 
 const RemoveProduct = () => {
   const [products, setProducts] = useState([]);
@@ -37,32 +37,50 @@ const RemoveProduct = () => {
   };
 
   return (
-    <Box className='flex flex-col items-center' sx={{ gap: 2, p: 2 }}>
+    <Box sx={{ p: 2 }}>
       {error && (
-        <Stack sx={{ width: '100%' }} spacing={2}>
+        <Stack sx={{ width: '100%', position: 'fixed', top: '10px', left: '50%', transform: 'translateX(-50%)', display:'block'}} spacing={2} className='mt-5'>
           <Alert severity="error">{error}</Alert>
         </Stack>
       )}
 
-      <Box component="form" sx={{ width: 400, p: 2, boxShadow: 3, backgroundColor: 'white', borderRadius: 1 }}>
+      <Box component="form" sx={{ maxWidth: 400, ml: 4 }}>
         <Typography variant="h5" gutterBottom>
           Remove Product
         </Typography>
-        <TextField
-          select
-          fullWidth
-          label="Select Product"
-          value={selectedProductId}
-          onChange={(e) => setSelectedProductId(e.target.value)}
-          margin="normal"
-          variant="outlined"
+
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <TextField
+              select
+              fullWidth
+              label="Select Product"
+              value={selectedProductId}
+              onChange={(e) => setSelectedProductId(e.target.value)}
+              margin="normal"
+              variant="outlined"
+            >
+              <MenuItem value=''>Select Product</MenuItem>
+              {products.map((product) => (
+                <MenuItem key={product.id} value={product.id}>{product.name}</MenuItem>
+              ))}
+            </TextField>
+          </Grid>
+        </Grid>
+
+        <Button 
+          variant="contained" 
+          sx={{
+            backgroundColor: 'black',
+            color: 'white',
+            '&:hover': {
+              backgroundColor: 'gray',
+            },
+            width: '100%',
+            mt: 2,
+          }}
+          onClick={handleRemoveProduct}
         >
-          <MenuItem value=''>Select Product</MenuItem>
-          {products.map((product) => (
-            <MenuItem key={product.id} value={product.id}>{product.name}</MenuItem>
-          ))}
-        </TextField>
-        <Button variant="contained" color="primary" fullWidth onClick={handleRemoveProduct}>
           Remove Product
         </Button>
       </Box>

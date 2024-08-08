@@ -1,17 +1,14 @@
 import React, { useState, useEffect } from 'react';
 
-import A1 from '../../assets/A1.png';
+
 import A2 from '../../assets/A2.png';
 import A3 from '../../assets/A3.png';
-import A4 from '../../assets/A4.png';
-import A5 from '../../assets/A5.png';
+
 
 const ads = [ 
-    A1,
-    A2,
+
     A3,
-    A4,
-    A5
+    A2
 ];
 
 const Ads = () => {
@@ -36,10 +33,10 @@ const Ads = () => {
     }, [currentIndex]);
 
     return (
-        <div className="carousel-container mt-5 animate-fadeIn">
-            <button className="prev-arrow" onClick={prevSlide}>&#8592;</button>
+        <div className="carousel-container mt-2 animate-fadeIn">
+		<button className="prev-arrow" onClick={prevSlide}></button>
             <img src={ads[currentIndex]} alt="Ad" className="carousel-image" />
-            <button className="next-arrow" onClick={nextSlide}>&#8594;</button>
+		<button className="next-arrow" onClick={nextSlide}></button>
         </div>
     );
 };

@@ -1,3 +1,6 @@
+html {
+  scroll-behavior: smooth;
+}
 
 /* Navbar styles */
 .navbar {
@@ -53,28 +56,30 @@
 
 .about-us-container {
   display: flex;
-  justify-content: space-between;
+  justify-content: center; 
   align-items: center;
-  padding: 100px;
+  padding-top: 90px; 
+  padding-bottom: 20px;
   max-width: 1200px;
-  margin: 0 auto;
+  margin: 0 auto; 
+  position: relative; 
 }
 
-.text-container {
+.ab-text-container {
   flex: 1;
-  padding-right: 20px;
+  margin-right: 20px; /* Space between text and image */
 }
 
-.text-container h1 {
+.ab-text-container h1 {
   font-size: 2em;
   margin-bottom: 10px;
 }
 
-.text-container p {
+.ab-text-container p {
   margin-bottom: 10px;
 }
 
-.learn-more-button {
+.ab-learn-more-button {
   background-color: black;
   color: white;
   padding: 10px 20px;
@@ -82,67 +87,17 @@
   cursor: pointer;
 }
 
-.image-container {
+.ab-image-container {
   flex: 1;
+  display: flex; 
+  justify-content: flex-end; /* Aligns image to the right */
 }
 
-.image-container img {
-  width: 100%;
+.ab-image-container img {
+  width: 65%; 
   height: auto;
 }
 
-/**/
-
-@keyframes slide {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-100%);
-  }
-}
-
-.logos {
-  overflow: hidden;
-  padding: 60px 0;
-  white-space: nowrap;
-  position: relative;
-}
-
-.logos:before,
-.logos:after {
-  position: absolute;
-  top: 0;
-  width: 250px;
-  height: 100%;
-  content: "";
-  z-index: 2;
-}
-
-.logos:before {
-  left: 0;
-  background: linear-gradient(to left, rgba(255, 255, 255, 0));
-}
-
-.logos:after {
-  right: 0;
-  background: linear-gradient(to right, rgba(255, 255, 255, 0));
-}
-
-.logos:hover .logos-slide {
-  animation-play-state: paused;
-}
-
-.logos-slide {
-  display: inline-block;
-  animation: 300s slide infinite linear;
-}
-
-.logos-slide img {
-  height: 50px;
-  margin: 0 40px;
-}
-/**/
 /* AboutUs */
 
 
@@ -369,9 +324,9 @@
 }
 
 .sidebar {
-    width: 6%;
+    width: 5%;
     display: flex;
-	background-color: #154c79;
+	background-color: #000;
     flex-direction: column;
     align-items: center;
     padding-top: 60px;
@@ -403,17 +358,17 @@
 }
 
 .menu-item .MuiListItem-button {
-    max-width: 50px;
+    max-width: 60px;
     border-radius: 10px;
     margin-bottom: 1px;
     margin-top: 20px;
-    margin-left: 25px;
-    padding-right: 3px;
+    margin-left: 20px;
+    padding-right: 1px;
 }
 
 .menu-item:hover .MuiListItem-button {
     background-color: #0000;
-    color: #9099c0;
+    color: #fff;
 }
 
 .menu-item .MuiListItemIcon-root {
@@ -421,7 +376,7 @@
 }
 
 .gab {
-    margin-top: 120px;
+    margin-top: 130px;
 }
 
 /* Adjust */
@@ -516,13 +471,13 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 40%;
+    height: auto;
     width: 100%;
 }
 
 .carousel-image {
-    width: 1100px;
-    height: 300px;
+    width: 95%;
+    height: 70%;
     border-radius: 8px;
     position: relative;
     object-fit: cover; 
@@ -766,7 +721,7 @@
 .card-details-checkout {
   width: 70%;
   padding: 10px;
-  background-color: #ffcc00;
+  background-color: #f1c40f;
   border: none;
   border-radius: 5px;
   font-size: 18px;
@@ -775,7 +730,7 @@
 }
 
 .card-details-checkout:hover {
-  background-color: #ff9900;
+  background-color: #f1c40f;
 }
 
 
@@ -798,7 +753,7 @@
 
 .addButton {
     padding: 10px 20px;
-    background-color:#154c79;
+    background-color:#000;
     color: white;
     border: none;
     border-radius: 5px;
@@ -806,7 +761,7 @@
 }
 
 .addButton:hover {
-    background-color: #154c79;
+    background-color: #000;
 }
 
 .loadingContainer {
@@ -874,7 +829,7 @@
   left: 0;
   height: 100%;
   width: 100%;
-  background-image: url("../../front/src/assets/login.jpg"); 
+  background-image: url("../../front/src/assets/loginbl.jpg"); 
   background-size: cover;
   background-position: center;
   filter: blur(2px);
@@ -958,7 +913,7 @@
 .login-button {
   width: 100%;
   padding: 0.75rem;
-  background-color: #1f618d;
+  background-color: #000;
   color: #fff;
   border: none;
   border-radius: 4px;
@@ -968,7 +923,7 @@
 }
 
 .login-button:hover {
-  background-color:  #1f618d ;
+  background-color:  #000;
 }
 
 .login-options {
@@ -979,6 +934,7 @@
 }
 
 .login-remember {
+  margin-top: 1rem;
   display: flex;
   align-items: center;
 }
@@ -1015,8 +971,6 @@
 
 /*products.js css*/
 
-
-
 .card-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr); /* 4 cards per row */
@@ -1030,13 +984,19 @@
 
 .image-container {
   height: 180px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   overflow: hidden;
+  background-color: black;
 }
 
 .product-image {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  display: block;
 }
 
 @media (max-width: 1200px) {
@@ -1063,8 +1023,6 @@
   margin-top: 16px;
   margin-bottom: 25px;  
 }
-
-
 
 /*products.js css*/
 
@@ -1187,7 +1145,7 @@
 }
 
 .add-to-cart-button {
-  background-color: #154c79;
+  background-color: #000;
   color: #fff;
   padding: 0.5rem 3.5rem;
   border-radius: 1rem;
@@ -1196,7 +1154,7 @@
 }
 
 .add-to-cart-button:hover {
-  background-color: #222;
+  background-color: #000;
 }
 
 .add-to-wishlist-button {
@@ -1213,3 +1171,404 @@
 }
 
 /*ProductDetail.css*/
+
+/*Register.css*/
+
+.re-container {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 100%;
+  background-color: white;
+}
+
+.re-form-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 25px;
+  margin: 1.5rem;
+}
+
+.re-form-container form {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center the form elements */
+}
+
+.re-text {
+  font-size: 2em;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.re-label {
+  margin-top: 10px;
+  text-align: left; /* Ensure labels are aligned left */
+  width: 100%; /* Make labels take full width */
+}
+
+.re-form-container input[type="text"],
+.re-form-container input[type="email"],
+.re-form-container input[type="tel"],
+.re-form-container input[type="password"],
+.re-form-container select {
+  width: 600px;
+  padding: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.register-button {
+  width: 600px;
+  padding: 10px;
+  margin-top: 15px;
+  margin-bottom: 1px;
+  background-color: #000;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center; 
+  align-items: center;
+}
+
+.register-button:hover {
+  background-color: #000;
+}
+
+.terms {
+  margin: 15px;
+  display: flex;
+  align-items: center;
+}
+
+.terms label {
+  margin-left: 5px;
+}
+
+.error-message {
+  color: red;
+  margin-top: 10px;
+}
+
+.login-link {
+  margin-top: 10px;
+}
+
+.login-link a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.login-link a:hover {
+  text-decoration: underline;
+}
+
+.image-container-re {
+  flex: 1;
+  background: url('../../front/src/assets/loginbl.jpg') center center/cover no-repeat;
+  height: 158vh;
+  margin-right: -1px;
+}
+
+
+/* Register.css */
+
+
+
+/* MembershipLevels.css*/
+
+.me-container {
+  font-family: Arial, sans-serif;
+  background-color: #f5f5f5;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+  margin: 0;
+}
+
+.pricing-table {
+  text-align: center;
+}
+
+.pricing-table h1 {
+  margin: 0;
+  font-size: 36px;
+  font-weight: bold;
+}
+
+.subheading {
+  margin: 10px 0 30px;
+  font-size: 18px;
+  color: #666;
+}
+
+.pricing-cards {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.me-card {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  width: 300px;
+  text-align: center;
+  transition: transform 0.3s, z-index 0.3s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.me-card h2 {
+  margin: 0 0 10px;
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+}
+
+.me-card .price {
+  font-size: 36px;
+  margin: 10px 0;
+  color: #007bff;
+  font-weight: bold;
+}
+
+.me-card .duration {
+  font-size: 14px;
+  color: #777;
+  margin: 5px 0 20px;
+}
+
+.me-card ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 20px;
+  width: 100%;
+  text-align: left;
+}
+
+.me-card ul li {
+  margin: 10px 0;
+  font-size: 14px;
+  color: #555;
+  display: flex;
+  align-items: center;
+}
+
+.me-card ul li:before {
+  content: '✔';
+  color: #000;
+  margin-right: 10px;
+}
+
+.me-card button {
+  width: 100%;
+  padding: 10px;
+  background-color: #000;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.me-card button:hover {
+  background-color: #000;
+}
+
+.me-card.highlighted {
+  background-color: #000;
+  color: #fff;
+  z-index: 1; /* Bring the highlighted card above others */
+  transform: translateY(-20px); /* Lift the card up */
+}
+
+.me-card.highlighted h2 {
+  color: #fff;
+}
+
+.me-card.highlighted .price,
+.me-card.highlighted .duration,
+.me-card.highlighted ul li {
+  color: #fff;
+}
+
+.me-card.highlighted ul li:before {
+  color: #fff;
+}
+
+.me-card.highlighted button {
+  background-color: #000;
+  color: #fff;
+  border: 1px solid #fff;
+}
+
+.me-card.highlighted button:hover {
+  background-color: #333;
+  border-color: #fff;
+}
+
+.toggle-duration {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.toggle-button {
+  padding: 5px 15px;
+  background-color: #fff;
+  border: 1px solid #007bff;
+  color: #007bff;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+  border-radius: 5px;
+}
+
+.toggle-button.active {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.toggle-button:hover {
+  background-color: #0056b3;
+  color: #fff;
+}
+
+@media (max-width: 768px) {
+  .pricing-cards {
+    flex-direction: column;
+  }
+}
+
+.project-section {
+  background-image: url('../../front/src/assets/login.jpg'); /* Adjust the path to your image */
+  background-size: cover;
+  background-position: center;
+  color: white;
+  text-align: center;
+  padding: 50px 20px;
+  margin-top: 40px;
+}
+
+.project-section h2 {
+  font-size: 2.5em;
+  margin-bottom: 20px;
+}
+
+.project-section p {
+  font-size: 1.2em;
+  margin-bottom: 30px;
+}
+
+.project-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.project-buttons button {
+  padding: 10px 20px;
+  font-size: 1em;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.download-btn {
+  background-color: white;
+  color: #6200ea;
+}
+
+.hire-btn {
+  background-color: transparent;
+  color: white;
+  border: 2px solid white;
+}
+/* MembershipLevels.css*/
+
+
+/**/
+
+.hea-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  margin-top: 10px;
+  
+}
+
+.hea-title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-left: 8px;
+  font-family: "Playfair Display", serif;
+}
+
+.hea-icons {
+  display: flex;
+  align-items: center;
+}
+
+.notification-icon {
+  margin-right: 1rem;
+  cursor: pointer;
+}
+
+.hea-profile-picture {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+
+/* App.css */
+
+.setting-container {
+  display: flex;
+  padding-top: 100px; /* Reduced space at the top */
+  color: black; /* Set font color to black */
+  font-family: "Playfair Display", serif;
+}
+
+.setting-buttons {
+  max-width: 300px;
+  margin-right: 16px; /* Space to the right of the buttons */
+  margin-top: 100px; 
+}
+
+.setting-buttons .MuiButton-root {
+  margin-bottom: 30px; /* Space between buttons */
+  color: black; /* Set font color to black */
+  font-weight: bold;
+}
+
+.active-button {
+  background-color: gray; /* Change background color when active */
+  color: white;
+}
+
+.setting-content {
+  margin-left: 10px; /* Space from the divider */
+  margin-top: 150px; 
+}
+
+.setting-divider {
+  background-color: black; 
+  width: 1px; 
+  margin-top: 100px; 
+}

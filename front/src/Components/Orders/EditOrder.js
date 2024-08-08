@@ -149,10 +149,22 @@ const EditOrder = () => {
                         fullWidth
                         margin="normal"
                     />
-                    <Button type="submit" variant="contained" color="primary" className="mt-4">
-                        Save Changes
-                    </Button>
-                </form>
+                    <Button
+					  type="submit"
+					  variant="contained"
+					  sx={{
+					  backgroundColor: 'black', // Set background color to black
+					  color: 'white', // Set text color to white
+					  '&:hover': {
+						backgroundColor: 'black', // Keep background color the same on hover
+						color: 'white', // Keep text color the same on hover
+						},
+					}}
+					className="mt-4"
+					>
+					  Save Changes
+					</Button>
+					</form>
             </Paper>
         </div>
     );

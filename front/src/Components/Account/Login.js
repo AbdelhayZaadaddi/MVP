@@ -15,7 +15,6 @@ const Login = () => {
 
   const [formData, updateFormData] = useState(initialFormData);
   const [showPassword, setShowPassword] = useState(false);
-  const [error, setError] = useState('');
 
   const handleChange = (e) => {
     updateFormData({
@@ -50,7 +49,6 @@ const Login = () => {
       })
       .catch((error) => {
         console.error('Login error:', error);
-        setError('Invalid email or password');
       });
   };
 
@@ -64,7 +62,6 @@ const Login = () => {
       <div className='login-form-container'>
         <form onSubmit={handleSubmit} className='login-form'>
           <h1 className='login-title'>Log-in</h1>
-          {error && <p className='text-red-500'>{error}</p>}
           <div className='login-tabs'>
             <span className={`login-tab ${formData.role === 'company' ? 'active' : ''}`} onClick={() => handleRoleChange('company')}>Company</span>
             <span className={`login-tab ${formData.role === 'employee' ? 'active' : ''}`} onClick={() => handleRoleChange('employee')}>Employee</span>
@@ -100,15 +97,16 @@ const Login = () => {
             className='login-input'
           />
           <button type="submit" className='login-button'>Sign in</button>
-          <div className='login-options'>
-            <div>
-              <p>U don't have an account <Link to='/register'>register</Link></p>
-              
-            </div>
-            <div className='login-remember'>
+		  <div className='login-remember'>
               <input type='checkbox' id='remember' name='remember' />
               <label htmlFor='remember'>Remember me</label>
+          </div>
+          <div className='login-options'>
+            <div>
+              <p>Don't have an account <Link to='/register'>register</Link></p>
+              
             </div>
+            
           </div>
         </form>
       </div>

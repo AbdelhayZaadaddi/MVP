@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axiosInstance from '../../axios';
-import { Alert, Stack, Box, TextField, Button, Typography, MenuItem } from '@mui/material';
+import { Alert, Stack, Box, TextField, Button, Typography, MenuItem, Grid, CircularProgress } from '@mui/material';
 
 const CreateProduct = () => {
     const navigate = useNavigate();
@@ -21,6 +21,7 @@ const CreateProduct = () => {
     const [companies, setCompanies] = useState([]);
     const [error, setError] = useState(null);
     const [showSuccess, setShowSuccess] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -59,13 +60,21 @@ const CreateProduct = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
 
+        // Simple client-side validation
+        if (!formData.name || !formData.price || !formData.category || !formData.city || !formData.company) {
+            setError('Please fill in all required fields.');
+            return;
+        }
+
+        setLoading(true);
+
         const data = new FormData();
         data.append('name', formData.name);
         data.append('description', formData.description);
         data.append('price', formData.price);
         data.append('category', formData.category);
-        data.append('city', formData.city);  // Use city_name
-        data.append('company', formData.company);  // Use company_name
+        data.append('city', formData.city);
+        data.append('company', formData.company);
         if (formData.image) {
             data.append('image', formData.image);
         }
@@ -87,11 +96,14 @@ const CreateProduct = () => {
             console.error('Error creating the product:', error);
             setError('Failed to create product: ' + error.message);
             console.log('Error response data:', error.response.data);
+        })
+        .finally(() => {
+            setLoading(false);
         });
     };
 
     return (
-        <Box className='flex flex-col items-center' sx={{ gap: 2, p: 2 }}>
+        <Box sx={{ p: 2 }}>
             {error && (
                 <Stack sx={{ width: '100%', position: 'fixed', top: '10px', left: '50%', transform: 'translateX(-50%)', display:'block'}} spacing={2} className='mt-5'>
                     <Alert severity="error">{error}</Alert>
@@ -104,86 +116,114 @@ const CreateProduct = () => {
                 </Stack>
             )}
 
-            <Box component="form" sx={{ width: 400, p: 2, boxShadow: 3, backgroundColor: 'white', borderRadius: 1 }} onSubmit={handleSubmit}>
+            <Box component="form" sx={{ maxWidth: 800, ml: 4 }} onSubmit={handleSubmit}>
                 <Typography variant="h5" gutterBottom>
                     Create Product
                 </Typography>
 
-                <TextField
-                    fullWidth
-                    label="Name"
-                    name="name"
-                    margin="normal"
-                    variant="outlined"
-                    onChange={handleChange}
-                />
+                <Grid container spacing={2}>
+                    <Grid item xs={6}>
+                        <TextField
+                            fullWidth
+                            label="Name"
+                            name="name"
+                            margin="normal"
+                            variant="outlined"
+                            onChange={handleChange}
+                            aria-required="true"
+                        />
+                    </Grid>
+                    <Grid item xs={6}>
+                        <TextField
+                            fullWidth
+                            label="Price"
+                            name="price"
+                            margin="normal"
+                            variant="outlined"
+                            onChange={handleChange}
+                            aria-required="true"
+                        />
+                    </Grid>
+                    <Grid item xs={6}>
+                        <TextField
+                            fullWidth
+                            label="Description"
+                            name="description"
+                            margin="normal"
+                            variant="outlined"
+                            onChange={handleChange}
+                            multiline
+                            rows={4}
+                        />
+                    </Grid>
+                    <Grid item xs={6}>
+                        <TextField
+                            fullWidth
+                            select
+                            label="Category"
+                            name="category"
+                            margin="normal"
+                            variant="outlined"
+                            onChange={handleChange}
+                            aria-required="true"
+                        >
+                            <MenuItem value="">
+                                <em>Select Category</em>
+                            </MenuItem>
+                            {categories.map((category, index) => (
+                                <MenuItem key={index} value={category}>{category}</MenuItem>
+                            ))}
+                        </TextField>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <TextField
+                            fullWidth
+                            label="City"
+                            name="city"
+                            margin="normal"
+                            variant="outlined"
+                            onChange={handleChange}
+                            aria-required="true"
+                        />
+                    </Grid>
+                    <Grid item xs={6}>
+                        <TextField
+                            fullWidth
+                            label="Company"
+                            name="company"
+                            margin="normal"
+                            variant="outlined"
+                            onChange={handleChange}
+                            aria-required="true"
+                        />
+                    </Grid>
+                    <Grid item xs={6}>
+                        <TextField
+                            fullWidth
+                            type="file"
+                            name="image"
+                            margin="normal"
+                            variant="outlined"
+                            onChange={handleChange}
+                        />
+                    </Grid>
+                </Grid>
 
-                <TextField
-                    fullWidth
-                    label="Description"
-                    name="description"
-                    margin="normal"
-                    variant="outlined"
-                    onChange={handleChange}
-                    multiline
-                    rows={4}
-                />
-
-                <TextField
-                    fullWidth
-                    label="Price"
-                    name="price"
-                    margin="normal"
-                    variant="outlined"
-                    onChange={handleChange}
-                />
-
-                <TextField
-                    fullWidth
-                    select
-                    label="Category"
-                    name="category"
-                    margin="normal"
-                    variant="outlined"
-                    onChange={handleChange}
+                <Button 
+                    type="submit"
+                    variant="contained"
+                    sx={{
+                        backgroundColor: 'black',
+                        color: 'white',
+                        '&:hover': {
+                            backgroundColor: 'gray',
+                        },
+                        width: '100%',
+                        mt: 2,
+                    }}
+                    disabled={loading}
                 >
-                    <MenuItem value="">
-                        <em>Select Category</em>
-                    </MenuItem>
-                    {categories.map((category, index) => (
-                        <MenuItem key={index} value={category}>{category}</MenuItem>
-                    ))}
-                </TextField>
-
-                <TextField
-                    fullWidth
-                    label="City"
-                    name="city"
-                    margin="normal"
-                    variant="outlined"
-                    onChange={handleChange}
-                />
-
-                <TextField
-                    fullWidth
-                    label="Company"
-                    name="company"
-                    margin="normal"
-                    variant="outlined"
-                    onChange={handleChange}
-                />
-
-                <TextField
-                    fullWidth
-                    type="file"
-                    name="image"
-                    margin="normal"
-                    variant="outlined"
-                    onChange={handleChange}
-                />
-
-                <Button type="submit" variant="contained" color="primary" fullWidth>
-                    Create Product
+                    {loading ? <CircularProgress size={24} color="inherit" /> : 'Create Product'}
                 </Button>
             </Box>
         </Box>

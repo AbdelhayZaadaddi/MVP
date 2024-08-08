@@ -1,43 +1,67 @@
 import React from 'react';
-import { Box, TextField, Button, Typography } from '@mui/material';
+import { Box, TextField, Button, Typography, Grid } from '@mui/material';
 
 const AddEmployee = () => {
   return (
-    <Box className='flex flex-col items-center' sx={{ gap: 2, p: 2 }}>
-      <Box component="form" sx={{ width: 400, p: 2, boxShadow: 3, backgroundColor: 'white', borderRadius: 1 }}>
+    <Box sx={{ p: 2 }}>
+      <Box component="form" sx={{ maxWidth: 800, ml: 4 }}>
         <Typography variant="h5" gutterBottom>
           Add Employee
         </Typography>
-        <TextField
-          fullWidth
-          label="Email Address"
-          name="email"
-          type="email"
-          margin="normal"
-          variant="outlined"
-        />
-        <TextField
-          fullWidth
-          label="User Name"
-          name="username"
-          margin="normal"
-          variant="outlined"
-        />
-        <TextField
-          fullWidth
-          label="Role"
-          name="role"
-          margin="normal"
-          variant="outlined"
-        />
-        <TextField
-          fullWidth
-          label="Company"
-          name="company"
-          margin="normal"
-          variant="outlined"
-        />
-        <Button type="submit" variant="contained" color="primary" fullWidth>
+
+        <Grid container spacing={2}>
+          <Grid item xs={6}>
+            <TextField
+              fullWidth
+              label="Email Address"
+              name="email"
+              type="email"
+              margin="normal"
+              variant="outlined"
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <TextField
+              fullWidth
+              label="User Name"
+              name="username"
+              margin="normal"
+              variant="outlined"
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <TextField
+              fullWidth
+              label="Role"
+              name="role"
+              margin="normal"
+              variant="outlined"
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <TextField
+              fullWidth
+              label="Company"
+              name="company"
+              margin="normal"
+              variant="outlined"
+            />
+          </Grid>
+        </Grid>
+
+        <Button 
+          type="submit"
+          variant="contained"
+          sx={{
+            backgroundColor: 'black',
+            color: 'white',
+            '&:hover': {
+              backgroundColor: 'gray',
+            },
+            width: '100%',
+            mt: 2,
+          }}
+        >
           Add Employee
         </Button>
       </Box>

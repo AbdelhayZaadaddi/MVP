@@ -1,17 +1,18 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [role, setRole] = useState('Users'); // Initialize with a default role for testing
+  const [role, setRole] = useState(() => localStorage.getItem('user_role')); // Initialize with a default role for testing i change Users
 
-  // Example: Set role based on authentication logic
   const login = (userRole) => {
     setRole(userRole);
+	localStorage.setItem('user_role', userRole); // Store role in local storage
   };
 
   const logout = () => {
     setRole(null);
+	localStorage.removeItem('user_role'); // Remove role from local storage
   };
 
   return (

@@ -6,16 +6,11 @@ import RemoveProduct from "../../Products/RemoveProduct";
 const ProductSettings = () => {
     return (
         <Grid container spacing={3}>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12}>
                 <CreateProduct />
             </Grid>
-            <Grid item xs={12} sm={6}>
-                <RemoveProduct />
-            </Grid>
             <Grid item xs={12}>
-              <Button variant="contained" color="primary">
-                Show All Products
-              </Button>
+                <RemoveProduct />
             </Grid>
         </Grid>
     );

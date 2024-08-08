@@ -7,7 +7,7 @@ const PublicRoute = ({ children }) => {
     console.log('PublicRoute: isAuthenticated =', auth); // Debug log
 
     if (auth) {
-        return <Navigate to="/" />;
+        return <Navigate to="/home" />;
     }
 
     return children;

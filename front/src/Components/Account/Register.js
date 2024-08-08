@@ -13,7 +13,7 @@ const Register = () => {
     phone: '',
     password: '',
     password_confirm: '',
-    role: 'company', // Default role can be 'company'
+	role: 'company', // Default role can be 'company'
   };
 
   const [formData, updateFormData] = useState(initialFormData);
@@ -61,126 +61,103 @@ const Register = () => {
   };
 
   return (
-    <div className="flex h-screen">
-      <div className="w-1/2 flex justify-center items-center bg-gray-100">
-        <form onSubmit={handleSubmit} className="w-3/4 p-6 shadow-lg bg-white rounded-md">
-          <h1 className="text-center text-2xl mb-4">Create an Account</h1>
+    <div className="re-container">
+      <div className="re-form-container">
+        <form onSubmit={handleSubmit}>
+          <h1 className="re-text">Create an Account</h1>
 
-          {message && <div className="text-center text-red-500 mb-4">{message}</div>}
+          {message && <div>{message}</div>}
 
-          <label className="block text-base mb-2">Full Name</label>
+          <label className="re-label">Full Name</label>
           <input
             type="text"
             name="first_name"
             placeholder="Enter your full name"
             onChange={handleChange}
-            className="border w-full text-base px-2 py-1 focus:outline-none focus:ring-0 focus:border-gray-500 rounded-md mb-4"
           />
 
-          <label className="block text-base mb-2">Company Name</label>
+          <label className="re-label">Company Name</label>
           <input
             type="text"
             name="company_name"
             placeholder="Enter your company name"
             onChange={handleChange}
-            className="border w-full text-base px-2 py-1 focus:outline-none focus:ring-0 focus:border-gray-500 rounded-md mb-4"
           />
 
-          <label className="block text-base mb-2">Email</label>
+          <label className="re-label">Email</label>
           <input
             type="email"
             name="email"
             placeholder="Enter your email address"
             onChange={handleChange}
-            className="border w-full text-base px-2 py-1 focus:outline-none focus:ring-0 focus:border-gray-500 rounded-md mb-4"
           />
 
-          <label className="block text-base mb-2">Phone</label>
+          <label className="re-label">Phone</label>
           <input
             type="tel"
             name="phone"
             placeholder="Enter your phone number"
             onChange={handleChange}
-            className="border w-full text-base px-2 py-1 focus:outline-none focus:ring-0 focus:border-gray-500 rounded-md mb-4"
           />
 
-          <label className="block text-base mb-2">Username</label>
+          <label className="re-label">Username</label>
           <input
             type="text"
             name="user_name"
             placeholder="Enter your username"
             onChange={handleChange}
-            className="border w-full text-base px-2 py-1 focus:outline-none focus:ring-0 focus:border-gray-500 rounded-md mb-4"
           />
 
-          <label className="block text-base mb-2">Password</label>
+          <label className="re-label">Password</label>
           <input
             type="password"
             name="password"
             placeholder="Enter your password"
             onChange={handleChange}
-            className="border w-full text-base px-2 py-1 focus:outline-none focus:ring-0 focus:border-gray-500 rounded-md mb-4"
           />
 
-          <label className="block text-base mb-2">Confirm Password</label>
+          <label className="re-label">Confirm Password</label>
           <input
             type="password"
             name="password_confirm"
             placeholder="Confirm your password"
             onChange={handleChange}
-            className="border w-full text-base px-2 py-1 focus:outline-none focus:ring-0 focus:border-gray-500 rounded-md mb-4"
           />
-
-          <label className="block text-base mb-2">Role</label>
+		  
+		  <label className="re-label">Role</label>
           <select
             name="role"
             value={formData.role}
             onChange={handleChange}
-            className="border w-full text-base px-2 py-1 focus:outline-none focus:ring-0 focus:border-gray-500 rounded-md mb-4"
           >
             <option value="company">Company</option>
             <option value="trader">Trader</option>
           </select>
 
-          <div className="my-4">
-            <input type="checkbox" id="terms" className="mr-2" />
+          <div className="terms">
+            <input type="checkbox" id="terms" />
             <label htmlFor="terms">
               By creating an account, you agree to the{' '}
-              <a href="/terms" className="text-blue-600">
-                Terms of Use
-              </a>{' '}
-              and{' '}
-              <a href="/privacy" className="text-blue-600">
-                Privacy Policy
-              </a>
-              .
+              <a href="/terms">Terms of Use</a> and{' '}
+              <a href="/privacy">Privacy Policy</a>.
             </label>
           </div>
 
-          <div className="mb-4">
-            <div className="g-recaptcha" data-sitekey="YOUR_RECAPTCHA_SITE_KEY"></div>
+          <div className="error-message">
+            <div data-sitekey="YOUR_RECAPTCHA_SITE_KEY"></div>
           </div>
 
-          <div className="flex justify-center">
-            <button
-              type="submit"
-              className="outline p-1 outline-cyan-600 w-40 rounded hover:bg-cyan-600 duration-100"
-            >
-              Sign up
-            </button>
+          <div className="register-button">
+            <button type="submit">Sign up</button>
           </div>
 
-          <div className="m-auto text-center mt-3">
+          <div className="login-link">
             <span>Already have an account? </span>
-            <Link to="/login" className="text-nowrap text-blue-600">
-              Log in
-            </Link>
+            <Link to="/login">Log in</Link>
           </div>
         </form>
       </div>
-      <div className="w-1/2">
-        <img src="path_to_your_image.jpg" alt="City view" className="w-full h-full object-cover" />
-      </div>
+      <div className="image-container-re"></div>
     </div>
   );
 };

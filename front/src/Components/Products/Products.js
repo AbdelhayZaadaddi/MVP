@@ -139,8 +139,12 @@ const Products = () => {
             fontSize: '1rem',
             height: '40px',
             width: '100px',
-            backgroundColor: 'white',
-            color: 'black'
+            backgroundColor: 'black',
+            color: 'white',
+			'&:hover': {
+			  backgroundColor: 'black',
+			  color: 'white',
+			},
           }}
         >
           Filter
@@ -215,13 +219,27 @@ const Products = () => {
             <div className='filter-modal-footer'>
               <Button
                 onClick={resetFilters}
-                sx={{ backgroundColor: '#154c79', color: 'white' }}
+                sx={{ 
+				backgroundColor: '#000', 
+				color: 'white',
+				'&:hover': {
+					backgroundColor: 'black',
+					color: 'white',
+				},
+				}}				
               >
                 Reset all filters
               </Button>
               <Button
                 onClick={handleCloseFilterModal}
-                sx={{ backgroundColor: '#154c79', color: 'white' }}
+                sx={{ 
+				backgroundColor: '#000', 
+				color: 'white',
+				'&:hover': {
+					backgroundColor: 'black',
+					color: 'white',
+				},
+				}}
               >
                 Apply Filters
               </Button>
@@ -247,7 +265,15 @@ const Products = () => {
               <Link  to={`/product/${product.id}`} className='no-underline '>
               <div className='image-container'>
                 <img
-                  className='product-image'
+                  
+				  style={{
+					backgroundImage: `url(${product.image || DefauIm})`,
+					backgroundSize: 'cover',
+					backgroundPosition: 'center',
+					backgroundRepeat: 'no-repeat',
+					height: '180px',
+					width: '100%',
+				  }}
                   src={product.image || DefauIm}
                   alt="product image"
                 />
@@ -270,7 +296,7 @@ const Products = () => {
                 e.stopPropagation(); // Prevent the card click event
                 addToCart(product.id);
               }} variant="contained" size="small" className='mx-3 my-3' style={{
-                backgroundColor: '#154c79',
+                backgroundColor: '#000',
                 color: 'white'
               }}>Add to Cart</Button>
             </Card>
@@ -305,7 +331,16 @@ const Products = () => {
           count={totalPages}
           page={currentPage}
           onChange={handlePageChange}
-          color="primary"
+          
+		  sx={{
+			'& .MuiPaginationItem-root': {
+			  color: 'black',
+			},
+			'& .MuiPaginationItem-root.Mui-selected': {
+			  backgroundColor: 'black', 
+			  color: 'white', 
+			},
+		}}
         />
       </Box>
 

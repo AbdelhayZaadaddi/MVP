@@ -20,7 +20,7 @@ const Navbar = () => {
         <div className='sidebar'>
             <List>
                 <ListItem className='logo'>
-                    <h1 className='logo-text'>Compass</h1>
+                    <h1 className='logo-text'></h1>
                 </ListItem>
                 <Link to='/' className='menu-item'>
                     <ListItem button>

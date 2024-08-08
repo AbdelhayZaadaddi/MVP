@@ -6,8 +6,7 @@ import WhyUs from './WhyUs';
 import Contact from './Contact';
 import Footer from './Footer';
 import Services from './Services';
-
-import { Link as ScrollLink } from 'react-scroll';
+import MembershipLevels from './MembershipLevels';
 
 const LandingPage = () => {
   return (
@@ -15,10 +14,11 @@ const LandingPage = () => {
       <Navbar />
       <div id="home"><Home /></div>
       <div id="about"><About /></div>
-	  <div id="services"><Services /></div>
+      <div id="services"><Services /></div>
       <div id="why-us"><WhyUs /></div>
+      <div><MembershipLevels /></div>
       <div id="contact"><Contact /></div>
-	  <div id="footer"><Footer /></div>
+      <div><Footer /></div>
     </div>
   );
 }

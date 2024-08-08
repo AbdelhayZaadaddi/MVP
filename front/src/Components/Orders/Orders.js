@@ -92,8 +92,16 @@ const Orders = () => {
           page={currentPage}
           onChange={handlePageChange}
           variant="outlined"
-          color="primary"
           size="large"
+		  sx={{
+			'& .MuiPaginationItem-root': {
+			  color: 'black',
+			},
+			'& .MuiPaginationItem-root.Mui-selected': {
+			  backgroundColor: 'black', 
+			  color: 'white', 
+			},
+		  }}
         />
       </Box>
         </div>

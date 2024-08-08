@@ -1,5 +1,6 @@
 import React from 'react';
 import { AppBar, Toolbar, IconButton, Typography, Button } from '@mui/material';
+import { Link as ScrollLink } from 'react-scroll';
 import { Link } from 'react-router-dom';
 
 const Navbar = () => {
@@ -15,36 +16,36 @@ const Navbar = () => {
 
         {/* Center section for navigation links */}
         <div>
-          <Link to="/#home" style={{ textDecoration: 'none' }}>
+          <ScrollLink to="home" smooth={true} duration={500} style={{ textDecoration: 'none' }}>
             <Button color="inherit" sx={{ color: 'white', fontWeight: 'bold', marginRight: '10px' }}>
               Home
             </Button>
-          </Link>
-          <Link to="/#about" style={{ textDecoration: 'none' }}>
+          </ScrollLink>
+          <ScrollLink to="about" smooth={true} duration={500} style={{ textDecoration: 'none' }}>
             <Button color="inherit" sx={{ color: 'white', fontWeight: 'bold', marginRight: '10px' }}>
               About
             </Button>
-          </Link>
-          <Link to="/#why-us" style={{ textDecoration: 'none' }}>
+          </ScrollLink>
+          <ScrollLink to="why-us" smooth={true} duration={500} style={{ textDecoration: 'none' }}>
             <Button color="inherit" sx={{ color: 'white', fontWeight: 'bold', marginRight: '10px' }}>
               Why Us
             </Button>
-          </Link>
-          <Link to="/#contact" style={{ textDecoration: 'none' }}>
+          </ScrollLink>
+          <ScrollLink to="contact" smooth={true} duration={500} style={{ textDecoration: 'none' }}>
             <Button color="inherit" sx={{ color: 'white', fontWeight: 'bold' }}>
               Contact
             </Button>
-          </Link>
+          </ScrollLink>
         </div>
 
         {/* Right section for sign-in/sign-up */}
         <div>
-          <Link to="/sign-in" style={{ textDecoration: 'none' }}>
+          <Link to="/login" style={{ textDecoration: 'none' }}>
             <Button color="inherit" sx={{ color: 'white', fontWeight: 'bold', marginRight: '10px' }}>
               Sign In
             </Button>
           </Link>
-          <Link to="/sign-up" style={{ textDecoration: 'none' }}>
+          <Link to="/register" style={{ textDecoration: 'none' }}>
             <Button color="inherit" sx={{ color: 'white', fontWeight: 'bold' }}>
               Sign Up
             </Button>
