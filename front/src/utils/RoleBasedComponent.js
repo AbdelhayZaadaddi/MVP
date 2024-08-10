@@ -1,3 +1,6 @@
+import React from 'react';
+import { Box, Typography } from '@mui/material';
+
 const RoleBasedComponent = ({ roles, children }) => {
     const userRole = localStorage.getItem('user_role');
   
@@ -5,8 +8,23 @@ const RoleBasedComponent = ({ roles, children }) => {
       return children;
     }
   
-    return null;
-  };
+    return (
+    <Box
+		sx={{
+                display: 'flex',
+                justifyContent: 'flex-end',
+                alignItems: 'center',
+                height: '5%',
+                padding: '250px',
+                marginTop: '2px', 
+            }}
+	>
+      <Typography variant="h6" color="error">
+        User Don't Have Access....
+      </Typography>
+    </Box>
+	);
+};
   
 export default RoleBasedComponent;
 

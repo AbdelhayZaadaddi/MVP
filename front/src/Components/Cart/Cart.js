@@ -85,7 +85,7 @@ const Cart = () => {
   };
 
   return (
-    <div className="cart-container">
+    <div className="cart-container animate-fadeIn">
       <div className="cart">
         <h2 className="cart-title">Your Shopping Cart</h2>
 

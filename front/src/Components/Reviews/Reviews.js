@@ -23,13 +23,12 @@ const Reviews = ({ productId }) => {
 
 
     return (
-        <div className="mt-2">
-            <h4 className="text-center">Reviews</h4>
+        <div className="mt-1">
             {isLoading && <p>Loading...</p>}
             {error && <p>{error}</p>}
             <div className="flex mt-2">
                 {reviews.map(review => (
-                    <div key={review.id} className="m-1 bg-white p-2 items-center rounded-md shadow-md">
+                    <div key={review.id} className="m-1 p-1 items-center rounded-md ">
                         <Rating name="read-only" value={review.rating} readOnly />
                     </div>
                 ))}

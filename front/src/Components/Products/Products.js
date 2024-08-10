@@ -261,7 +261,7 @@ const Products = () => {
       ) : (
         <div className='card-grid'>
           {products.map(product => (
-            <Card key={product.id} sx={{ maxWidth: 350 }} className='cursor-pointer card-item' onClick={() => handleOpenModal(product.id)}>
+            <Card key={product.id} sx={{ maxWidth: 310 }} className='cursor-pointer card-item' onClick={() => handleOpenModal(product.id)}>
               <Link  to={`/product/${product.id}`} className='no-underline '>
               <div className='image-container'>
                 <img

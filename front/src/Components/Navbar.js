@@ -53,7 +53,7 @@ const Navbar = () => {
                 <div className='menu-item' onClick={handleLogout}>
                     <ListItem button>
                         <ListItemIcon>
-                            <LogoutIcon style={{ fontSize: 20 }} />
+                            <LogoutIcon className='gab' style={{ fontSize: 20 }} />
                         </ListItemIcon>
                     </ListItem>
                 </div>

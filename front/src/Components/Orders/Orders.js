@@ -35,7 +35,7 @@ const Orders = () => {
     };
 
     return (
-        <div className="mainContent">
+        <div className="mainContent animate-fadeIn">
             <div className="header">
                 <h1>Orders</h1>
                 <Link to="/">

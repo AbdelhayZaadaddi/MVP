@@ -343,7 +343,7 @@ html {
 }*/
 
 .logo {
-    margin-bottom: 120px;
+    margin-bottom: 150px;
 }
 
 .logo-text {
@@ -396,59 +396,89 @@ html {
     overflow-y: auto;
 }
 
+/*user-profile*/
 .user-profile {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 30vh;
-    padding-left: 10px;
-	
+    flex-direction: column;
+    padding: 20px;
+    font-family: Arial, sans-serif;
 }
 
 .profile-box {
     display: flex;
-	background-color:  #fbfbfc;
-    justify-content: space-between; 
-    width: 130vh;
-    height: 25vh;
-    align-items: center; 
-    padding: 2px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 500px;
+    
+    border-radius: 1px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
     margin-top: 20px;
 }
 
 .profile-info {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    margin-left: 40px;
+    width: 100%;
 }
 
-.welcome-message {
-    font-size: 30px;
-    font-weight: bold;
-    margin-bottom: 2px;
-    color: black;
+.profile-image-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.user-profile-img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 2px solid #000;
 }
 
 .profile-details {
-    display: flex;
-    align-items: center;
-    font-size: 15px;
-    color: #273746;
+    width: 100%;
 }
 
-.info-separator {
-    margin-left: 30px;
-    margin-top: 50px;
+.profile-field {
+    margin-bottom: 15px;
 }
 
-.profile-img-right {
-    width: 270px;
-    height: 220px;
-    margin-right: -20px;
+.profile-field label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
 }
+
+.profile-field input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.done-button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: black;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    text-align: center;
+    margin-top: 20px;
+    text-decoration: none;
+}
+
+.done-button:hover {
+    background-color: #444;
+}
+
+
+/*user-profile*/
+
 
 .img-r {
     padding-left: 5px;
@@ -560,7 +590,6 @@ html {
 .cart {
   flex: 1.75;
   margin-right: 20px;
-  background: #fff;
   padding: 20px;
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -976,6 +1005,7 @@ html {
   grid-template-columns: repeat(4, 1fr); /* 4 cards per row */
   gap: 16px; /* Adjust this value for padding between cards */
   padding: 16px; /* Adjust this value for padding around the grid */
+  margin-left: 25px;
 }
 
 .card-item {

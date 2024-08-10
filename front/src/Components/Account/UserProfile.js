@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axiosInstance from '../../axios';
-import q from '../../assets/q.png';
+import { Link } from 'react-router-dom';
+import profile from '../../assets/profile.png';
 
 const UserProfile = () => {
     const [user, setUser] = useState(null);
@@ -21,22 +22,38 @@ const UserProfile = () => {
     }, []);
 
     return (
-        <div className='block user-profile'>
+        <div className='block user-profile animate-fadeIn'>
             {isLoading && <div>Loading...</div>}
             {error && <div>Error: {error}</div>}
             {user && (
                 <div className='profile-box'>
                     <div className='profile-info'>
-                        <div className='welcome-message'>Welcome, {user.user_name}</div>
-                        <div className='profile-details'>
-                            <span> User:  {user.role}</span>
-                            <span className='info-separator'></span>
-                            <span> Company: {user.email}</span>
-                            <span className='info-separator'></span>
-                            <span> Location: {user.role}</span>
+                        <h2>Profile</h2>
+                        <div className='profile-image-container'>
+                            <img src={profile} alt="Profile" className='user-profile-img' />
                         </div>
+                        <div className='profile-details'>
+                            <div className='profile-field'>
+                                <label>User Name:</label>
+                                <input type='text' value={user.user_name} readOnly />
+                            </div>
+                            <div className='profile-field'>
+                                <label>Role:</label>
+                                <input type='text' value={user.role} readOnly />
+                            </div>
+                            <div className='profile-field'>
+                                <label>Email:</label>
+                                <input type='email' value={user.email} readOnly />
+                            </div>
+                            <div className='profile-field'>
+                                <label>Start Date:</label>
+                                <input type='text' value={new Date(user.start_date).toLocaleDateString()} readOnly />
+                            </div>
+                        </div>
+                        <Link to="/">
+                            <button className='done-button'>Done</button>
+                        </Link>
                     </div>
-                    <img src={q} alt="Logo" className='profile-img-right' />
                 </div>
             )}
             <br />
