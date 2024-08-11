@@ -59,10 +59,10 @@ Here are some screenshots of the website:
 <p align="center"> <img src="https://i.postimg.cc/hvcKyHht/home.png" width="550" higth="550">
 
 ### Login-page
-<p align="center"> <img src="https://cdn-thumbs.imagevenue.com/3d/eb/13/ME18WJW7_t.png" width="550" higth="550">
+<p align="center"> <img src="https://i.ibb.co/58NWwDY/login.png" width="550" higth="550">
 
 ### Register-page
-<p align="center"> <img src="https://cdn-thumbs.imagevenue.com/88/7c/70/ME18WJW8_t.png" width="550" higth="550">
+<p align="center"> <img src="https://i.ibb.co/LYFHNKK/create-an-account.png" width="550" higth="550">
 
 ### Offers-Page
 <p align="center"> <img src="https://i.postimg.cc/SNYg1JFj/offers.png" width="550" higth="550">
