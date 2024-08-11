@@ -22,8 +22,7 @@ This project is a platform that enables companies to offer their employees exclu
 To get started with this project, clone the repository and install the necessary dependencies.
 
 ```bash
-git clone <your-repo-url>
-cd <project-directory>
+git clone <https://github.com/AbdelhayZaadaddi/MVP.git>
 npm install
 ```
 
@@ -60,10 +59,10 @@ Here are some screenshots of the website:
 <p align="center"> <img src="https://i.postimg.cc/hvcKyHht/home.png" width="550" higth="550">
 
 ### Login-page
-<p align="center"> <img src="https://i.postimg.cc/kGXkt9BK/login.png" width="550" higth="550">
+<p align="center"> <img src="https://cdn-thumbs.imagevenue.com/3d/eb/13/ME18WJW7_t.png" width="550" higth="550">
 
 ### Register-page
-<p align="center"> <img src="https://i.postimg.cc/XNz2g9PT/create-an-account.png" width="550" higth="550">
+<p align="center"> <img src="https://cdn-thumbs.imagevenue.com/88/7c/70/ME18WJW8_t.png" width="550" higth="550">
 
 ### Offers-Page
 <p align="center"> <img src="https://i.postimg.cc/SNYg1JFj/offers.png" width="550" higth="550">
