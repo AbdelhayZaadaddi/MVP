@@ -45,6 +45,22 @@ const Setting = () => {
   return (
     <Box className="setting-container">
       <Box className="setting-buttons">
+		<Button 
+          fullWidth 
+          className={selectedPage === 'AddEmployees' ? 'active-button' : ''}
+          onClick={() => setSelectedPage('AddEmployees')}
+        >
+          Add Employees
+        </Button>
+		
+		<Button 
+          fullWidth 
+          className={selectedPage === 'CompanySettings' ? 'active-button' : ''}
+          onClick={() => setSelectedPage('CompanySettings')}
+        >
+          Remove Emploee
+        </Button>
+		
         <Button 
           fullWidth 
           className={selectedPage === 'ProductSettings' ? 'active-button' : ''}
@@ -52,21 +68,7 @@ const Setting = () => {
         >
           Product Settings
         </Button>
-        <Button 
-          fullWidth 
-          className={selectedPage === 'CompanySettings' ? 'active-button' : ''}
-          onClick={() => setSelectedPage('CompanySettings')}
-        >
-          Remove Emploee
-        </Button>
         
-        <Button 
-          fullWidth 
-          className={selectedPage === 'AddEmployees' ? 'active-button' : ''}
-          onClick={() => setSelectedPage('AddEmployees')}
-        >
-          Add Employees
-        </Button>
 		<Button 
           fullWidth 
           className={selectedPage === 'Statistcs' ? 'active-button' : ''}

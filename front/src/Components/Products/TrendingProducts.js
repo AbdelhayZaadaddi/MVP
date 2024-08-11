@@ -20,7 +20,7 @@ const TrendingProducts = () => {
 
     return (
         <div className="mx-5 justify-center items-center">
-            <h1 className='text-2xl font-bold text-center m-5 font-playfair animate-bounce'>Trending Products</h1>
+            <h1 className='text-2xl font-bold text-center m-5 font-playfair animate-bounce'>TRENDING OFFERS</h1>
             {loading && <p className="text-center mt-5">Loading...</p>}
             <div className="grid grid-cols-1 md:grid-cols-5 gap-4 justify-end border border-black-100">
                 

@@ -1,11 +1,111 @@
-# Compas docs
+# Compass
 
-## Installation:
+**Description:**  
+This project is a platform that enables companies to offer their employees exclusive discounts and deals from local and global brands. Brands benefit from increased customer loyalty and effective marketing strategies by partnering with companies to provide these offers.
 
-1. go to the project folder
-2. create a `.env` and activate it
-3. run `pip install -r requeremnt.text` 
-4. run `python manage.py makemigrations`
-5. run `python manage.py migrate`
-6. run `python manage.py runserver`
+## Table of Contents
 
+- [Getting Started](#getting-started)
+- [Features](#features)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Screenshots](#screenshots)
+- [Scripts](#scripts)
+- [Deployment](#deployment)
+- [Technologies Used](#technologies-used)
+- [Contributing](#contributing)
+- [License](#license)
+- [Contact](#contact)
+
+## Getting Started
+
+To get started with this project, clone the repository and install the necessary dependencies.
+
+```bash
+git clone <your-repo-url>
+cd <project-directory>
+npm install
+```
+
+## Features
+
+- **Employee Benefits:** Companies can offer a range of discounts and deals to their employees.
+- **Brand Partnership:** Brands can promote their products and services to a targeted audience.
+- **Custom Marketing:** Tailored marketing strategies to help brands reach more customers.
+- **User-Friendly Interface:** Easy navigation for both companies and employees.
+
+## Installation
+
+Ensure you have [Node.js](https://nodejs.org/) and [npm](https://www.npmjs.com/) installed.
+
+```bash
+npm install
+```
+
+## Usage
+
+Run the development server:
+
+```bash
+npm start
+```
+
+Open [http://localhost:3000](http://localhost:3000) to view it in your browser. The page will reload when you make changes.
+
+## Screenshots
+
+Here are some screenshots of the website:
+
+### Landing-page
+<p align="center"> <img src="https://i.postimg.cc/hvcKyHht/home.png" width="550" higth="550">
+
+### Login-page
+<p align="center"> <img src="https://i.postimg.cc/kGXkt9BK/login.png" width="550" higth="550">
+
+### Register-page
+<p align="center"> <img src="https://i.postimg.cc/XNz2g9PT/create-an-account.png" width="550" higth="550">
+
+### Offers-Page
+<p align="center"> <img src="https://i.postimg.cc/SNYg1JFj/offers.png" width="550" higth="550">
+
+
+## Scripts
+
+In the project directory, you can run:
+
+- **`npm start`**: Runs the app in development mode.
+- **`npm test`**: Launches the test runner.
+- **`npm run build`**: Builds the app for production.
+- **`npm run eject`**: Ejects the configuration files.
+
+## Deployment
+
+To deploy the application, follow the standard deployment process for React applications. You can build the project using:
+
+```bash
+npm run build
+```
+
+This will create an optimized production build in the `build` folder.
+
+## Technologies Used
+
+- **React.js**
+- **Django**
+- **Node.js**
+- **Create React App**
+- **Tailwind CSS**
+- **CSS**
+- **HTML**
+
+## Contributing
+
+Contributions are welcome! Please submit a pull request or open an issue for discussion.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Contact
+
+For any inquiries or support, please contact [Muna Jimale] or [Abdelhay  Zaadaddi]
