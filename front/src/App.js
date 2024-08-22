@@ -13,6 +13,8 @@ import ProtectedRoute from './utils/ProtectedRoute';
 import withAuth from './utils/withAuth';
 import ProductDetail from './Components/Products/ProductDetail';
 import UserProfile from './Components/Account/UserProfile';
+import NotificationsPage from './Components/Account/NotificationsPage';
+
 import PublicRoute from './utils/PublicRoute';
 import Cart from './Components/Cart/Cart';
 import Checkout from './Components/Cart/Checkout';
@@ -47,6 +49,7 @@ function App() {
             <Route path='/logout' element={<ProtectedRoute><Logout /></ProtectedRoute>} />
             <Route exact path='/product/create/' element={<ProtectedRoute><CreateProduct /></ProtectedRoute>} />
             <Route path='/cart' element={<ProtectedRoute><Cart /></ProtectedRoute>} />
+			<Route path='/notifications' element={<ProtectedRoute><NotificationsPage /></ProtectedRoute>} />
             <Route path='/checkout' element={<ProtectedRoute><Checkout /></ProtectedRoute>} />
             <Route path='/orders' element={<ProtectedRoute><Orders /></ProtectedRoute>} />
             <Route path='/order/:id' element={<ProtectedRoute><OrderDetail /></ProtectedRoute>} />

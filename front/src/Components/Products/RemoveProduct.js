@@ -8,13 +8,13 @@ const RemoveProduct = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    axiosInstance.get('products/')
+    axiosInstance.get('user/products/')
       .then(response => {
-        console.log('Products response:', response); // Log response for debugging
+        console.log('User products response:', response);
         setProducts(response.data);
       })
       .catch(error => {
-        console.error('Error fetching products:', error);
+        console.error('Error fetching user products:', error);
         setError('Failed to load products');
       });
   }, []);
@@ -39,14 +39,14 @@ const RemoveProduct = () => {
   return (
     <Box sx={{ p: 2 }}>
       {error && (
-        <Stack sx={{ width: '100%', position: 'fixed', top: '10px', left: '50%', transform: 'translateX(-50%)', display:'block'}} spacing={2} className='mt-5'>
+        <Stack sx={{ width: '100%', position: 'fixed', top: '10px', left: '50%', transform: 'translateX(-50%)', display:'block'}} spacing={2}>
           <Alert severity="error">{error}</Alert>
         </Stack>
       )}
 
       <Box component="form" sx={{ maxWidth: 400, ml: 4 }}>
         <Typography variant="h5" gutterBottom>
-          Remove Product
+          Remove Offers
         </Typography>
 
         <Grid container spacing={2}>

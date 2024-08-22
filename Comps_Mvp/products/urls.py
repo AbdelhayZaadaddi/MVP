@@ -1,7 +1,8 @@
 from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import path
-from . import views
+from . import views 
+from .views import user_products, product_list_create, product_detail_update_delete
 
 urlpatterns = [
     path('available_categories/', views.available_categories, name='available_categories'),
@@ -14,6 +15,7 @@ urlpatterns = [
     path('products/<int:pk>/reviews/create/', views.add_product_review, name='create_product_review'),
     path('products/<int:pk>/reviews/up', views.product_detail_update_delete, name='product_review_detail_update_delete'),
     path('products/trending/', views.trending_products, name='trending_products'),
+    path('user/products/', user_products, name='user-products'),
 ]
 
 if settings.DEBUG:

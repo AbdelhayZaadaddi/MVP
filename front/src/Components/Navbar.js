@@ -65,11 +65,11 @@ const Navbar = () => {
                         </ListItem>
                     </Link>
                 </RoleBasedComponent2>
-
+				<div className='gab'></div>
                 <div className='menu-item' onClick={handleLogout}>
                     <ListItem button>
                         <ListItemIcon>
-                            <LogoutIcon className='gab' style={{ fontSize: 20 }} />
+                            <LogoutIcon style={{ fontSize: 20 }} />
                         </ListItemIcon>
                     </ListItem>
                 </div>

@@ -1,16 +1,52 @@
 from rest_framework.decorators import api_view, permission_classes, parser_classes
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.response import Response
+
 from rest_framework import status
 from .models import Product, City, Company, ProductReview
 from .serializers import ProductSerializer, ProductReviewSerializer
 from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import get_object_or_404
+from django.shortcuts import get_list_or_404
+import logging
+
 from django.db.models import Q
 from rest_framework.pagination import PageNumberPagination
 from order.models import OrderItem
 from django.db.models import Count
 
+from notification.models import Notification
+from django.conf import settings
+from django.contrib.auth import get_user_model
+
+from django.utils.timezone import localtime
+from accounts.models import NewUser
+
+
+
+logger = logging.getLogger(__name__)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def user_products(request):
+    user = request.user
+
+    # Log using the correct field
+    logger.info(f"User: {user.user_name}, Role: {user.role}")
+
+    # Check user's role and filter products accordingly
+    if user.role == NewUser.Role.ADMIN:
+        products = Product.objects.all()
+    elif user.role == NewUser.Role.TRADER:
+        products = Product.objects.filter(created_by=user)
+    else:
+        # Unauthorized role
+        logger.warning("User does not have the required role")
+        return Response({'detail': 'Unauthorized'}, status=status.HTTP_403_FORBIDDEN)
+
+    # Serialize and return the products
+    serializer = ProductSerializer(products, many=True)
+    return Response(serializer.data)
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
@@ -61,8 +97,14 @@ def product_list_create(request):
     elif request.method == 'POST':
         serializer = ProductSerializer(data=request.data, context={'request': request})
         if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            product = serializer.save(created_by=request.user)
+
+            # Optionally, call a function to create notifications
+            create_product_notifications(product, request.user)
+            # Return the serialized data for the created product
+            return Response(ProductSerializer(product).data, status=status.HTTP_201_CREATED)
+        
+        # Return errors if serializer is not valid
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET'])
@@ -159,3 +201,29 @@ def trending_products(request):
     serializer = ProductSerializer(trending_products, many=True, context={'request': request})
 
     return Response(serializer.data)
+
+
+
+def create_product_notifications(product, request_user):
+    User = get_user_model()
+    companies = User.objects.filter(role='company')
+    employees = User.objects.filter(role='employee')
+    admins = User.objects.filter(role='admin')
+
+    # Combine querysets
+    recipients = companies | employees | admins
+    
+
+
+    # Create notifications
+    for user in recipients:
+        message = (
+            f"New Offer : {product.name}\n"
+            f" - By: {request_user.user_name}\n"
+        )
+        Notification.objects.create(
+            user=user,
+            message=message,
+            is_read=False
+        )
+                

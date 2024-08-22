@@ -118,7 +118,7 @@ const CreateProduct = () => {
 
             <Box component="form" sx={{ maxWidth: 800, ml: 4 }} onSubmit={handleSubmit}>
                 <Typography variant="h5" gutterBottom>
-                    Create Product
+                    Create Offers
                 </Typography>
 
                 <Grid container spacing={2}>

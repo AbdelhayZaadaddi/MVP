@@ -1,3 +1,4 @@
+// AddEmployees.js
 import React, { useState } from 'react';
 import { Box, TextField, Button, Typography, Grid, Stack, Alert } from '@mui/material';
 import axiosInstance from '../../axios';
@@ -19,6 +20,8 @@ const AddEmployees = () => {
     const [message, setMessage] = useState(null);
     const [showMessage, setShowMessage] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [file, setFile] = useState(null);
+    const [uploadMethod, setUploadMethod] = useState('individual'); // 'individual' or 'bulk'
 
     const handleChange = (e) => {
         setFormData({
@@ -27,7 +30,11 @@ const AddEmployees = () => {
         });
     };
 
-    const handleSubmit = (e) => {
+    const handleFileChange = (e) => {
+        setFile(e.target.files[0]);
+    };
+
+    const handleIndividualSubmit = (e) => {
         e.preventDefault();
         if (formData.password !== formData.password_confirm) {
             setError('Passwords do not match');
@@ -56,7 +63,43 @@ const AddEmployees = () => {
             })
             .catch((er) => {
                 if (er.response) {
-                    setError(`Error: ${er.response.data}`);
+                    setError(`Error: ${er.response.data.detail || er.response.data}`);
+                } else {
+                    setError('An unknown error occurred.');
+                }
+            })
+            .finally(() => setLoading(false));
+    };
+
+    const handleBulkSubmit = (e) => {
+        e.preventDefault();
+        if (!file) {
+            setError('Please select a file.');
+            return;
+        }
+        setLoading(true);
+
+        const formData = new FormData();
+        formData.append('file', file);
+
+        axiosInstance
+            .post('bulk-add-employees/', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            })
+            .then((res) => {
+                setMessage('Employees added successfully');
+                setShowMessage(true);
+                setTimeout(() => {
+                    setShowMessage(false);
+                }, 5000);
+            })
+            .catch((er) => {
+                if (er.response) {
+                    setError(`Error: ${er.response.data.detail || er.response.data}`);
+                } else {
+                    setError('An unknown error occurred.');
                 }
             })
             .finally(() => setLoading(false));
@@ -76,138 +119,193 @@ const AddEmployees = () => {
                 </Stack>
             )}
 
-            <Box component="form" sx={{ maxWidth: 800, ml: 4 }} onSubmit={handleSubmit}>
+            <Box sx={{ maxWidth: 800, ml: 4 }}>
                 <Typography variant="h5" gutterBottom>
-                    Add Employee
+                    Add Employee(s)
                 </Typography>
 
-                <Grid container spacing={2}>
-                    <Grid item xs={6}>
-                        <TextField
-                            fullWidth
-                            label="Email Address"
-                            name="email"
-                            type="email"
-                            margin="normal"
-                            variant="outlined"
-                            value={formData.email}
-                            onChange={handleChange}
-                            required
-                        />
-                    </Grid>
-                    <Grid item xs={6}>
-                        <TextField
-                            fullWidth
-                            label="Username"
-                            name="user_name"
-                            margin="normal"
-                            variant="outlined"
-                            value={formData.user_name}
-                            onChange={handleChange}
-                            required
-                        />
-                    </Grid>
-                    <Grid item xs={6}>
-                        <TextField
-                            fullWidth
-                            label="First Name"
-                            name="first_name"
-                            margin="normal"
-                            variant="outlined"
-                            value={formData.first_name}
-                            onChange={handleChange}
-                            required
-                        />
-                    </Grid>
-                    <Grid item xs={6}>
-                        <TextField
-                            fullWidth
-                            label="Last Name"
-                            name="last_name"
-                            margin="normal"
-                            variant="outlined"
-                            value={formData.last_name}
-                            onChange={handleChange}
-                            required
-                        />
-                    </Grid>
-                    <Grid item xs={6}>
-                        <TextField
-                            fullWidth
-                            label="Address"
-                            name="address"
-                            margin="normal"
-                            variant="outlined"
-                            value={formData.address}
-                            onChange={handleChange}
-                        />
-                    </Grid>
-                    <Grid item xs={6}>
-                        <TextField
-                            fullWidth
-                            label="Phone"
-                            name="phone"
-                            margin="normal"
-                            variant="outlined"
-                            value={formData.phone}
-                            onChange={handleChange}
-                        />
-                    </Grid>
-                    <Grid item xs={6}>
-                        <TextField
-                            fullWidth
-                            label="Role"
-                            name="role"
-                            value="employee"
-                            readOnly
-                            margin="normal"
-                            variant="outlined"
-                        />
-                    </Grid>
-                    <Grid item xs={6}>
-                        <TextField
-                            fullWidth
-                            label="Password"
-                            name="password"
-                            type="password"
-                            margin="normal"
-                            variant="outlined"
-                            value={formData.password}
-                            onChange={handleChange}
-                            required
-                        />
-                    </Grid>
-                    <Grid item xs={6}>
-                        <TextField
-                            fullWidth
-                            label="Confirm Password"
-                            name="password_confirm"
-                            type="password"
-                            margin="normal"
-                            variant="outlined"
-                            value={formData.password_confirm}
-                            onChange={handleChange}
-                            required
-                        />
-                    </Grid>
-                </Grid>
+                <Box sx={{ mb: 2 }}>
+                    <Button
+                        variant={uploadMethod === 'individual' ? 'contained' : 'outlined'}
+                        onClick={() => setUploadMethod('individual')}
+                        sx={{ mr: 2,
+							  mt: 5,
+							  backgroundColor: 'black',
+							  color: 'white',
+							  '&:hover': {
+								  backgroundColor: 'black',
+							  },
+						}}
+                    >
+                        Add Individual Employee
+                    </Button>
+                    <Button
+                        variant={uploadMethod === 'bulk' ? 'contained' : 'outlined'}
+                        onClick={() => setUploadMethod('bulk')}
+						sx={{
+							mt: 5,
+							backgroundColor: 'black',
+							color: 'white',
+							'&:hover': {
+								backgroundColor: 'black', 
+							},
+						}}
+                    >
+                        Upload Excel File
+                    </Button>
+                </Box>
 
-                <Button
-                    type="submit"
-                    variant="contained"
-                    sx={{
-                        backgroundColor: 'black',
-                        color: 'white',
-                        '&:hover': {
-                            backgroundColor: 'gray',
-                        },
-                        width: '100%',
-                        mt: 2,
-                    }}
-                    disabled={loading}
-                >
-                    {loading ? 'Adding...' : 'Add Employee'}
-                </Button>
+                {uploadMethod === 'individual' ? (
+                    <Box component="form" onSubmit={handleIndividualSubmit}>
+                        <Grid container spacing={2}>
+                            <Grid item xs={6}>
+                                <TextField
+                                    fullWidth
+                                    label="Email Address"
+                                    name="email"
+                                    type="email"
+                                    margin="normal"
+                                    variant="outlined"
+                                    value={formData.email}
+                                    onChange={handleChange}
+                                    required
+                                />
+                            </Grid>
+                            <Grid item xs={6}>
+                                <TextField
+                                    fullWidth
+                                    label="Username"
+                                    name="user_name"
+                                    margin="normal"
+                                    variant="outlined"
+                                    value={formData.user_name}
+                                    onChange={handleChange}
+                                    required
+                                />
+                            </Grid>
+                            <Grid item xs={6}>
+                                <TextField
+                                    fullWidth
+                                    label="First Name"
+                                    name="first_name"
+                                    margin="normal"
+                                    variant="outlined"
+                                    value={formData.first_name}
+                                    onChange={handleChange}
+                                    required
+                                />
+                            </Grid>
+                            <Grid item xs={6}>
+                                <TextField
+                                    fullWidth
+                                    label="Last Name"
+                                    name="last_name"
+                                    margin="normal"
+                                    variant="outlined"
+                                    value={formData.last_name}
+                                    onChange={handleChange}
+                                    required
+                                />
+                            </Grid>
+                            <Grid item xs={6}>
+                                <TextField
+                                    fullWidth
+                                    label="Address"
+                                    name="address"
+                                    margin="normal"
+                                    variant="outlined"
+                                    value={formData.address}
+                                    onChange={handleChange}
+                                />
+                            </Grid>
+                            <Grid item xs={6}>
+                                <TextField
+                                    fullWidth
+                                    label="Phone"
+                                    name="phone"
+                                    margin="normal"
+                                    variant="outlined"
+                                    value={formData.phone}
+                                    onChange={handleChange}
+                                />
+                            </Grid>
+                            <Grid item xs={6}>
+                                <TextField
+                                    fullWidth
+                                    label="Role"
+                                    name="role"
+                                    value="employee"
+                                    readOnly
+                                    margin="normal"
+                                    variant="outlined"
+                                />
+                            </Grid>
+                            <Grid item xs={6}>
+                                <TextField
+                                    fullWidth
+                                    label="Password"
+                                    name="password"
+                                    type="password"
+                                    margin="normal"
+                                    variant="outlined"
+                                    value={formData.password}
+                                    onChange={handleChange}
+                                    required
+                                />
+                            </Grid>
+                            <Grid item xs={6}>
+                                <TextField
+                                    fullWidth
+                                    label="Confirm Password"
+                                    name="password_confirm"
+                                    type="password"
+                                    margin="normal"
+                                    variant="outlined"
+                                    value={formData.password_confirm}
+                                    onChange={handleChange}
+                                    required
+                                />
+                            </Grid>
+                        </Grid>
+
+                        <Button
+                            type="submit"
+                            variant="contained"
+                            sx={{
+                                backgroundColor: 'black',
+                                color: 'white',
+                                '&:hover': {
+                                    backgroundColor: 'gray',
+                                },
+                                width: '100%',
+                                mt: 2,
+                            }}
+                            disabled={loading}
+                        >
+                            {loading ? 'Adding...' : 'Add Employee'}
+                        </Button>
+                    </Box>
+                ) : (
+                    <Box component="form" onSubmit={handleBulkSubmit}>
+                        <input type="file" accept=".xlsx" onChange={handleFileChange} />
+                        <Button
+                            type="submit"
+                            variant="contained"
+                            sx={{
+                                backgroundColor: 'black',
+                                color: 'white',
+                                '&:hover': {
+                                    backgroundColor: 'gray',
+                                },
+                                width: '100%',
+                                mt: 2,
+                            }}
+                            disabled={loading}
+                        >
+                            {loading ? 'Uploading...' : 'Upload Excel'}
+                        </Button>
+                    </Box>
+                )}
             </Box>
         </Box>
     );

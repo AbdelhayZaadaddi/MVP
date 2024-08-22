@@ -13,7 +13,7 @@ const RemoveEmployee = () => {
         e.preventDefault();
         setLoading(true);
 
-        axiosInstance.post('/remove_employee/', { email, username })
+        axiosInstance.post('/remove-employee/', { email, username })
             .then((response) => {
                 console.log('Employee removed:', response.data);
                 setShowSuccess(true);

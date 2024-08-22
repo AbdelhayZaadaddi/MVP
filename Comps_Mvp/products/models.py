@@ -1,13 +1,14 @@
 import os
 from django.db import models
+from django.contrib.auth import get_user_model
 from django.db.models.deletion import CASCADE
-
+from django.conf import settings  # Import settings to reference AUTH_USER_MODEL
 
 def product_image_upload_path(instance, filename):
     return os.path.join('assets/images/products', filename)
 
 class Company(models.Model):
-    name = models.CharField(max_length=200, default='Default Company Name' )
+    name = models.CharField(max_length=200, default='Default Company Name')
 
     def __str__(self):
         return self.name
@@ -17,6 +18,10 @@ class City(models.Model):
 
     def __str__(self):
         return self.name
+        
+def get_default_user():
+    User = get_user_model()
+    return User.objects.first()
 
 
 class Product(models.Model):
@@ -47,17 +52,22 @@ class Product(models.Model):
         default=CATEGORIES[0],
     )
     description = models.TextField()
-    city = models.ForeignKey(City, on_delete=models.CASCADE, related_name='products', null=True, blank=True) # Corrected company field
+    city = models.ForeignKey(City, on_delete=models.CASCADE, related_name='products', null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     is_active = models.BooleanField(default=True)
     is_deleted = models.BooleanField(default=False)
     image = models.ImageField(upload_to=product_image_upload_path, null=True, blank=True)
     company = models.ForeignKey(Company, on_delete=models.CASCADE, related_name='products', null=True, blank=True)
+    created_by = models.ForeignKey(
+        get_user_model(),
+        on_delete=CASCADE,
+        related_name='products',
+        default=get_default_user
+    )
 
     def __str__(self):
         return self.name
-
 
 class ProductReview(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='reviews')

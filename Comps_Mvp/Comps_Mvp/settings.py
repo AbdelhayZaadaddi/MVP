@@ -54,9 +54,14 @@ INSTALLED_APPS = [
     'products',
     'bonus',
     'order',
+    'notification',
+    
+    'import_export', #remove this 
 
 
     'Testviews'
+    
+    
 
     # This extention is for just see all the path that we have 
     
